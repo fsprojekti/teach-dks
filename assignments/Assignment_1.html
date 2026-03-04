@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+                <h3>1. Vaja: Senzorji in aktuatorji mehanski sistem</h3>
+
+                <div>
+                    <div style="margin-bottom:20px;">
+                        <strong>1. Cilji vaje</strong><br />
+                        <ul>
+                            <li><strong>Uvod v sistem:</strong> Sistematično spoznati maketo FlexDrive kot eksperimentalni model diskretnega krmilnega sistema ter razumeti vlogo posameznih podsistemov (senzorika, aktuacija, krmilnik).</li>
+                            <li><strong>Merjenje z enkoderjem:</strong> Implementirati in ovrednotiti zajem kvadraturnih signalov, določanje smeri vrtenja ter izračun kota in kotne hitrosti iz impulznega signala.</li>
+                            <li><strong>Vodenje motorja:</strong> Realizirati aktuacijo DC motorja s PWM signalom in analizirati vpliv amplitude krmilnega signala na dinamični odziv sistema.</li>
+                            <li><strong>Zaprtozančno krmiljenje:</strong> Oblikovati osnovni tristopenjski regulator za položaj in hitrost ter interpretirati napako sledenja in stabilnost odziva.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>2. Opis vaje</strong><br />
+                        <p>Vaja je osredotočena na prvo sistematično obravnavo makete FlexDrive kot laboratorijskega modela diskretnega krmilnega sistema. Študenti povežejo merilni del (enkoder) in aktuatorski del (DC motor) v enoten eksperimentalni tok, kjer se iz realnih signalov oblikujejo informacije za odločanje krmilnika.</p>
+                        <p>Prvi del vaje obravnava zajem in interpretacijo kvadraturnih impulzov, določanje smeri vrtenja ter pretvorbo meritev v kot in kotno hitrost. Drugi del vaje je namenjen aktuaciji z uporabo PWM signala ter opazovanju vpliva krmilnega signala na odziv sistema. V zaključnem delu študenti implementirajo osnovno tristopenjsko zaprtozančno logiko (IZKL/NAPREJ/NAZAJ) za regulacijo položaja in hitrosti ter kritično ovrednotijo stabilnost in natančnost sledenja referenci.</p>
+                        <p>Vaja zato predstavlja temelj za nadaljnje laboratorijske vaje, kjer se isti sistem obravnava z naprednejšimi metodami modeliranja, uglaševanja in regulacije.</p>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>3. Povzetek nalog in pričakovanih rezultatov</strong><br />
+                        <p>Za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.</p>
+
+                        <table style="border-collapse:collapse;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Štetje impulzov dveh enkoderjev in zaznava smeri vrtenja.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Potrdite, da magnetni enkoder na gnani osi izkazuje 4096 korakov na en poln obrat v obeh smereh.</li>
+                                            <li>Potrdite, da optični enkoder izkazuje 48 korakov na obrat motorja; pri prenosu 20.4:1 to pomeni 979.2 koraka na en obrat izhodne osi.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Skaliranje enkoderskih vrednosti in izračun hitrosti v ustreznih enotah (kot v stopinjah, hitrost v rpm).</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Prikažite pravilno skaliranje kota (en poln obrat = 360°).</li>
+                                            <li>Izračunajte in prikažite hitrost v pravilnih enotah (rpm), ki pri polni moči dosega približno 280 rpm.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Določitev mrtve cone, krmiljenje motorja s predznačenim PWM ukazom (+/-) in validacija hitrosti v obeh smereh.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Določite mrtvo cono PWM (pozitivna in negativna meja, kjer motor še ne steče).</li>
+                                            <li>Pripravite delujoč enoten ukaz s predznakom: pozitivna PWM vrednost pomeni eno smer, negativna PWM vrednost drugo smer.</li>
+                                            <li>Izmerite in podajte največjo hitrost pri polni moči v obeh smereh, ki je med 250 in 280 rpm.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Dvostopenjsko vodenje kota (NAPREJ/NAZAJ) na referenco 720° z analizo časov in amplitud osciliranja pri različnih PWM nivojih.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Pri PWM = 10% izmerite povprečni čas delovanja NAPREJ in NAZAJ, izračunajte razmerje časov ter izračunajte amplitudo oscilacij (max-min).</li>
+                                            <li>Pri PWM = 25% izmerite povprečni čas delovanja NAPREJ in NAZAJ, izračunajte razmerje časov ter izračunajte amplitudo oscilacij (max-min).</li>
+                                            <li>Pri PWM = 50% izmerite povprečni čas delovanja NAPREJ in NAZAJ, izračunajte razmerje časov ter izračunajte amplitudo oscilacij (max-min).</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Dvostopenjsko vodenje hitrosti (NAPREJ/NAZAJ) na referenco 50 rpm z analizo povprečnih časov, razmerja časov in amplitud osciliranja.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Pri PWM = 10% izmerite povprečni čas delovanja NAPREJ in NAZAJ, izračunajte razmerje časov ter izračunajte amplitudo oscilacij hitrosti (max-min).</li>
+                                            <li>Pri PWM = 25% izmerite povprečni čas delovanja NAPREJ in NAZAJ, izračunajte razmerje časov ter izračunajte amplitudo oscilacij hitrosti (max-min).</li>
+                                            <li>Pri PWM = 50% izmerite povprečni čas delovanja NAPREJ in NAZAJ, izračunajte razmerje časov ter izračunajte amplitudo oscilacij hitrosti (max-min).</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />4. Podrobnejši opis nalog</strong><br />
+                        <div>
+                            <strong>4.1 Ocena 6</strong>
+                            <div>
+                                Implementirajte kvadraturno dekodiranje signalov A/B za oba enkoderja. Program mora pravilno povečati ali zmanjšati števec glede na smer vrtenja. Merilo za ocenjevanje je: (1) 4096 korakov na obrat gnane osi (magnetni enkoder) v obeh smereh in (2) skladnost optičnega enkoderja z redukcijo 20.4:1, kjer 48 korakov na obrat motorja ustreza 979.2 koraka na obrat izhodne osi.
+                                <br />
+                                <ul>
+                                    <li>Ker je vezava fiksna, najprej preverite pravilnost dodelitve pinov in interpretacije signalov v kodi glede na uradno električno shemo FlexDrive.</li>
+                                    <li>Meritve enkoderjev izvajajte s prekinitvami (interrupt), da ne izgubljate impulzov pri višjih hitrostih.</li>
+                                    <li>Najprej validirajte vsak enkoder ločeno (smer + štetje), nato šele oba hkrati.</li>
+                                    <li>Pri odstopanju rezultata najprej preverite programsko interpretacijo A/B kanalov in uporabljeno razmerje prenosa.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.2 Ocena 7</strong>
+                            <div>
+                                Iz impulzov izračunajte absolutni kot in kotno hitrost v rpm. Uporabite časovno okno ali periodični izračun. Preverite pravilno skaliranje vrednosti (1 obrat = 360°) ter pravilno pretvorbo hitrosti v rpm; referenčna validacija je približno 280 rpm pri polni moči.
+                                <br /><br />
+                                Za validacijo pri tej oceni uporabite namenske gumbe na gonilniku (full power test), nato primerjajte izmerjeno hitrost z izračunano vrednostjo v programu.
+                            </div>
+
+                            <strong>4.3 Ocena 8</strong>
+                            <div>
+                                Določite mrtvo cono pogona in implementirajte predznačeno krmiljenje PWM, kjer znak vrednosti določa smer vrtenja. Vpeljite omejitve PWM območja in varnostne robne pogoje, da se izognete neveljavnim ukazom.
+                                <br />
+                                <ul>
+                                    <li>V odprti zanki določite najmanjšo absolutno PWM vrednost, pri kateri motor začne vrtenje (ločeno za + in - smer).</li>
+                                    <li>Implementirajte ukaz `pwm_signed`, kjer predznak neposredno določa smer vrtenja, absolutna vrednost pa amplitudo.</li>
+                                    <li>Ker je vezava fiksna, potrdite, da programska dodelitev signalov PWM in DIR ustreza električni shemi.</li>
+                                    <li>Pri polni moči izmerite rpm v obeh smereh in dokumentirajte, da rezultat pade v interval 250–280 rpm.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.4 Ocena 9</strong>
+                            <div>
+                                Implementirajte enostavni dvostopenjski krmilnik kota. Izračunajte napako med referenco (720°) in trenutnim kotom ter glede na predznak napake preklapljajte med stanjema NAPREJ in NAZAJ.
+                                <br />
+                                Za validacijo izvedite meritve po istem postopku pri PWM = 10%, 25% in 50%:
+                                <ul>
+                                    <li>Pri posameznem PWM nivoju izmerite povprečni čas delovanja NAPREJ in povprečni čas delovanja NAZAJ.</li>
+                                    <li>Izračunajte razmerje povprečnih časov NAPREJ/NAZAJ.</li>
+                                    <li>Izračunajte amplitudo oscilacije kota okoli reference 720° (max-min).</li>
+                                </ul>
+                                Na koncu pripravite enoten tabelarični prikaz za vse tri PWM nivoje na podlagi odčitkov iz grafa (Arduino Serial Plotter).
+                            </div>
+
+                            <strong>4.5 Ocena 10</strong>
+                            <div>
+                                Implementirajte dvostopenjski krmilnik hitrosti (NAPREJ/NAZAJ) z referenco 50 rpm. Na podlagi predznaka napake hitrosti preklapljajte med stanjema NAPREJ in NAZAJ.
+                                <br />
+                                Za validacijo izvedite meritve po istem postopku pri PWM = 10%, 25% in 50%:
+                                <ul>
+                                    <li>Pri posameznem PWM nivoju izmerite povprečni čas delovanja NAPREJ in povprečni čas delovanja NAZAJ.</li>
+                                    <li>Izračunajte razmerje povprečnih časov NAPREJ/NAZAJ.</li>
+                                    <li>Izračunajte amplitudo oscilacije hitrosti okoli reference 50 rpm (max-min).</li>
+                                </ul>
+                                Na koncu pripravite enoten tabelarični prikaz za vse tri PWM nivoje na podlagi odčitkov iz grafa (Arduino Serial Plotter), ki vsebuje povprečne čase, razmerja časov in amplitude.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
+                        <ul>
+                            <li>Osnove kvadraturnega enkoderja, PWM in serijske komunikacije.</li>
+                            <li>Ponovitev osnov programiranja na ESP32/Arduino okolju.</li>
+                            <li>Razumevanje osnov povratnozančnega vodenja in pojma napake.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>6. Seznam potrebne opreme</strong><br />
+                        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MK-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Mikrokrmilnik LilyGO ESP32 TTGO</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MM-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Maketa FlexDrive</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SN-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Enkoder AM4096 (2x)</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Datasheet proizvajalca</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">AK-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">DC motor z gonilnikom</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Datasheet proizvajalca</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">IO-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">TTL/serijski prikaz za debug</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Laboratorijska navodila</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>7. Pogoste pasti</strong><br />
+                        <ul>
+                            <li>Napačna interpretacija smeri pri kvadraturnem dekodiranju (zamenjava A/B kanalov).</li>
+                            <li>Napačna pretvorba impulzov v rpm zaradi nepravilnega števila impulzov na obrat.</li>
+                            <li>Preagresivni pragovi pri dvostopenjskem krmilniku povzročijo nihanje stanj.</li>
+                        </ul>
+
+                        <strong>7.1 Ocena 10: pogosta napaka pri izbiri regulatorja</strong><br />
+                        <div>
+                            Pri oceni 10 je zahtevano <strong>dvostopenjsko vodenje</strong> hitrosti, ne proporcionalni regulator.
+                            <br /><br />
+                            <strong>Kaj je dvostopenjski krmilnik (pravilen pristop):</strong>
+                            <ul>
+                                <li>Krmilni signal ima le dve aktivni stanji: NAPREJ ali NAZAJ (diskretni preklop glede na predznak napake).</li>
+                                <li>Intenziteta ukaza je določena z izbranim PWM nivojem meritve (10%, 25%, 50%), ne pa z velikostjo napake.</li>
+                                <li>Sistem zato naravno preklaplja okoli reference in omogoča analizo povprečnih časov NAPREJ/NAZAJ, razmerja časov ter amplitude oscilacij.</li>
+                            </ul>
+
+                            <strong>Zakaj je proporcionalni regulator v tej nalogi napačen:</strong>
+                            <ul>
+                                <li>Pri proporcionalnem vodenju je ukaz zvezno odvisen od napake (u = Kp · e), zato ne gre za zahtevano dvostopenjsko logiko.</li>
+                                <li>S tem se spremeni dinamika sistema in primerjava meritev med PWM nivoji ni več skladna z merili ocenjevanja.</li>
+                                <li>Če implementirate proporcionalni regulator, rezultat ne ustreza zahtevam ocene 10, tudi če je videti "bolj gladek".</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <strong>8. Dodatna gradiva</strong><br />
+                        <ul>
+                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
+                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">LilyGO ESP32 TTGO dokumentacija</a></li>
+                            <li><em>Feedback Systems</em> (Åström, Murray) in <em>Modern Control Systems</em> (Dorf, Bishop)</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+    <h3>{{TITLE}}</h3>
+    <div>
+        <div style="margin-bottom:20px;">
+        <strong>1. Cilji vaje</strong><br />
+        <ul>
+            <li>{{GOAL_ITEM_1}}</li>
+            <li>{{GOAL_ITEM_2}}</li>
+            <li>{{GOAL_ITEM_3}}</li>
+            <li>{{GOAL_ITEM_4}}</li>
+        </ul>
+        </div>
+
+        <div style="margin-bottom:20px;">
+        <strong>2. Opis vaje</strong><br />
+        <p>{{INTRO_TEXT}}</p>
+        </div>
+
+        <div style="margin-bottom:20px;">
+        <strong>3. Povzetek nalog in pričakovanih rezultatov</strong><br />
+        <p>Za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.</p>
+
+        <table style="border-collapse:collapse;margin-bottom:8px;">
+            <tbody>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_6_TASKS_SHORT_HTML}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_6_RESULTS_SHORT_HTML}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_7_TASKS_SHORT_HTML}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_7_RESULTS_SHORT_HTML}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_8_TASKS_SHORT_HTML}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_8_RESULTS_SHORT_HTML}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_9_TASKS_SHORT_HTML}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_9_RESULTS_SHORT_HTML}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_10_TASKS_SHORT_HTML}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{GRADE_10_RESULTS_SHORT_HTML}}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div style="margin-bottom:20px;">
+        <strong><br />4. Podrobnejši opis nalog</strong><br />
+        <div>
+            <strong>4.1 Ocena 6</strong>
+            <div>{{DETAIL_GRADE_6_HTML}}</div>
+
+            <strong>4.2 Ocena 7</strong>
+            <div>{{DETAIL_GRADE_7_HTML}}</div>
+
+            <strong>4.3 Ocena 8</strong>
+            <div>{{DETAIL_GRADE_8_HTML}}</div>
+
+            <strong>4.4 Ocena 9</strong>
+            <div>{{DETAIL_GRADE_9_HTML}}</div>
+
+            <strong>4.5 Ocena 10</strong>
+            <div>{{DETAIL_GRADE_10_HTML}}</div>
+
+            {{DETAILED_DESCRIPTION_HTML}}
+        </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
+        <ul>
+            <li>{{PREPARATION_ITEM_1}}</li>
+            <li>{{PREPARATION_ITEM_2}}</li>
+            <li>{{PREPARATION_ITEM_3}}</li>
+        </ul>
+        </div>
+
+        <div style="margin-bottom:20px;">
+        <strong>6. Seznam potrebne opreme</strong><br />
+        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
+            <tbody>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
+                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
+                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_TAG_1}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DESC_1}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DATASHEET_1}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_TAG_2}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DESC_2}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DATASHEET_2}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_TAG_3}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DESC_3}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DATASHEET_3}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_TAG_4}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DESC_4}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DATASHEET_4}}</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_TAG_5}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DESC_5}}</td>
+                    <td style="border:1px solid #000000;padding:10px;">{{EQUIPMENT_DATASHEET_5}}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div style="margin-bottom:20px;">
+        <strong>7. Pogoste pasti</strong><br />
+        <ul>
+            <li>{{PITFALL_1}}</li>
+            <li>{{PITFALL_2}}</li>
+            <li>{{PITFALL_3}}</li>
+        </ul>
+        </div>
+
+        <div style="margin-bottom:12px;">
+        <strong>8. Dodatna gradiva</strong><br />
+        <ul>
+            <li>{{MATERIAL_ITEM_1}}</li>
+            <li>{{MATERIAL_ITEM_2}}</li>
+            <li>{{MATERIAL_ITEM_3}}</li>
+        </ul>
+        </div>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>

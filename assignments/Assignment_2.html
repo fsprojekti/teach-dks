@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+                <h3>2. Vaja: Senzorji maketa</h3>
+
+                <div>
+                    <div style="margin-bottom:20px;">
+                        <strong>1. Cilji vaje</strong><br />
+                        <ul>
+                            <li><strong>Spoznavanje makete:</strong> Sistematično spoznati FlexDrive kot laboratorijsko platformo za preučevanje diskretnega vodenja.</li>
+                            <li><strong>Realnočasovna povezava:</strong> V okolju Simulink vzpostaviti zanesljivo komunikacijo z mikrokrmilnikom in maketo.</li>
+                            <li><strong>Meritve senzorjev:</strong> Preveriti pravilnost branja enkoderskih signalov in iz njih izpeljati kotne veličine.</li>
+                            <li><strong>Dinamična analiza:</strong> Izvesti meritve odziva sistema na različne vhodne signale in ovrednotiti ključne parametre odziva.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>2. Opis vaje</strong><br />
+                        <p>Glavni namen laboratorijske vaje LV2 je spoznavanje FlexDrive makete in vzpostavitev osnovnega merilno-krmilnega toka v Simulinku. Maketa je električno pripravljena, študenti pa preko realnočasovne povezave izvajajo zajem meritev, poganjanje motorja in analizo odziva sistema.</p>
+                        <p>V začetnem delu se preveri komunikacija in pravilnost odčitavanja enkoderjev pri ročnem sukanju. Nato se izvede pogon DC motorja v odprti zanki ter analiza izmerjenih signalov. V zaključnem delu se iz odziva na stopnični vhod določijo osnovni dinamični parametri (čas vzpona, čas ustalitve, prevzpon).</p>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>3. Povzetek nalog in pričakovanih rezultatov</strong><br />
+                        <p>Za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.</p>
+
+                        <table style="border-collapse:collapse;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vzpostavitev Simulink modela in realnočasovne povezave z maketo; preverjanje enkoderskih odčitkov pri ročnem vrtenju.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Prikažite stabilno povezavo Simulink–FlexDrive brez prekinitev.</li>
+                                            <li>Potrdite, da se enkoderske veličine smiselno spreminjajo pri ročnem vrtenju osi.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Pogon motorja preko Simulink ukaza v odprti zanki in preklop sistema v način delovanja.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Vzpostavite odprtozančni način delovanja (mode 0) in stanje run.</li>
+                                            <li>Prikažite vrtenje motorja ter ustrezno spremembo enkoderskih signalov v realnem času.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Izračun kumulativnega kota in meritev časa za en popoln zasuk (360°).</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Prikažite kumulativni kot z upoštevanjem prehoda preko 0°/360° (npr. 450° ali -30°).</li>
+                                            <li>Izmerite in podajte čas za en zasuk 360°.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Sočasno branje obeh enkoderjev in izračun trenutnih kotnih hitrosti za oba kanala.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Prikažite hkraten zajem signalov obeh enkoderjev.</li>
+                                            <li>Izračunajte in prikažite kotni hitrosti obeh enkoderjev v realnem času (grafično).</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Generacija stopničnega vhoda in analiza dinamičnega odziva sistema.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Pripravite in izvedite stopnični vhod v Simulink modelu.</li>
+                                            <li>Izmerite čas vzpona, čas ustalitve in prevzpon.</li>
+                                            <li>Prikažite graf odziva z označenimi parametri.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />4. Podrobnejši opis nalog</strong><br />
+                        <div>
+                            <strong>4.1 Ocena 6</strong>
+                            <div>
+                                V Simulinku pripravite osnovni model za komunikacijo z maketo in potrdite, da je realnočasovna povezava stabilna. Pri ročnem vrtenju osi preverite, ali se merjene enkoderske veličine spreminjajo skladno s smerjo in amplitudo gibanja.
+                            </div>
+
+                            <strong>4.2 Ocena 7</strong>
+                            <div>
+                                Sistem preklopite v odprtozančni način delovanja in aktivirajte run stanje. Nato preko Simulink signalov pošljite ukaz za pogon motorja.
+                                <br />
+                                Potrdite, da motor fizično steče in da se to odraža v merjenih enkoderskih signalih.
+                            </div>
+
+                            <strong>4.3 Ocena 8</strong>
+                            <div>
+                                Iz absolutnega kota izpeljite kumulativni kot, ki pravilno obravnava prehode preko meje 0°/360°. Izvedite meritev časa, potrebnega za en popoln zasuk.
+                                <br />
+                                Rezultat predstavite kot numerično vrednost časa za 360° in ga primerjajte med več ponovitvami.
+                            </div>
+
+                            <strong>4.4 Ocena 9</strong>
+                            <div>
+                                V model dodajte sočasno obdelavo obeh enkoderjev. Za vsak kanal izračunajte trenutno kotno hitrost in rezultate prikažite v realnem času.
+                                <br />
+                                Pripravite grafični prikaz, kjer sta jasno razločljivi hitrosti obeh enkoderjev ter možna razlika med njima.
+                            </div>
+
+                            <strong>4.5 Ocena 10</strong>
+                            <div>
+                                V Simulinku generirajte stopnični vhod (nenadna sprememba vhodnega signala) in opazujte odziv sistema.
+                                <br />
+                                Iz odziva določite čas vzpona, čas ustalitve in prevzpon, nato pripravite graf z označenimi parametri ter kratko interpretacijo rezultatov.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
+                        <ul>
+                            <li>Ponovitev osnov Simulinka in dela z bloki za zajem ter obdelavo signalov.</li>
+                            <li>Razumevanje enkoderskih meritev (kot, kumulativni kot, kotna hitrost).</li>
+                            <li>Osnove analize prehodnega odziva (čas vzpona, čas ustalitve, prevzpon).</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>6. Seznam potrebne opreme</strong><br />
+                        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MK-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Mikrokrmilnik LilyGO ESP32 TTGO</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MM-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Maketa FlexDrive</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">MATLAB/Simulink okolje</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Namestitev na laboratorijskem računalniku</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SN-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vgrajena enkoderja makete</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Dokumentacija makete</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">IO-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Serijski terminal za nadzor komunikacije</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Laboratorijska navodila</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>7. Pogoste pasti</strong><br />
+                        <ul>
+                            <li>Napačno nastavljena realnočasovna povezava med Simulink modelom in maketo.</li>
+                            <li>Napačna obravnava prehoda kota preko 0°/360° pri računu kumulativnega kota.</li>
+                            <li>Napačna interpretacija parametrov odziva (zamenjava časa vzpona in časa ustalitve).</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <strong>8. Dodatna gradiva</strong><br />
+                        <ul>
+                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
+                            <li>Dokumentacija MATLAB/Simulink: Real-Time in signal processing bloki</li>
+                            <li>Zapisi predavanj iz dinamične analize prehodnega odziva</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
