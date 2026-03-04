@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        9. Vaja: Prostor stanj
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=37387">9. Vaja: Prostor stanj</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <strong>1. Opis vaje</strong><br />
+<p>V tej laboratorijski vaji bomo sistem predstavili v prostoru stanj (state-space), določili matrike A, B, C, D ter zasnovali dva ločena regulatorja: enega za krmiljenje položaja in drugega za krmiljenje hitrosti. Vsi potrebni podatki o stanju (hitrost, položaj) bodo pridobljeni neposredno ali z numerično izpeljavo iz izmerjenih veličin. S tem se izognemo uporabi opazovalca. Cilj je razviti intuitivno razumevanje povratne zvezanosti in vpliva lege polov na dinamiko sistema.</p>
+
+<strong>2. Cilji vaje</strong><br />
+<ul>
+    <li>Izpeljati model sistema v prostoru stanj za položaj in hitrost</li>
+    <li>Preveriti kontrolabilnost obeh modelov</li>
+    <li>Načrtovati matriki K za krmiljenje položaja in hitrosti</li>
+    <li>Izmeriti odziv realnega sistema na obe regulacijski nalogi</li>
+    <li>Primerjati odziva glede na lego polov in časovno odzivnost</li>
+</ul>
+
+<strong>3. Potek vaje</strong><br />
+<ul>
+    <li>Določitev stanj: položaj (φ), hitrost (ω)</li>
+    <li>Izgradnja dveh modelov v prostoru stanj: en za regulacijo φ, drugi za regulacijo ω</li>
+    <li>Preverjanje kontrolabilnosti obeh modelov</li>
+    <li>Izračun matrik K z uporabo <code>place()</code> za vsakega regulatorja posebej</li>
+    <li>Vodenje makete z obema regulatorjema ločeno</li>
+    <li>Pridobivanje hitrosti z numeričnim odvajanjem iz položaja, če meritev hitrosti ni neposredna</li>
+</ul>
+
+<strong>4. Naloge in pričakovani rezultati</strong><br />
+
+<table>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Določite stanja in vhod/izhod sistema</li>
+                    <li>Zapišite model za hitrosti v prostoru stanj (A, B, C, D)</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Model v obliki A, B, C, D za krmiljenje hitrosti</li>
+                    <li>Kratek opis stanj in meritev</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Preverite kontrolabilnost modela hitrosti</li>
+                    <li>Postavite zaprtozančne pole in izračunajte K</li>
+                    <li>Izvedite vodenje hitrosti na realnem sistemu</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Kontrolabilnostna matrika in rezultat</li>
+                    <li>Matrika K in graf odziva hitrosti (φ̇)</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Zapišite model v prostoru stanj za regulacijo položaja</li>
+                    <li>Izpeljite numerično hitrost iz signala položaja (npr. diskretna derivacija)</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Model za φ in φ̇ kot stanja</li>
+                    <li>Numerično izračunana hitrost (graf φ̇)</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Načrtujte povratno zvezan regulator za položaj (u = -Kx)</li>
+                    <li>Izvedite eksperiment in analizirajte odziv</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Matrika K za položaj</li>
+                    <li>Realni odziv sistema na referenco položaja (stopnica)</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Primerjajte odziva obeh regulatorjev (hitrost in položaj)</li>
+                    <li>Komentirajte stabilnost, hitrost odziva, prenihanost in napako</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Primerjalni grafi odzivov</li>
+                    <li>Kvalitativna analiza in utemeljitev izbire polov</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<strong>5. Priprava na vajo</strong><br />
+<ul>
+    <li>Razumeti osnovno predstavitev sistema v prostoru stanj</li>
+    <li>Ponoviti postavitev polov in zakon u = -Kx</li>
+    <li>Razumeti numerično odvajanju signala (diskretna derivacija)</li>
+    <li>Preglejte funkcije: <code>ss()</code>, <code>ctrb()</code>, <code>place()</code>, <code>diff()</code>, <code>filter()</code></li>
+</ul>
+
+<strong>6. Poročilo in oddaja</strong><br />
+<p><strong>Oddajte PDF dokument z obema modeloma, regulatorjema, grafi odzivov in primerjavo. Rok za oddajo je petek do 12. ure. Oddaja je skupinska.</strong></p>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

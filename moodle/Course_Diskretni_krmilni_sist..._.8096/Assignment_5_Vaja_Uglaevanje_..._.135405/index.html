@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        5. Vaja: Uglaševanje modela
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=33720">5. Vaja: Uglaševanje modela</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <span class="filter_mathjaxloader_equation"><strong>1. Opis vaje</strong><br />
+
+<p>V laboratorijski vaji 5 bomo z uporabo MATLAB-a in serijske komunikacije povezali maketo z modelom, ki smo ga zgradili pri prejšnji vaji. V prvi fazi bomo s pomočjo MATLAB skripte izvedli zajem odziva makete na stopničast signal preko serijske povezave. Te podatke bomo uporabili kot vhod za simulacijo v Simulinku in primerjali odziv modela z realnimi podatki. Model bomo nato postopoma uglaševali, dokler srednja kvadratična napaka ne bo znotraj dovoljenega odstopanja. Na koncu bomo preverili veljavnost uglašenega modela z dodatno validacijo.</p> <p><strong>2. Potek vaje</strong></p> <ul> <li>pridobivanje podatkov iz makete preko serijske komunikacije z uporabo MATLAB-a</li> <li>uvoz meritev v Simulink in primerjava z rezultatom simulacije</li> <li>uglaševanje modela z uporabo MATLAB skript in funkcij</li> <li>izračun kriterijske funkcije (RMSE) in validacija modela<br /></li> </ul> <p><strong>3. Naloge in pričakovani rezultati<br /></strong></p> <p>V tabeli so opisane naloge in pričakovani rezultati, od katerih je odvisna ocena vaje. Naloge je potrebno izvesti zaporedno; za doseganje določene ocene morate narediti tudi vse predhodne naloge.</p> <table> <tbody> <tr> <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td> <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td> <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td> </tr> <tr> <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li>vzpostavite komunikacijo med maketo in Simulink orodjem</li> <li>spremljajete kot φ2 in hitrost ω2</li> <li>sprožite odziv na stopnico pwm 0-&gt;4000</li><li>odzive zapišite v datoteko</li><li>poiskus naj traja 30s</li> </ul> </td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li></li> </ul> </td> </tr> <tr> <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li>Uporabite simulacijski model in generirajte odziv na stopnico </li><li><span style="font-size:0.9375rem;"></span></li><li><span style="font-size:0.9375rem;">spremljajete kot φ2 in hitrost ω2</span></li><li><span style="font-size:0.9375rem;">sprožite odziv na stopnico pwm 0-&gt;4000</span></li><li><span style="font-size:0.9375rem;">odzive zapišite v datoteko</span></li> </ul> </td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li></li> </ul> </td> </tr> <tr> <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li>Izračunajte velikost kriterijske funkcije, kjer primerjate simualcijski model in odzive makete</li><li><span style="font-size:0.9375rem;">kriterijska funkcija za ω2 </span></li><li><span style="font-size:0.9375rem;"><span class="nolink">$$napaka=\int_{0}^{30s}(\omega_{2\;meritev}-\omega_{2\;simulacija})^2$$</span></span></li><li><span style="font-size:0.9375rem;">prikažite oba odziva na grafu</span></li> </ul> </td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li></li> </ul> </td> </tr> <tr> <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li>Prilagodite paramtre simulacijskega modela mehanske naprave </li> </ul> </td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li></li> </ul> </td> </tr> <tr> <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li>Prilagodite tudi parametre DC motorja za izobljšanje modela</li> </ul> </td> <td style="border:1px solid #000000;padding:8px;"> <ul> <li><br /></li> </ul> </td> </tr> </tbody> </table><br /> <p><strong>4. Priprava na vajo in potrebno predznanje</strong></p><ul> <li>model makete v Simulinku iz vaje 3</li> <li>na prenosniku imejte nameščena MATLAB in Simulink okolji</li> <li>preštudirajte uporabo serijske komunikacije v MATLAB-u (npr. `serialport`, `readline`, `fscanf`) in prenos podatkov v Simulink<br /></li> </ul> <p><strong>5. Poročilo in ocenjevanje</strong></p><strong> </strong> <p><strong>Izpolnitev nalog za določeno oceno se bo preverilo med vajo. Po koncu vaje boste v e-učilnico oddali vse potrebne rezultate, kot je določeno zgoraj pod točko 3. Arduino programe, MATLAB skripte, vrednosti parametrov in izračune oddajte kot pdf datoteko. Simulink modele oddajte v formatu .slx ali .mdl. Datoteke je potrebno oddati najkasneje do petka do 12. ure. Datoteke oddajte skupinsko.</strong><br /></p></span>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

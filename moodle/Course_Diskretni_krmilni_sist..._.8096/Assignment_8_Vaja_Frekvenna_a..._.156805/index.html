@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        8. Vaja: Frekvenčna analiza
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=37386">8. Vaja: Frekvenčna analiza</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <strong>1. Opis vaje</strong><br />
+<p>V tej laboratorijski vaji bomo analizirali vedenje sistema v frekvenčni domeni. Z vnosom sinusnih signalov različnih frekvenc bomo izmerili ojačenje in fazni zamik sistema. Na podlagi rezultatov bomo sestavili eksperimentalni Bodejev diagram in ga primerjali s teoretičnim odzivom modela, dobljenega v prejšnjih vajah. Dodatno bomo analizirali pasovno širino in robne pogoje stabilnosti (gain margin, phase margin). Najboljši bodo sistem dopolnili s frekvenčnim filtrom za zmanjšanje vpliva šuma in ovrednotili njegovo učinkovitost.</p>
+
+<strong>2. Cilji vaje</strong><br />
+<ul>
+    <li>Merjenje odziva sistema na sinusne vzbude različnih frekvenc</li>
+    <li>Pridobitev eksperimentalnega Bodejevega diagrama</li>
+    <li>Primerjava z modelom in analiza stabilnosti</li>
+    <li>Razumevanje pojma pasovne širine in robne stabilnosti</li>
+    <li>Uvedba nizkopasovnega filtra in analiza njegovega vpliva</li>
+</ul>
+
+<strong>3. Potek vaje</strong><br />
+<ul>
+    <li>Ustvarjanje sinusnega vhodnega signala v MATLAB-u in njegov prenos na realni sistem</li>
+    <li>Merjenje amplitude izhodnega signala in faznega zamika glede na vhod</li>
+    <li>Ponovitev meritev za niz frekvenc (npr. 0.5 Hz do 10 Hz)</li>
+    <li>Risanje eksperimentalnega Bodejevega diagrama</li>
+    <li>Izris teoretičnega Bodejevega diagrama iz modela sistema</li>
+    <li>Izračun pasovne širine, gain margina in phase margina</li>
+    <li>(za najvišjo oceno) Uvedba filtra in primerjava odziva s filtrom in brez</li>
+</ul>
+
+<strong>4. Naloge in pričakovani rezultati</strong><br />
+<p>Za vsako stopnjo ocene morajo biti opravljene vse predhodne naloge.</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Izvedite meritev odziva sistema na sinusni signal pri vsaj 3 frekvencah</li>
+                    <li>Izmerite amplitudo in fazni zamik</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Preglednica z amplitudo in faznim zamikom za vsako frekvenco</li>
+                    <li>Graf amplitudnega in faznega odziva</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Razširite meritve na vsaj 6 različnih frekvenc (npr. logaritmična razporeditev)</li>
+                    <li>Izrišite eksperimentalni Bodejev diagram</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Bodejev diagram (amplituda in faza)</li>
+                    <li>Razširjena preglednica meritev</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Primerjajte eksperimentalni Bodejev diagram z modelom iz prejšnjih vaj</li>
+                    <li>Komentirajte razlike in ujemanje</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Bodejev diagram modela</li>
+                    <li>Vizualna primerjava in analiza napak</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Določite pasovno širino sistema, phase margin in gain margin iz grafa</li>
+                    <li>Komentirajte stabilnost in odzivnost sistema</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Numerične vrednosti pasovne širine in robnih pogojev</li>
+                    <li>Kratka razlaga stabilnosti</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Dodajte nizkopasovni filter (npr. prvi red) na vhodni ali izhodni signal</li>
+                    <li>Izvedite meritve z in brez filtra ter komentirajte učinek</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Opis filtra in njegovih parametrov</li>
+                    <li>Primerjalni odzivi (z/ brez filtra)</li>
+                    <li>Komentar vpliva na šum in odzivnost</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<strong>5. Priprava na vajo</strong><br />
+<ul>
+    <li>Razumeti pojme: amplitudni odziv, fazni zamik, Bodejev diagram, pasovna širina, gain margin, phase margin</li>
+    <li>Preglejte funkcije v MATLAB-u za generacijo sinusnih signalov in zajem meritev</li>
+    <li>Razumeti osnovne lastnosti filtrov (nizkopasovni, visokopasovni)</li>
+    <li>Na računalniku morate imeti nameščen MATLAB z dodatkom Control System Toolbox</li>
+</ul>
+
+<strong>6. Poročilo in oddaja</strong><br />
+<p><strong>Oddajte PDF datoteko z vsemi grafi, tabelami meritev, izračuni in komentarji. Rok za oddajo je petek do 12. ure. Oddaja je skupinska.</strong></p>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

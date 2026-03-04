@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        3. Vaja: Aktuatorji maketa
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=33477">3. Vaja: Aktuatorji maketa</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <strong>1. Opis vaje</strong><br />
+<p>
+Cilj laboratorijske vaje 3 je analiza odziva makete FlexDrive na različne vhodne signale. S pomočjo PWM signala bomo v odprtozančnem načinu vzbujali sistem in merili odziv na različne vhodne oblike: stopničasti signal, sinusni signal različnih frekvenc in naključni (šumni) signal. Iz meritev bomo določili časovno konstanto, amplitudni in fazni odziv ter razpršenost odziva na šum.
+</p>
+<ul>
+    <li><strong><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive" target="_blank" rel="noreferrer noopener">Opis makete</a></strong></li>
+</ul>
+
+<strong>2. Potek vaje</strong><br />
+<ul>
+    <li>Vzpostavitev povezave z maketo in priprava programa za zajem podatkov o kotni hitrosti.</li>
+    <li>Generacija različnih vrst vhodnih signalov (stopnica, sinus, šum).</li>
+    <li>Zajem in analiza odziva sistema na vhodne signale.</li>
+    <li>Izračun in interpretacija parametrov odziva (τ, A, φ, standardni odklon itd.).</li>
+</ul>
+
+<strong>3. Naloge in pričakovani rezultati</strong><br />
+<table style="border-collapse:collapse;">
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Generacija stopničastega signala na motor (0 → ± 100 % PWM).</li>
+                    <li>Zajem kotne hitrosti in izračun časovne konstante sistema <i>τ</i>.</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Graf PWM(t) in ω(t) en pod drugim.</li>
+                    <li>Izračunana časovna konstanta <i>τ</i>.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Generacija sinusnega signala na motor s frekvenco <i>f₀ = 1/τ</i>. </li><li>Amplituda ±100% pwm</li>
+                    <li>Zajem vhodnega PWM signala in izhodne kotne hitrosti.</li>
+                    <li>Določitev faznega zamika in ojačitve sistema.</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Graf PWM(t) in ω(t).</li>
+                    <li>Fazni zamik (φ) in razmerje amplitud.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Ponovitev sinusnega eksperimenta kjer postopno dvigujete frekvenco od 0.5×f₀ do faznega zamika 90°</li>
+                    <li>Primerjava amplitude in faznega zamika.</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Primerjalni grafi odzivov za vse  frekvence.</li>
+                    <li>Razpredelnica z amplitudami in faznimi zamiki.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Generacija šumnega vhodnega signala (white noise ali random PWM).</li><li><span style="font-size:0.9375rem;">Amplituda ±100% pwm</span></li>
+                    <li>Zajem odziva sistema in izračun standardnega odklona hitrosti.</li>
+                    <li>Vizualna analiza stabilnosti sistema pod šumnim vzbujanjem.</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Graf PWM(t) in ω(t) z jasno prikazanimi fluktuacijami.</li>
+                    <li>Izračunan standardni odklon kotne hitrosti.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul><li><p>Izvedite poskus za merjenje prenosa med gnano in vpeto gredjo pri treh sinusnih frekvencah <span style="font-size:0.9375rem;">f₁ = 0.5 × f₀, </span><span style="font-size:0.9375rem;">f₂ = f₀, </span><span style="font-size:0.9375rem;">f₃ = 2 × f₀</span></p></li><li><span style="font-size:0.9375rem;">f₀ je iz</span><span style="font-size:0.9375rem;">brana referenčna frekvenca, npr. tista, ki ustreza časovni konstanti sistema</span></li><li><span style="font-size:0.9375rem;">Za vsako frekvenco sinusno vzbujajte motor (gnano gred) in izmerite odziv obeh gredi. </span></li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul><li><p>tabela z vrednostmi (amplitude in fazni zamiki) za vse tri frekvence,</p>
+</li>
+<li>
+<p>trije grafi: gnana in vpeta gred za vsako frekvenco,</p>
+</li>
+<li>
+<p>besedni opis opažanj:</p>
+<ul>
+<li>
+<p>kako se elastična sklopka vede pri različnih frekvencah,</p>
+</li>
+<li>
+<p>pri kateri frekvenci je prenos najbolj oslabljen,</p>
+</li>
+<li>
+<p>kaj to pomeni za mehansko povezavo v realnih sistemih.<br /></p></li></ul></li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<strong><br />4. Električne komponente</strong><br />
+<p>Uporabljene komponente so enake kot pri prejšnjih vajah. Povezava do makete: 
+<a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive" target="_blank" rel="noreferrer noopener">FlexDrive - opis makete</a>
+</p>
+
+<strong>5. Priprava na vajo in potrebno predznanje</strong><br />
+<ul>
+    <li>Ponovitev teorije odziva na sinusne in stopnične vzbuje.</li>
+    <li>Razumevanje pojmov: časovna konstanta, amplituda, fazni zamik, robustnost sistema.</li>
+    <li>Ponovitev osnov programiranja in grafičnega prikaza v Arduino ali Simulink okolju.</li>
+</ul>
+
+<strong>6. Poročilo in ocenjevanje</strong><br />
+<p>
+Izpolnitev nalog za določeno oceno se bo preverila med vajo. Po koncu vaje v e-učilnico oddajte vse potrebne rezultate (grafi, Arduino koda, opis meritev, tabela rezultatov). Oddajte kot PDF datoteko, video posnetke pa v primernem spletnem formatu. Rok za oddajo: petek do 12. ure. Oddaja poteka skupinsko.
+</p>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

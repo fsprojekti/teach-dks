@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        1. Vaja: Senzorji in aktuatorji mehanski sistem
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=33267">1. Vaja: Senzorji in aktuatorji mehanski sistem</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <h4>1. Uvod in ozadje</h4>
+<p>
+    Ta vaja je osredotočena na izdelavo krmilnega sistema, ki bere signale iz enkoderja in nadzira DC motor s pomočjo mikrokrmilnika ESP32 TTGO. Osnovni del projekta predstavlja maketa <a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive</a>, laboratorijski model, ki simulira elastični pogonski sistem. S to vajo boste pridobili praktične izkušnje pri:
+</p>
+<ul>
+    <li><strong>Pridobivanju signalov:</strong> Branje visoko ločljivih impulzov enkoderja in določanje smeri vrtenja.</li>
+    <li><strong>Obdelavi podatkov:</strong> Izračun kota in hitrosti (v obratih na minuto, rpm) iz impulzov enkoderja.</li>
+    <li><strong>Nadzoru motorja:</strong> Uporaba PWM signala za nadzor hitrosti in smeri DC motorja.</li>
+    <li><strong>Zaprtih zankah:</strong> Implementacija enostavnih krmilnikov na osnovi stanj (tristopenjski: IZKL, NAPREJ, NAZAJ) za nadzor kota in hitrosti.</li>
+</ul>
+<p>
+    Vaja integrira koncepte iz elektronike, vgrajenega programiranja in sistemov za nadzor – teme, ki se pogosto obravnavajo na področjih robotike in mehatronike.
+</p>
+
+<h4>2. Zahteve</h4>
+
+<h4>Ocena 6: Štetje Impulzov Enkoderja</h4>
+<p>
+    <strong>Cilj:</strong> Razviti program, ki natančno šteje impulze dveh enkoderjev.
+</p>
+<p><strong>Ključni koncepti:</strong></p>
+<ul>
+    <li><strong>Kvadraturno enkodiranje:</strong> Razumevanje, kako dva signala (običajno A in B) omogočata določanje tako števila impulzov kot tudi smeri vrtenja.</li>
+    <li><strong>Polna ločljivost:</strong> Obdelava vsakega impulza za zagotavljanje visoke natančnosti.</li>
+</ul>
+<p>
+    <strong>Nasvet:</strong> Začnite z enostavnim števcem, ki se povečuje ali zmanjšuje glede na prehod signala. Preverite delovanje tako, da izpisujete število impulzov na TTL zaslonu.
+</p>
+
+<h4>Ocena 7: Izračun Kota in Hitrosti</h4>
+<p>
+    <strong>Cilj:</strong> Nadgraditi program za izračun kotne hitrosti motorja (v obratih na minuto – rpm).
+</p>
+<p><strong>Ključni koncepti:</strong></p>
+<ul>
+    <li><strong>Merenje na časovni osnovi:</strong> Uporabite časovni prekinitveni mehanizem ali periodično preverjanje za izračun števila impulzov v določenem časovnem intervalu.</li>
+    <li><strong>Formula pretvorbe:</strong> Pretvorba impulzov v rpm zahteva poznavanje števila impulzov na en obrat.</li>
+</ul>
+<p>
+    <strong>Nasvet:</strong> Preverite izračune z ročnimi meritvami, če je mogoče. Za lažje odpravljanje napak izpisujte vmesne vrednosti, kot so število impulzov v posameznem intervalu.
+</p>
+
+<h4>Ocena 8: Nadzor Motorja s PWM</h4>
+<p>
+    <strong>Cilj:</strong> Razviti program, ki zvezno nadzira hitrost DC motorja s PWM signalom, pri čemer se PWM stopnja lahko nastavi preko serijskega vmesnika.
+</p>
+<p><strong>Ključni koncepti:</strong></p>
+<ul>
+    <li><strong>Generacija PWM signala:</strong> Naučite se generirati PWM signale z uporabo strojnih časovnikov ESP32 TTGO.</li>
+    <li><strong>Serijska komunikacija:</strong> Implementirajte preprost serijski vmesnik, ki omogoča nastavitev PWM stopnje v realnem času.</li>
+</ul>
+<p>
+    <strong>Nasvet:</strong> Uporabljajte postopne inkrementacije in vključite varnostne preverbe v vaši kodi. Poskrbite, da bo PWM vrednost znotraj veljavnega območja (npr. 0-255 ali 0-100 %).
+</p>
+
+<h4>Ocena 9: Zaprtozančno krmiljenje Kota</h4>
+<p>
+    <strong>Cilj:</strong> Implementirati tristopenjski krmilnik (IZKL/NAPREJ/NAZAJ) za nadzor kota.
+</p>
+<p><strong>Ključni koncepti:</strong></p>
+<ul>
+    <li><strong>Sledenje referenci:</strong> Sistem mora slediti referenčni vrednosti 720°.</li>
+    <li><strong>Izračun napake:</strong> Izračunajte razliko med trenutnim kotom in referenco.</li>
+    <li><strong>Tristopenjska logika:</strong> Odločite, ali se motor premika naprej, nazaj ali ostane v mirovanju glede na velikost napake.</li>
+</ul>
+<p>
+    <strong>Nasvet:</strong> Uporabite preprost avtomat (state machine) za obravnavo krmilne logike. Izpisujte referenco, trenutni kot in napako na TTL zaslonu za lažje odpravljanje napak.
+</p>
+
+<h4>Grade 10: Zaprtozančno krmiljenje Hitrosti</h4>
+<p>
+    <strong>Cilj:</strong> Razviti tristopenjski krmilnik za vzdrževanje referenčne hitrosti 100 rpm.
+</p>
+<p><strong>Ključni koncepti:</strong></p>
+<ul>
+    <li><strong>Nadzor hitrosti:</strong> Podobno kot pri nadzoru kota, vendar se osredotoča na uskladitev trenutne hitrosti z želenimi obroti na minuto.</li>
+    <li><strong>Dinamična prilagoditev:</strong> Uporabite povratne informacije iz enkoderja za ustrezno prilagoditev PWM signala.</li>
+</ul>
+<p>
+    <strong>Nasvet:</strong> Eksperimentirajte z različnimi mejami napake za preklop med stanji. Dobro prilagojen krmilnik lahko zahteva nastavitev teh mej za optimalno delovanje.
+</p>
+
+<h4>3. Nasveti za Uspešno Implementacijo</h4>
+<ul>
+    <li><strong>Postopni razvoj:</strong>
+        Razdelite projekt na manjše dele in začnite s preprostim štetjem impulzov, nato postopoma prehajajte na zahtevnejše funkcionalnosti. Ta pristop omogoča lažje odkrivanje in odpravljanje napak.
+    </li>
+    <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">dokumentacija o uporabi TTGO ESP32 razvojne plošče</a></li>
+    <li><strong>Strategije odpravljanja napak:</strong>
+        <ul>
+            <li>Uporabljajte TTL zaslon za izpis vmesnih vrednosti (npr. surove impulze, izračunane rpm in kontrolne signale).</li>
+            <li>Modularno programiranje: Razdelite kodo na funkcije za branje enkoderja, generacijo PWM in zaprtokrogovni nadzor.</li>
+            <li>Če je mogoče, simulirajte dele sistema, preden jih preizkusite na strojni opremi.</li>
+        </ul>
+    </li>
+    <li><strong>Razumevanje strojne opreme:</strong>
+        Pred začetkom podrobno preučite podatkovne liste (datasheets) za enkoder AM4096, ESP32 TTGO in gonilnik motorja.
+    </li>
+    <li><strong>Oblikovanje strojnega avtomata:</strong>
+        Za tristopenjske krmilnike oblikujte jasen diagram stanj, ki prikazuje pogoje za preklop med stanj (IZKL, NAPREJ, NAZAJ). Diagram poteka (flowchart) je lahko zelo koristen.
+    </li>
+</ul>
+
+<h4>4. Priporočena Literatura in Izvlečki</h4>
+<p><strong>Izvlečki iz literature:</strong></p>
+<ul>
+    <li>
+        <strong>FlexDrive Knowledge Base:</strong> Dokumentacija makete FlexDrive ponuja poglobljen vpogled v mehanično in električno zasnovo sistema. Obravnava diagrame blokov in sheme ožičenja, kar je ključno za razumevanje integracije merilnih podatkov v krmilne zanke. Za več informacij si oglejte dokumentacijo <a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive</a>.
+    </li>
+    <li>
+        <strong>Kontrolni sistemi:</strong>
+        <ul>
+            <li><em>Feedback Systems: An Introduction for Scientists and Engineers</em> – Karl Johan Åström in Richard M. Murray. Ta knjiga ponuja trdne temelje v teoriji nadzora in vam pomaga razumeti zaprtokrogovne sisteme.</li>
+            <li><em>Modern Control Systems</em> – Richard C. Dorf in Robert H. Bishop. Obsežnejši vir, ki pokriva različne vrste krmilnikov, vključno s sistemom, ki ga uporabljamo v tej vaji.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Vgrajeno programiranje in mikrokrmilniki:</strong> Preučite spletne vire, kot so dokumentacija ESP32 in Arduino forumi. Veliko tutorialov se osredotoča na generacijo PWM signalov in serijsko komunikacijo, kar je bistveno za ta projekt.
+    </li>
+</ul>
+
+<h4>5. Praktični Nasveti za Implementacijo</h4>
+<ul>
+    <li><strong>Testiranje v simulaciji:</strong> Če imate dostop do simulacijskih orodij, preizkusite generacijo PWM in simulacijo enkoderja, preden implementirate na strojni opremi. To lahko prihrani čas in zmanjša tveganje za poškodbe strojne opreme.</li>
+    <li><strong>Varnost najprej:</strong> Pri delu z motorji in zunanjimi napajalnimi viri vedno upoštevajte varnostne protokole. Pred priključitvijo preverite ožičenje v skladu s shemami iz dokumentacije FlexDrive.</li>
+    <li><strong>Sodelovanje:</strong> Delo v skupinah ali razprava o izzivih s sošolci lahko pripomore k iskanju kreativnih rešitev in globljemu razumevanju sistema.</li>
+    <li><strong>Dokumentiranje:</strong> Vodenje natančnih zapiskov o razvojnem procesu je ključno. Zapišite logiko vaših strojnih avtomatov in specifične izzive, s katerimi se srečate. Ti zapiski bodo neprecenljivi pri pripravi laboratorijskih poročil in prihodnjih projektih.
+    </li>
+</ul>
+
+<h4>6. Zaključek</h4>
+<p>
+    Ta razširjena vaja vas ne samo spodbuja, da razvijete multifunkcionalen krmilni sistem, temveč vas tudi vodi skozi teorijo in prakso merjenja, nadzora motorjev s PWM in implementacije zaprtokrogovnih sistemov. Sledenje navodilom in nasvetom, skupaj s priporočeno literaturo, vam bo pomagalo postaviti trdne temelje tako pri praktični implementaciji kot pri teoretičnem razumevanju.
+</p>
+<p>
+    Srečno in ne pozabite – postopni razvoj in natančno odpravljanje napak sta ključ do uspeha!
+</p>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

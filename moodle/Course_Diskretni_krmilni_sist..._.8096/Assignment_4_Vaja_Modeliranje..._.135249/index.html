@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        4: Vaja: Modeliranje makete Matlab/Simulink
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=33592">4: Vaja: Modeliranje makete Matlab/Simulink</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <strong>1. Opis vaje</strong><br />
+<p>Na laboratorijski vaji 4 bomo zgradili model makete flexDrive v Matlabu in Simulinku.  Model sistema bo najprej potrebno določiti analitično, enačbo modela pa vnesti v Matlab in Simulink. Manjkajoče parametre sistema boste določili z oceno. Na koncu bo potrebno model sistema preskusiti za dve obliki signala (stopničast in PWM signal).</p><p></p><ul><li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive" style="font-size:0.9375rem;background-color:rgb(255,255,255);"><strong>Maketa FlexDrive</strong></a></li></ul><p></p>
+<p><strong>2. Potek vaje</strong></p>
+<ul>
+    <li>določitev modela makete flexDrive</li>
+    <li>realizacija modela v Matlabu in Simulinku</li>
+    <li>preskus modela za stopničast in PWM vhodni signal<br /></li>
+</ul>
+<p><strong>3. Naloge in pričakovani rezultati<br /></strong></p>
+<p>V tabeli so opisane naloge in pričakovani rezultati, od katerih je odvisna ocena vaje. Naloge je potrebno izvesti zaporedno; za doseganje določene ocene morate narediti tudi vse predhodne naloge.</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>z upoštevanjem opisa fizikalnega modela makete določite diferencialno enačbo modela makete <br /></li><li>upoštevajte samo vpeto os in torzijsko vzmet</li><li>izhod je ϕ1 vhod pa ϕ2</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>izpeljava enačba modela makete<br /></li>
+                </ul>
+                
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>model makete z Laplace-ovo transformacijo pretvorite v prenosno funkcijo ϕ1(s)/ϕ2(s) in jo realizirajte v programskem okolju Matlab</li>
+                    <li>preskusite delovanje modela za stopničast vhodni signal<br /></li>
+
+
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>model makete v Matlabu</li>
+                    <li>odziv modela na stopničast vhodni signal<br /></li>
+
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>model makete realizirajte še v simulacijskem okolju Simulink</li>
+
+
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>blokovni diagram za model makete v Simulinku (.slx ali .mdl datoteka)<br /></li>
+                    <li>ocenjena vrednost manjkajočih parametrov<br /></li>
+
+                </ul>
+                
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>v model dodajte gnano os</li>
+
+                <li>gnano os poganja navor M(t)</li>
+                    </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>blokovni diagram za model makete v Simulinku (.slx ali .mdl datoteka)<br /></li>
+                    <li>graf vhodnega signala, kota<br /></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>v model makete dodajte blok, ki predstavlja enosmerni elektromotor</li><li>vhod v blok je električni tok izhod pa navor</li><li>povezavo med njima podaja karakteristika v podatkovnem listu motorja</li>
+
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul><li>prenos signala iz Matlaba v Simulink (.slx ali .mdl datoteka)<br /></li>
+                    <li>graf odziva modela (kot zasuka) na tokovni vhodni signal</li>
+
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table><br />
+
+<p><strong>4. Priprava na vajo in potrebno predznanje</strong></p>
+<ul>
+
+
+    <li>preštudirajte fizikalni model makete<br /></li>
+
+    <li><strong>na prenosne računalnike si namestite programsko okolje Matlab<br /></strong></li>
+    <li>preučite osnove uporabe okolij Matlab in Simulink:<ul>
+        <li>Matlab: <a href="https://www.mathworks.com/help/matlab/getting-started-with-matlab.html" target="_blank" rel="noreferrer noopener">https://www.mathworks.com/help/matlab/getting-started-with-matlab.html </a><br /></li>
+        <li>Simulink: <a href="https://www.mathworks.com/help/simulink/getting-started-with-simulink.html" target="_blank" rel="noreferrer noopener">https://www.mathworks.com/help/simulink/getting-started-with-simulink.html</a></li>
+    </ul></li>
+
+    
+    <li><strong>preučite (ali ponovite) postopek Laplace-ove transformacije navadne linearne diferencialne enačbe</strong></li>
+    <li><strong>preučite tabelo Laplace-ovih transformacij za najbolj pogoste oblike funkcij: <a href="https://e-ucilnica.fs.uni-lj.si/pluginfile.php/82583/mod_resource/content/1/Laplaceove_tablice.pdf" target="_blank" rel="noreferrer noopener">Laplace-ove tabele</a></strong><br /></li>
+    
+
+
+</ul>
+<p><strong>5. Poročilo in ocenjevanje</strong></p><strong>
+</strong>
+<p><strong>Izpolnitev nalog za določeno oceno se bo preverilo med vajo. Po koncu vaje boste v e-učilnico oddali vse potrebne rezultate, kot je določeno zgoraj pod točko 3. Matlab programe in Simulink grafe sestavite v pdf datoteko, Simulink blokovne sheme pa oddajte kot .slx ali .mdl datoteke. Datoteke je potrebno oddati najkasneje do petka do 12. ure. Datoteke oddajte skupinsko.</strong><br /></p>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

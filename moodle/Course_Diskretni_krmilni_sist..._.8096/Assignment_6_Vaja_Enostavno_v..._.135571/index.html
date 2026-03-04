@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        6. Vaja: Enostavno vodenje makete
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=33858">6. Vaja: Enostavno vodenje makete</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <strong>1. Opis vaje</strong><br />
+<p>V laboratorijski vaji bomo zgradili osnovni krmilnik makete. Najprej bomo maketo krmilili z trostopmenskim stop/forward/backward krmilnikom nato s proporcionalnim P krmilnikom ter nato še s proporcionalnim krmilnikom brez "mrtve cone". Mrtva cona prestavlja vrednosti PWM signala, pri katerih se maketa ne zavrti.  Za oba tipa P krmilnika bomo določili proporcionalno konstanto in odstopek v stacionarnem stanju.<br /></p>
+<p><strong>2. Potek vaje</strong></p>
+<ul>
+    <li>izgradnja trostopenjskega krmilnika</li>
+    <li>izgradnja P krmilnika<br /></li>
+
+
+</ul>
+<p><strong>3. Naloge in pričakovani rezultati<br /></strong></p>
+<p>V tabeli so opisane naloge in pričakovani rezultati, od katerih je odvisna ocena vaje. Naloge je potrebno izvesti zaporedno; za doseganje določene ocene morate narediti tudi vse predhodne naloge.</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>zgradite trostopenjski krmilnik za dosego želene vrednosti <strong>kota zasuka </strong><br /></li>
+                    <li>izračunavajte trenutni pogrešek krmilnika<br /></li>
+                    <li>če je pogrešek pozitiven (kot je premajhen), krmilni program zavrti maketo v + smer</li>
+                    <li>če je pogrešek negativen (kot je prevelik), krmilni program zavrti maketo v - smer<br /></li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Matlab prikaz krmiljenja</li>
+                </ul>
+                
+                
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul><li><span style="font-size:0.9375rem;">zgradite trostopenjski  krmilnik za dosego želene vrednosti </span><strong style="font-size:0.9375rem;">kotne hitrosti zasuka</strong></li><li><span style="font-size:0.9375rem;">izračunavajte trenutni pogrešek krmilnika</span></li></ul>
+                
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+
+                    <li><ul><li>Matlab prikaz krmiljenja</li></ul><br /></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul><li><span style="font-size:0.9375rem;">imple</span><span style="font-size:0.9375rem;">mentirajte P krmilnik (zaprta zanka) za dosego želene vrednosti</span><strong style="font-size:0.9375rem;"> kota zasuka</strong><br /></li><li>preiskusite na stopničastem signalu kjer iz začetnega kota 0 preidemo stopničasto na kot 720</li><li>izračunajte površino kvadrata pogreška v času 20s</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul><li><span style="font-size:0.9375rem;">Matlab prikaz krmiljenja</span></li><li><span style="font-size:0.9375rem;">vrednost konstante P</span><sub>k</sub></li><li>vrednost odstopka v stacionarnem stanju</li>
+
+                </ul>
+                
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <p></p><ul><li><span style="font-size:0.9375rem;">imple</span><span style="font-size:0.9375rem;">mentirajte P krmilnik (zaprta zanka) za dosego želene vrednosti</span><strong style="font-size:0.9375rem;"> hitrosti</strong></li><li><span style="font-size:0.9375rem;">preiskusite na stopničastem signalu </span></li><li><span style="font-size:0.9375rem;">izračunajte površino kvadrata pogreška v času 20s</span></li><li>izračunajte površino kadrata odstopka v času 20s pri istem  P<sub>k </sub> kot pri prejšnji nalogi</li></ul><p></p>
+                
+                
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <p></p><ul><li><span>Matlab prikaz krmiljenja</span></li><li><span>vrednost konstante P</span><sub>k</sub></li><li>vrednost odstopka v stacionarnem stanju</li></ul><br /><p></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>implementirajte P krmilnik za dosego želene<strong> kotne hitrosti</strong></li><li>uporabite sistem za izločanje mrtve cone pwm</li><li><span style="font-size:0.9375rem;">pr</span><span style="font-size:0.9375rem;">eiskusite na stopničastem signalu </span></li><li><span style="font-size:0.9375rem;">iz</span><span style="font-size:0.9375rem;">računajte površino kvadrata pogreška v času 20s</span></li>
+
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Arduino program za izvedbo naloge</li><li><span style="font-size:0.9375rem;">vrednost konstante</span><span style="font-size:0.9375rem;"> P</span><sub>k</sub></li>
+                    <li>vrednost odstopka v stacionarnem stanju<br /></li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table><br />
+
+<p><strong>4. Priprava na vajo in potrebno predznanje</strong></p>
+<ul>
+
+
+    <li>preštudirajte snov s predavanj: vrste krmilnikov, P krmilniku, proporcionalna konstanta, odstopek v stacionarnem stanju</li>
+    <li>preštudirajte določevanje časovne konstante sistema<br /></li>
+</ul>
+<p><strong>5. Poročilo in ocenjevanje</strong></p><strong>
+</strong>
+<div class="editor-indent" style="margin-left:30px;"><p><span>Izpolnitev nalog za določeno oceno se bo preverilo med vajo.</span></p></div>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

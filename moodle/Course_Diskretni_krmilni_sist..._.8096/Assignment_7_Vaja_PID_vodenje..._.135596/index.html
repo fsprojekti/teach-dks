@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        7. Vaja: PID vodenje makete
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=33883">7. Vaja: PID vodenje makete</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <span class="filter_mathjaxloader_equation"><strong>1. Opis vaje</strong><br />
+<p>V laboratorijski vaji 6 bomo z uporabo okolja MATLAB izvedli načrtovanje P, PI in PID krmilnikov za <strong>kotno hitrost</strong> makete. Krmilnike bomo nastavili po dveh metodah:</p>
+<ul>
+    <li><strong>Ziegler-Nicholls z metodo koračnega odziva</strong></li>
+    <li><strong>Ziegler-Nicholls z metodo končne ojačitve (self-oscillation)</strong></li>
+</ul>
+<p>Oba pristopa bomo primerjali glede na odzive sistemov in ustreznost nastavitev.</p>
+<p>Prenosno funkcijo PID krmilnika lahko zapišemo kot: <span class="nolink">\(P(s) = K_p + \frac{K_i}{s} + K_d \,s\)</span></p>
+<p>ali v standardni obliki: <span class="nolink">\(P(s) = K_p(1 + \frac{1}{T_i \, s} + T_d \, s)\)</span></p>
+
+<strong>2. Ziegler-Nicholls metode</strong><br />
+<p><strong>A. Metoda koračnega odziva</strong></p>
+<p>Iz odziva sistema na stopničast signal in tangente z največjim naklonom določimo:</p>
+<ul>
+    <li><span class="nolink">\(t_0\)</span>: čas začetka odziva</li>
+    <li><span class="nolink">\(t_1\)</span>: čas, ko tangenta doseže začetno ustaljeno vrednost</li>
+    <li><span class="nolink">\(t_2\)</span>: čas, ko tangenta doseže končno ustaljeno vrednost</li>
+    <li><span class="nolink">\(T_z = t_1 - t_0\)</span></li>
+    <li><span class="nolink">\(T_u = t_2 - t_1\)</span></li>
+    <li><span class="nolink">\(K = \frac{\omega_1 - \omega_0}{F_1 - F_0}\)</span></li>
+</ul>
+
+<p><strong>B. Metoda končne ojačitve (Ultimate Gain Method)</strong></p>
+<p>Postavimo sistem v zaprtozančni zanki s proporcionalnim krmilnikom in povečujemo ojačanje <span class="nolink">\(K_p\)</span>, dokler sistem ne začne nihati z enakomerno amplitudo. Nato določimo:</p>
+<ul>
+    <li><span class="nolink">\(K_u\)</span>: mejna ojačitev (ultimate gain)</li>
+    <li><span class="nolink">\(T_u\)</span>: perioda oscilacije</li>
+</ul>
+
+<p><strong>Tabela 1 – Ziegler-Nicholls (step response method)</strong></p>
+<table>
+    <thead>
+        <tr>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;">Tip krmilnika</th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;"><span class="nolink">\(K_p\)</span></th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;"><span class="nolink">\(T_i\)</span></th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;"><span class="nolink">\(T_d\)</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">P</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(\frac{T_u}{K T_z}\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;"></td>
+            <td style="border:1px solid #000000;padding:5px;"></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">PI</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(0.9 \frac{T_u}{K T_z}\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(3.3 T_z\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;"></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">PID</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(1.2 \frac{T_u}{K T_z}\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(2 T_z\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(0.5 T_z\)</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<p><strong>Tabela 2 – Ziegler-Nicholls (self-oscillation method)</strong></p>
+<table>
+    <thead>
+        <tr>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;">Tip krmilnika</th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;"><span class="nolink">\(K_p\)</span></th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;"><span class="nolink">\(T_i\)</span></th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;"><span class="nolink">\(T_d\)</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">P</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(0.5 K_u\)</span></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">PI</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(0.45 K_u\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(T_u / 1.2\)</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">PID</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(0.6 K_u\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(T_u / 2\)</span></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;"><span class="nolink">\(T_u / 8\)</span></td>
+        </tr>
+    </tbody>
+</table>
+
+<strong><br />3. Naloge in pričakovani rezultati</strong><br />
+<p>Za vsako stopnjo ocene morajo biti opravljene vse predhodne naloge.</p>
+
+<table>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Izvedite koračno vzbujanje sistema preko MATLAB-a</li>
+                    <li>Posnemite odziv kotne hitrosti in določite značilke za metodo A (korak)</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Graf odziva z realnimi podatki</li>
+                    <li>Izmerjene vrednosti: <span class="nolink">\( t_0, t_1, t_2, T_z, T_u, K \)</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Izračunajte PID parametre za metodo A (korak)</li>
+                    <li>Izvedite zaprtozančno vodenje makete s P, PI in PID krmilniki</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Vrednosti PID parametrov</li>
+                    <li>Grafi merjenega odziva za P, PI in PID na realni napravi</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Izločite mrtvo cono aktuatorja</li>
+                    <li>Izvedite zaprtozančno vodenje s PID krmilnikom po metodi A</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Opis kompenzacije mrtve cone (npr. prag PWM signala)</li>
+                    <li>Primerjalni graf odziva pred in po kompenzaciji</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Izvedite iskanje končne ojačitve z realnim sistemom (self-oscillation metoda)</li>
+                    <li>Določite <span class="nolink">\( K_u \)</span> in <span class="nolink">\( T_u \)</span> iz merjenega odziva</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Odziv sistema z enakomernimi oscilacijami</li>
+                    <li>Izračunane vrednosti <span class="nolink">\( K_u \)</span> in <span class="nolink">\( T_u \)</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Izračunajte PID parametre po metodi B (self-oscillation)</li>
+                    <li>Izvedite zaprtozančno vodenje s PID krmilnikom in zabeležite odziv</li>
+                    <li>Primerjajte metode A in B glede na realni odziv in podajte utemeljitev</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>PID parametri po metodi B</li>
+                    <li>Grafi realnega odziva sistema po obeh metodah</li>
+                    <li>Kratka analiza in razlaga razlik v vedenju sistema</li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<strong><br />4. Priprava na vajo in potrebno predznanje</strong><br />
+<ul>
+    <li>Ponovitev snovi o P, PI in PID krmilnikih</li>
+    <li>Razumevanje Ziegler-Nicholls metod:<ul>
+        <li><a href="https://yilinmo.github.io/EE3011/Lec9.html" target="_blank" rel="noreferrer noopener">PID Control Schemes</a></li>
+        <li><a href="https://wiki.fs-lampa.si/predmeti/dks/av1/paper.pdf" target="_blank" rel="noreferrer noopener">Ziegler &amp; Nicholls (1942)</a></li>
+    </ul></li>
+    
+    <li>Osnovno znanje MATLAB-a in risanja grafov</li>
+</ul>
+
+<strong>5. Poročilo in ocenjevanje</strong><br />
+<p><strong>Vse rezultate oddajte v e-učilnico v PDF formatu. Skripte in grafi morajo biti priloženi. Rok za oddajo: petek do 12. ure. Oddaja je skupinska.</strong></p></span>
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

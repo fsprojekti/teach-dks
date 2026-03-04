@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        2. Vaja: Senzorji maketa
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/assign/view.php?id=33349">2. Vaja: Senzorji maketa</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+    <h3>Description</h3>
+    <div>
+        <strong>1. Opis vaje</strong><br />
+<p>
+Glavni namen LV2 je spoznavanje FlexDrive makete, laboratorijske naprave, ki se uporablja pri preučevanju vodenja dinamičnih sistemov. Vaja se izvaja v okolju Simulink, kjer je maketa že električno povezana z mikrokrmilnikom. Vse operacije se izvajajo preko realnočasovne komunikacije, analize meritev in dinamične analize odziva sistema na različne vhodne signale.
+</p>
+<strong style="font-size:0.9375rem;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive" target="_blank" rel="noreferrer noopener">Opis makete</a></strong><br />
+<p>Na tej vaji boste s pomočjo Simulinka vzpostavili komunikacijo z FlexDrive napravo, preverili branje enkoderskih podatkov in poganjali enosmetni elektromotor ter s tem sukali napravo.</p>
+
+<strong>2. Potek vaje</strong><br />
+<ul>
+    <li>Vzpostavitev realnočasovne povezave s FlexDrive napravo v okolju Simulink.</li>
+    <li>Preverjanje branja enkoderskih podatkov ob ročnem sukanju makete.</li>
+    <li>Poganjanje DC motorja</li><li>Različne analize izmerjenih podatkov</li>
+</ul>
+
+<strong>3. Naloge in pričakovani rezultati</strong><br />
+<p>
+V spodnji tabeli so opisani pričakovani rezultati, od katerih je odvisna ocena vaje. Naloge je potrebno izvesti zaporedno; za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.
+</p>
+<table style="border-collapse:collapse;">
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Ocena</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Naloge</strong></td>
+            <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">6</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Vzpostavitev Simulink okolja in realnočasovne povezave s FlexDrive napravo.</li>
+                    <li>Ročno sukanje makete in preverjanje branja enkoderskih podatkov (npr. trenutni kot zasuka).</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                Stabilna povezava, kjer se pri ročnem sukanju makete jasno spreminjajo vrednosti enkoderskih podatkov, kar potrdi pravilno delovanje senzorjev.
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">7</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul><li>S pošiljanjem ukazov preko simulink bloka sprožite rotacijo motorja</li><li></li><li><span style="font-size:0.9375rem;">Nastavitev sistema v odp</span><span style="font-size:0.9375rem;">rtozančni način (</span><code>mode 0</code><span style="font-size:0.9375rem;">) in preklop v stanje "run" preko terminala serijske komunikacije lahko v Arduino okolju</span></li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                Motor se sproži, kar se potrdi s spremembami enkoderskih podatkov v realnem času.
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">8</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Izračun kumulativnega kota iz enkoderskih podatkov (upoštevanje preseganja 360° in padca pod 0°).</li>
+                    <li>Merjenje časa, potrebnega za izvedbo enega popolnega (360°) zasuka.</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                Prikaz kumulativnega kota (npr. 450° ali -30°) in natančno izmerjen čas za 360° zasuk (npr. "Čas za 360° zasuk: 4.3 s").
+            </td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">9</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Hkratno branje podatkov obeh enkoderjev.</li>
+                    <li>Izračun trenutnih kotnih hitrosti za oba enkoderja s pomočjo Simulink blokov.</li>
+                    <li>Prikaz kotnih hitrosti v realnem času (npr. s Scope blokom).</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                Grafični prikaz, kjer sta vidna kotna hitrost enkoderja 1 in enkoderja 2</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:8px;text-align:center;">10</td>
+            <td style="border:1px solid #000000;padding:8px;">
+                <ul>
+                    <li>Generacija stopničnega vhoda (npr. nenadna sprememba PWM vrednosti) v simulacijskem modelu.</li>
+                    <li>Analiza odziva sistema na stopnični vhod.</li>
+                    <li>Merjenje ključnih dinamičnih parametrov: čas vzpona, čas ustalitve in prevzpon</li>
+                </ul>
+            </td>
+            <td style="border:1px solid #000000;padding:8px;">
+                Graf odziva na stopnični vhod, kjer so jasno opazničas vzpona, čas ustalitve in prevzpon
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<strong><br />4. Električne komponente</strong><br />
+<p>
+Električne komponente FlexDrive makete so že povezane in pripravljene za vajo. Za podrobnosti o maketi si oglejte: 
+<strong><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive" target="_blank" rel="noreferrer noopener">Opis makete</a></strong>
+</p>
+
+<strong>5. Priprava na vajo in potrebno predznanje</strong><br />
+<ul>
+    <li>Ponovitev snovi s predavanj in vaj.</li>
+    <li>Preučitev sestave in delovanja FlexDrive makete.</li>
+    <li>Osnove realnočasovne komunikacije in obdelave podatkov v okolju Simulink.</li>
+    <li>Namestitev in uporaba MATLAB/Simulink okolja.</li>
+    <li>Osnove programiranja in uporabe Simulink blokov</li>
+</ul>
+
+
+    </div>
+    <hr>
+
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Učilnica FS - 2025/2026 - Diskretni krmilni sistemi (MA-RRP-1)</title>
+    <link rel="stylesheet" type="text/css" href="..//shared/moodle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div class="d-flex flex-column h-100">
+        <nav class="navbar navbar-light bg-white border-bottom">
+            <a class="navbar-brand" href="https://e-ucilnica.fs.uni-lj.si" title="E-Učilnica FS - 2025/2026">
+                E-Učilnica FS - 2025/2026
+            </a>
+        </nav>
+        <main class="container-fluid mt-2 flex-grow-1 flex-shrink-1">
+            <div>
+                <h1><a href="../index.html">Diskretni krmilni sistemi (MA-RRP-1)</a></h1>
+                <p>DKSM</p>
+                    <h2>
+        Maketa AERO
+    </h2>
+
+    <div class="alert alert-info alert-block">
+        This page is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/mod/page/view.php?id=20296">Maketa AERO</a> on Wednesday, 4 March 2026, 10:27 AM. Note that some content and any files larger than 100 MB are not downloaded.    </div>
+
+
+    <div>
+        <h3>Page content</h3>
+        <div>
+            <div>
+                <p></p><p>Maketa AERO je laboratorijska naprava namenjena spoznavanju področja vodenja dinamičnih sistemov. Napravo sestavlja rotirajoči prečni nosilec na katerega sta pritrjena dva ventilatorska pogona, ki poganjata nosilec v horizontalni ravnini. Merilnik kota sledi gibanju rotacije nosilca.</p><img src="content/aeroMaketa.jpg" alt="image" class="img-fluid atto_image_button_text-bottom" width="700" height="525" />
+<p></p><p></p><p>Maketo sestavljajo naslednji gradniki:</p><ul><li>mehanska naprava</li><li>merilnik zasuka</li><li>ventilatorski pogon</li><li>regulator motorja</li><li>mikrokrmilnik (Arduino Due)</li></ul><p>Gradniki so povezani kot prikazuje blokovna shema</p><p></p>
+<p><img src="content/blokovna-shema.PNG" alt="" class="img-fluid atto_image_button_text-bottom" width="903" height="132" /></p>
+<h5><strong></strong></h5><h5><strong><strong>Mehanska naprava</strong></strong></h5><strong></strong>
+<p>Naprava je rotirajoči mehanski dinamičen sistem. Shematično je prikazan na sliki:</p>
+<p><img src="content/aeroScheme.png" alt="" class="img-fluid atto_image_button_text-bottom" width="422" height="450" /></p>
+<p>Napravo sestavlja tram, ki rotira okoli vertikalne osi. Na obeh koncih rotirajočega trama je pritrjen po en ventilatorski pogon, ki je ponazorjen s točkasto maso m<sub>3</sub> . Zasuk vertikalne osi označuje kot φ (t), poganja pa ga potisk ventilatorskih pogonov, ki ustvarjata sili F<sub>1</sub> (t) in F<sub>2</sub> (t).</p>
+
+<p><strong>Spremenljivke sistema:</strong></p>
+<table>
+    <thead>
+        <tr>
+            <th style="border:1px solid #000000;padding:5px;background-color:#67ceec;">Oznaka</th>
+            <th style="border:1px solid #000000;padding:5px;background-color:#67ceec;">Opis</th>
+            <th style="border:1px solid #000000;padding:5px;background-color:#67ceec;">Enota</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">F<sub>1</sub>, F<sub>2</sub></td>
+            <td style="border:1px solid #000000;padding:5px;">Sila, ki povzroča rotacijo naprave</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">N</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">φ</td>
+            <td style="border:1px solid #000000;padding:5px;">Kot rotacije vertikalne osi</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">°</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<p><strong>Parametri sistema:</strong></p>
+<table>
+    <thead>
+        <tr>
+            <th style="border:1px solid #000000;padding:5px;background-color:#67ceec;">Oznaka</th>
+            <th style="border:1px solid #000000;padding:5px;background-color:#67ceec;">Opis</th>
+            <th style="border:1px solid #000000;padding:5px;background-color:#67ceec;">Vrednost</th>
+            <th style="border:1px solid #000000;padding:5px;background-color:#67ceec;">Enota</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">J<sub>1</sub></td>
+            <td style="border:1px solid #000000;padding:5px;">Vztrajnosti moment vertikalne osi<br /></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">0,29</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">g · m²</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">m<sub>2</sub></td>
+            <td style="border:1px solid #000000;padding:5px;">Masa prečnega trama</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">90</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">g</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">l<sub>2</sub></td>
+            <td style="border:1px solid #000000;padding:5px;">Dolžina horizontalnega telesa</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">32</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">cm</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">m<sub>3</sub></td>
+            <td style="border:1px solid #000000;padding:5px;">Masa ventilatorskega pogona</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">90</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">g</td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<h5><strong></strong></h5><h5><strong><strong>Merilnik zasuka</strong></strong></h5><strong></strong>
+<p>Vertikalna os je opremljena z merilnikom zasuka oz. kota. Nameščen je magnetni inkrementalni enkoder <a href="https://wiki.fs-lampa.si/gradiva/elektrotehnika/datasheets/AM4096D02_08.pdf" target="_blank" rel="noreferrer noopener">RLS AM4096</a> slovenskega podjetja <a href="https://www.rls.si/" target="_blank" rel="noreferrer noopener">RLS d.o.o.</a>. Merilnik meri relativno gibanje osi ter posreduje informacijo v obliki digitalnega signala mikrokrmilniku. Praktičen primer uporabe takega merilnika je dostopen v <a href="https://wiki.fs-lampa.si/#/gradiva/examples/encoder/encoder">gradivu</a>.</p>
+
+<h5><strong></strong></h5><h5><strong><strong>Ventilatorski pogon</strong></strong></h5><strong></strong>
+<p>Obračanje naprave okoli osi dosežemo z dvema enakima ventilatorskima pogonoma, kjer vsak ventilator poganja napravo v eno smer in s tem spreminja kot \varphi<span>φ</span>. <a href="https://wiki.fs-lampa.si/gradiva/elektrotehnika/datasheets/fanDatasheet.pdf" target="_blank" rel="noreferrer noopener">Podatkovni list ventilatorskega pogona</a>.<br />
+</p>
+<h5><strong></strong></h5><h5><strong><strong>Gonilnik ventilatorskega pogona</strong></strong></h5><strong></strong>
+<p></p><p>Za pogon enosmernega motorja skrbi motorski gonilnik <a href="https://wiki.fs-lampa.si/gradiva/elektrotehnika/datasheets/MD10C%20Rev3.0%20User's%20Manual.pdf" target="_blank" rel="noreferrer noopener">MD10C R3</a> podjetja <a href="https://www.cytron.io/" target="_blank" rel="noreferrer noopener">Cytron</a>. Gonilnik je povezan na dva pogona na način, ki omogoča dvosmerno vrtenje naprave. S spreminjanjem polaritete izhoda gonilnika se ne obrača smer vrtenja pogonov, ampak se izmenjujeta delovanje enega in drugega pogona. Gonilnik upravljamo z dvema digitalnima signaloma <em>power </em>in <span><span><em>direction</em></span></span>. <em><span>power</span> </em>signal predstavlja PWM (Pulse Width Modulation) moduliran signal <em><span>direction</span> </em>pa polariteto napetostnega izhoda. Praktičen primer krmiljenja gonilnika je dostopen v <a href="https://wiki.fs-lampa.si/#/gradiva/examples/pwm/pwm">gradivu</a>.</p><span style="color:rgb(239,69,64);"></span><p></p>
+
+<h5><strong></strong></h5><h5><strong><strong>Mikrokrmilnik</strong></strong></h5><strong></strong>
+<p>Uporabljen je mikrokrmilnik ARM, ki je vpet na razvojni plošči <a href="https://wiki.fs-lampa.si/#/gradiva/elektrotehnika/datasheets/arduinoDue.pdf">ArduinoDue</a>.</p><p><strong>Opozorilo</strong>: Arduino Due deluje na 3,3 V. To velja tudi za analogne vhode (branje z ukazom <em>analogRead()</em>). Privzeto se na analognih vhodih uporablja 10-bitna resolucija (AD pretvorba), Arduino Due pa podpira tudi 12-bitno resolucijo, ki se jo nastavi z ukazom <em>analogReadResolution(bits)</em>. Privzeto Arduino Due generira PWM signale z 8-bitno resolucijo, z ukazom <em>analogWriteResolution(bits)</em> pa se lahko nastavi tudi 12-bitno resolucijo.<br /></p>
+<h4><strong></strong></h4><h4><strong>Električni del</strong></h4><p>Električna shema naprave prikazuje povezave Arduino mikrokrmilnika z 2 inkrementalnima enkoderjema in krmilnikom DC motorja.<br /></p><p></p>
+<p><img src="content/electroSchemeAero.jpg" alt="" class="img-fluid atto_image_button_text-bottom" width="900" height="542" /><br /></p>
+<p>Povezave digitalnih signalov z Arduinom so predstavljene v tabeli<br /></p>
+<table>
+    <thead>
+        <tr>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;">Naprave</th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;">Pin</th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;">Arduino Pin</th>
+            <th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;">povezava</th><th style="border:1px solid #000000;padding:5px;text-align:center;background-color:#67ceec;">vhod/izhod</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">RMK4<br /></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">17 (V<sub>out</sub>)</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">A0</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">U<sub>1</sub></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">vhod</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">RMK4<br /></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">11 (A)</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">22</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">A<sub>1</sub></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">vhod</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">RMK4<br /></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">12 (B)</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">23</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">B<sub>1</sub></td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">vhod</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">MD10C R3</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">DIR</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">2</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">DIR</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">izhod</td>
+        </tr>
+        <tr>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">MD10C R3</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">PWM</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">3</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">PWM</td>
+            <td style="border:1px solid #000000;padding:5px;text-align:center;">izhod</td>
+        </tr>
+    </tbody>
+</table>
+            </div>
+
+            <ul>
+                <li><a href="content/AM4096D02_08.pdf" title="View the file AM4096D02_08.pdf">AM4096D02_08.pdf</a></li>
+                <li><a href="content/ArduinoDueManual.pdf" title="View the file ArduinoDueManual.pdf">ArduinoDueManual.pdf</a></li>
+                <li><a href="content/elektroSchemeAero.png" title="View the file elektroSchemeAero.png">elektroSchemeAero.png</a></li>
+                <li><a href="content/fanDatasheet.pdf" title="View the file fanDatasheet.pdf">fanDatasheet.pdf</a></li>
+                <li><a href="content/MD10C Rev3.0 Users Manual.pdf" title="View the file MD10C Rev3.0 Users Manual.pdf">MD10C Rev3.0 Users Manual.pdf</a></li>
+                <li><a href="content/Rpi4B.pdf" title="View the file Rpi4B.pdf">Rpi4B.pdf</a></li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+
+            </div>
+        </main>
+        <footer id="page-footer" class="py-3">
+            <div class="container">
+                <div>This file is part of the content downloaded from <a href="https://e-ucilnica.fs.uni-lj.si/course/view.php?id=35">Diskretni krmilni sistemi (MA-RRP-1)</a> by Marko Corn on Wednesday, 4 March 2026, 10:27 AM.</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
