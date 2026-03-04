@@ -2,6 +2,7 @@
 #include <TFT_eSPI.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/timers.h"
 
 // =========================
 // FlexDrive minimal firmware (FreeRTOS)
@@ -52,6 +53,8 @@ volatile float encoder1Velocity = 0.0f; // turn/s (output shaft)
 volatile float encoder2Velocity = 0.0f; // turn/s (output shaft equivalent)
 
 TFT_eSPI tft = TFT_eSPI();
+TaskHandle_t samplingTaskHandle = nullptr;
+TimerHandle_t samplingTimer = nullptr;
 
 portMUX_TYPE encoderMux = portMUX_INITIALIZER_UNLOCKED;
 portMUX_TYPE stateMux = portMUX_INITIALIZER_UNLOCKED;
@@ -165,6 +168,10 @@ void handleCommand(const String& cmdLine) {
       portENTER_CRITICAL(&stateMux);
       tsMs = val;
       portEXIT_CRITICAL(&stateMux);
+
+      if (samplingTimer != nullptr) {
+        xTimerChangePeriod(samplingTimer, pdMS_TO_TICKS(val), 0);
+      }
     }
     return;
   }
@@ -201,6 +208,13 @@ void handleCommand(const String& cmdLine) {
   }
 }
 
+void samplingTimerCallback(TimerHandle_t xTimer) {
+  (void)xTimer;
+  if (samplingTaskHandle != nullptr) {
+    xTaskNotifyGive(samplingTaskHandle);
+  }
+}
+
 void serialTask(void* pvParameters) {
   (void)pvParameters;
   String line;
@@ -231,9 +245,9 @@ void samplingTask(void* pvParameters) {
   lastEnc2 = encoder2Position;
   portEXIT_CRITICAL(&encoderMux);
 
-  uint32_t lastTickMs = millis();
-
   while (1) {
+    ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
     int localTs;
     float localAlpha;
     int localPlot;
@@ -244,14 +258,10 @@ void samplingTask(void* pvParameters) {
     localPlot = plotEnabled;
     portEXIT_CRITICAL(&stateMux);
 
-    vTaskDelay(pdMS_TO_TICKS(localTs));
-
-    uint32_t nowMs = millis();
-    float dt = (nowMs - lastTickMs) / 1000.0f;
+    float dt = localTs / 1000.0f;
     if (dt <= 0.0f) {
-      dt = localTs / 1000.0f;
+      dt = 0.01f;
     }
-    lastTickMs = nowMs;
 
     long enc1;
     long enc2;
@@ -370,8 +380,19 @@ void setup() {
   tft.println("MATLAB serial mode");
 
   xTaskCreatePinnedToCore(serialTask, "serialTask", 4096, nullptr, 2, nullptr, 1);
-  xTaskCreatePinnedToCore(samplingTask, "samplingTask", 4096, nullptr, 2, nullptr, 1);
+  xTaskCreatePinnedToCore(samplingTask, "samplingTask", 4096, nullptr, 2, &samplingTaskHandle, 1);
   xTaskCreatePinnedToCore(tftTask, "tftTask", 4096, nullptr, 1, nullptr, 0);
+
+  samplingTimer = xTimerCreate(
+    "samplingTimer",
+    pdMS_TO_TICKS(tsMs),
+    pdTRUE,
+    nullptr,
+    samplingTimerCallback
+  );
+  if (samplingTimer != nullptr) {
+    xTimerStart(samplingTimer, 0);
+  }
 
   Serial.println("READY");
 }
