@@ -7,12 +7,12 @@ function setup(block)
     block.NumInputPorts = 1;
     block.NumOutputPorts = 0;
     
-    block.InputPort(1).Dimensions = 1;  % [PWM value, ...] (first element is used)
+    block.InputPort(1).Dimensions = 1;  % Signed PWM command
     block.InputPort(1).DatatypeID = 0;
     block.InputPort(1).Complexity = 'Real';
     block.InputPort(1).DirectFeedthrough = true;
     
-    block.SampleTimes = [0.01 0];  % match the read block's sample time (or adjust as needed)
+    block.SampleTimes = [0.01 0];  % match read block sample time
     block.SimStateCompliance = 'DefaultSimState';
     
     block.RegBlockMethod('Start', @Start);
@@ -20,34 +20,62 @@ function setup(block)
     block.RegBlockMethod('Terminate', @Terminate);
 end
 
-% function Start(block)
-%     global serialPortObj;
-%     if isempty(serialPortObj) || ~isvalid(serialPortObj)
-%         comPort = block.DialogPrm(1).Data;
-%         baudRate = 115200;
-%         serialPortObj = serialport(comPort, baudRate);
-%         % You might also wait for the handshake here if this block runs first.
-%     end
-% end
 function Start(block)
     global serialPortObj;
+    global lastSentSignedPwm;
+
+    comPort = block.DialogPrm(1).Data;
+    baudRate = 115200;
+
+    if isempty(serialPortObj) || ~isvalid(serialPortObj)
+        serialPortObj = serialport(comPort, baudRate);
+        configureTerminator(serialPortObj, "LF");
+        serialPortObj.Timeout = 0.05;
+    end
+
+    lastSentSignedPwm = NaN;
 end
 
 function Outputs(block)
     global serialPortObj;
+    global lastSentSignedPwm;
+
+    if isempty(serialPortObj) || ~isvalid(serialPortObj)
+        return;
+    end
+
     cmdData = block.InputPort(1).Data;
     pwmVal = cmdData(1);
-    if pwmVal < 0
+
+    if isnan(pwmVal) || ~isfinite(pwmVal)
+        pwmVal = 0;
+    end
+
+    % Accept signed scalar PWM command from Simulink in range [-4096, 4096].
+    if pwmVal > 4096
+        pwmVal = 4096;
+    elseif pwmVal < -4096
+        pwmVal = -4096;
+    end
+
+    % Quantize command so we only send changed integer values.
+    pwmSigned = int32(round(pwmVal));
+    if isequal(pwmSigned, lastSentSignedPwm)
+        return;
+    end
+
+    if pwmSigned < 0
         dir = 1;
     else
         dir = 0;
     end
-    pwmVal = abs(pwmVal);
-    
-    if ~isempty(serialPortObj) && isvalid(serialPortObj)
-        writeline(serialPortObj, sprintf('pwm %d', int32(pwmVal)));
-        writeline(serialPortObj, sprintf('dir %d', dir));
-    end
+
+    pwmAbs = int32(abs(pwmSigned));
+
+    writeline(serialPortObj, sprintf('pwm %d', pwmAbs));
+    writeline(serialPortObj, sprintf('dir %d', dir));
+
+    lastSentSignedPwm = pwmSigned;
 end
 
 function Terminate(block)
