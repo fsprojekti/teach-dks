@@ -1,0 +1,16 @@
+n=1;
+pwm=zeros(1,n);
+gains=zeros(1,n);
+
+for k=1:n
+    pwm=k*250;
+    
+    sim("model.slx",600);
+    
+    v1_average=mean(out.simout(30000:end,1:1))
+    v2_average=mean(out.simout(30000:end,2:2))
+    
+    gains(k)=v1_average/v2_average
+end
+
+
