@@ -14,17 +14,17 @@
                     <div style="margin-bottom:20px;">
                         <strong>1. Cilji vaje</strong><br />
                         <ul>
-                            <li><strong>Komunikacija Simulink-model:</strong> Vzpostaviti zanesljivo realnočasovno povezavo med Simulink bloki in FlexDrive maketo z nespremenjenim firmware-om.</li>
-                            <li><strong>Obdelava signalov enkoderjev:</strong> Iz obeh enkoderjev pravilno izračunati kot, kumulativni kot in kotno hitrost.</li>
-                            <li><strong>Aktuacija motorja:</strong> Krmiliti motor izključno s surovim predznačenim PWM ukazom (+/-) in ovrednotiti odziv v obeh smereh vrtenja.</li>
-                            <li><strong>Eksperimentalna analiza:</strong> Izvesti statične in dinamične meritve (hitrost glede na PWM, prehodni odziv kota in hitrosti) kot pripravo na modeliranje v VL3.</li>
+                            <li><strong>Komunikacija Simulink-model:</strong> Vzpostaviti zanesljivo realnočasovno povezavo med Simulink bloki in FlexDrive maketo</li>
+                            <li><strong>Obdelava signalov enkoderjev:</strong> Iz obeh enkoderjev pravilno izračunati zasuk in kotno hitrost.</li>
+                            <li><strong>Aktuacija motorja:</strong> Krmiliti motor s predznačenim PWM ukazom (+/-) in ovrednotiti odziv v obeh smereh vrtenja.</li>
+                            <li><strong>Eksperimentalna analiza:</strong> Izvesti statične in dinamične meritve (hitrost glede na PWM, prehodni odziv zasuka in hitrosti)</li>
                         </ul>
                     </div>
 
                     <div style="margin-bottom:20px;">
                         <strong>2. Opis vaje</strong><br />
-                        <p>Vaja združuje prejšnji vsebini VL2 in VL3 v enoten 90-minutni laboratorijski potek. Študenti v Simulinku postavijo komunikacijske bloke za branje surovih števcev obeh enkoderjev in pošiljanje surovega predznačenega PWM ukaza motorju, nato pa iz realnih meritev izvedejo osnovno signalno obdelavo in kratko dinamično analizo sistema.</p>
-                        <p>Pomembna omejitev vaje je nespremenjen firmware mikrokrmilnika: študenti ne preklapljajo načinov delovanja in ne implementirajo krmilnih zank na Arduino strani. V prvem delu se validira stabilna komunikacija in pravilnost meritev (smer vrtenja, skala kota, kumulativni kot). V drugem delu se iz surovih signalov izračuna kotna hitrost obeh enkoderjev in določi statična karakteristika pogona (stacionarna hitrost glede na PWM). V zaključku se izvedeta dinamična preizkusa s stopničnim vhodom: najprej za kot, nato za hitrost, ter izmerijo značilni parametri odziva (prevzpon, čas ustalitve, časovna konstanta).</p>
+                        <p>Študenti v Simulinku postavijo komunikacijske bloke za branje števcev obeh enkoderjev in pošiljanje predznačenega PWM ukaza motorju, nato pa iz realnih meritev izvedejo osnovno signalno obdelavo in kratko dinamično analizo sistema.</p>
+                        <p>V prvem delu se validira stabilna komunikacija in pravilnost meritev (smer vrtenja, skala zasuka, kumulativni zasuk). V drugem delu se iz signalov izračuna kotna hitrost obeh enkoderjev in določi statična karakteristika pogona (stacionarna hitrost glede na PWM). V zaključku se izvedeta dinamična preizkusa s stopničnim vhodom: najprej za zasuk, nato za hitrost, ter izmerijo značilni parametri odziva (prevzpon, čas ustalitve, časovna konstanta).</p>
                     </div>
 
                     <div style="margin-bottom:20px;">
@@ -40,21 +40,21 @@
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Vzpostavitev Simulink povezave ter skaliranje surovih meritev v kot in hitrost.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vzpostavitev Simulink povezave za branje zasuka in hitrosti.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
                                             <li>Prikažite stabilno realnočasovno povezavo brez prekinitev.</li>
                                             <li>Potrdite pravilen predznak in spremembo enkoderskih signalov pri ročnem vrtenju v obe smeri.</li>
-                                            <li>Prikažite pravilen izračun kota (stopinje) in hitrosti (rpm) za oba enkoderja.</li>
+                                            <li>Prikažite pravilen izračun zasuka (stopinje) in hitrosti (rpm) za oba enkoderja.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Predznačeno surovo krmiljenje motorja (+/- PWM) in določitev mrtve cone.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Predznačeno krmiljenje motorja (+/- PWM) in določitev mrtve cone.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Prikažite delujoč surov ukaz pwm_signed, kjer predznak določa smer, absolutna vrednost pa amplitudo.</li>
+                                            <li>Prikažite sposobnost krmiljenje pwm preko simulink blokov</li>
                                             <li>Določite najmanjšo absolutno PWM vrednost za zagon motorja v + in - smeri.</li>
                                         </ul>
                                     </td>
@@ -64,18 +64,18 @@
                                     <td style="border:1px solid #000000;padding:10px;">Določitev statične karakteristike sistema: stacionarna hitrost v odvisnosti od PWM.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Izrišite statično zvezo med PWM in stacionarno hitrostjo (vsaj 5 točk na smer).</li>
+                                            <li>Izrišite statično zvezo med PWM in stacionarno hitrostjo (10 točk na smer).</li>
                                             <li>Podajte območje približno linearnega delovanja ter odstopanja pri nizkih PWM.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Stopnični odziv kota in določitev metrik iz prehodnega odziva.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Stopnični odziv zasuka in določitev metrik iz prehodnega odziva.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Pripravite časovna grafa PWM(t) in kot(t) za odziv na stopnico.</li>
-                                            <li>Iz prehodnega odziva določite prevzpon, čas ustalitve in približno časovno konstanto za kot.</li>
+                                            <li>Pripravite časovna grafa PWM(t) in zasuk(t) za odziv na stopnico.</li>
+                                            <li>Iz prehodnega odziva določite prevzpon, čas ustalitve in približno časovno konstanto za zasuk.</li>                                    
                                         </ul>
                                     </td>
                                 </tr>
@@ -85,8 +85,7 @@
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
                                             <li>Pripravite časovna grafa PWM(t) in hitrost(t).</li>
-                                            <li>Iz prehodnega odziva določite prevzpon, čas ustalitve in časovno konstanto hitrosti ter primerjajte s kotnim odzivom.</li>
-                                            <li>Oddajte enoten tabelarični povzetek metrik za kot in hitrost kot pripravo podatkov za VL3.</li>
+                                            <li>Iz prehodnega odziva določite prevzpon, čas ustalitve in časovno konstanto hitrosti ter primerjajte z odzivom zasuka.</li>
                                         </ul>
                                     </td>
                                 </tr>
@@ -99,27 +98,27 @@
                         <div>
                             <strong>4.1 Ocena 6</strong>
                             <div>
-                                V Simulinku pripravite osnovni blokovni tok za branje surovih števcev obeh enkoderjev in pošiljanje surovega PWM ukaza na motor. Potrdite, da komunikacija deluje neprekinjeno in da se pri ročnem vrtenju pravilno spreminjata oba odčitka. Nato iz surovih meritev izračunajte kot (stopinje) in hitrost (rpm) za oba enkoderja.
+                                V Simulinku pripravite osnovni blokovni tok za branje števcev obeh enkoderjev in ustrezno povežite z prikaznimi bloki. Potrdite, da komunikacija deluje neprekinjeno in da se pri ročnem vrtenju pravilno spreminjata oba odčitka. Nato iz surovih meritev izračunajte zasuk (stopinje) in hitrost (rpm) za oba enkoderja.
                             </div>
 
                             <strong>4.2 Ocena 7</strong>
                             <div>
-                                Uporabite predznačeno surovo krmiljenje `pwm_signed` in validirajte delovanje motorja v obeh smereh. Določite mrtvo cono posebej za pozitivno in negativno smer ter podajte prag zagona za obe smeri vrtenja.
+                                Uporabite predznačeno krmiljenje  in validirajte delovanje motorja v obeh smereh. Določite mrtvo cono posebej za pozitivno in negativno smer ter podajte prag zagona za obe smeri vrtenja.
                             </div>
 
                             <strong>4.3 Ocena 8</strong>
                             <div>
-                                Izmerite statično karakteristiko sistema: stacionarna hitrost v odvisnosti od PWM za pozitivno in negativno smer. Uporabite vsaj pet merilnih točk na smer, pripravite graf in označite približno linearni del ter odstopanja zaradi mrtve cone in saturacije.
+                                Izmerite statično karakteristiko sistema: stacionarna hitrost v odvisnosti od PWM za pozitivno in negativno smer. Uporabite 10 merilnih točk na smer, pripravite graf in označite približno linearni del ter odstopanja zaradi mrtve cone in saturacije.
                             </div>
 
                             <strong>4.4 Ocena 9</strong>
                             <div>
-                                Izvedite dinamični eksperiment s stopničnim vhodom za kot in pripravite analizo prehodnega odziva. Iz meritev določite prevzpon, čas ustalitve in približno časovno konstanto. Rezultate podajte tabelarično in grafično.
+                                Izvedite dinamični eksperiment s stopničnim vhodom za zasuk in pripravite analizo prehodnega odziva. Iz meritev določite prevzpon, čas ustalitve in približno časovno konstanto. Rezultate podajte tabelarično in grafično.
                             </div>
 
                             <strong>4.5 Ocena 10</strong>
                             <div>
-                                Izvedite dinamični eksperiment s stopničnim vhodom za hitrost in pripravite analizo prehodnega odziva hitrosti. Določite prevzpon, čas ustalitve in časovno konstanto, nato pa rezultate primerjajte z metrikami kotnega odziva iz ocene 9.
+                                Izvedite dinamični eksperiment s stopničnim vhodom za hitrost in pripravite analizo prehodnega odziva hitrosti. Določite prevzpon, čas ustalitve in časovno konstanto, nato pa rezultate primerjajte z metrikami odziva zasuka iz ocene 9.
                             </div>
                         </div>
                     </div>
@@ -128,7 +127,7 @@
                         <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
                         <ul>
                             <li>Osnove dela v MATLAB/Simulink okolju in sestavljanja enostavnih blokovnih shem.</li>
-                            <li>Ponovitev pretvorbe impulznih meritev enkoderja v kot in hitrost ter osnov filtiranja signalov.</li>
+                            <li>Ponovitev pretvorbe impulznih meritev enkoderja v zasuk in hitrost ter osnov filtiranja signalov.</li>
                             <li>Razumevanje, da je firmware fiksiran: na voljo sta le surova odčitka enkoderjev in surov predznačen PWM ukaz.</li>
                             <li>Poznavanje osnovnih metrik prehodnega odziva: prevzpon, čas ustalitve in časovna konstanta.</li>
                         </ul>
@@ -175,9 +174,10 @@
                     <div style="margin-bottom:20px;">
                         <strong>7. Pogoste pasti</strong><br />
                         <ul>
-                            <li>Napačen vzorčni čas ali neusklajena časovna baza med vhodnim in izhodnimi signali.</li>
-                            <li>Napačna pretvorba impulzov v rpm zaradi napačnega števila impulzov na obrat.</li>
-                            <li>Poskus spreminjanja firmware-a ali preklopa načinov delovanja, ki v tej vaji ni predviden.</li>
+                            <li>Napačna nastavitev Simulink okolja (variable-step namesto fixed-step), zaradi česar zajem ni enakomeren.</li>
+                            <li>Neusklajen sample time med bloki za branje, zapis in obdelavo signalov, kar povzroči navidezna nihanja.</li>
+                            <li>Nepravilna uporaba Scope blokov (autoscale, prekratek časovni prikaz, neustrezne meje osi), zato je interpretacija odziva napačna.</li>
+                            <li>Prehitro sklepanje o dinamiki brez stacionarnega dela meritve in brez primerjave več zaporednih preizkusov.</li>
                         </ul>
                     </div>
 
