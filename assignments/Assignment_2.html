@@ -1,198 +1,141 @@
-<!DOCTYPE html>
-<html lang="sl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-</head>
-<body>
-    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
-            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
-                <h3>2. Vaja: Simulink komunikacija, enkoderji in pogon motorja</h3>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+        <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+            <h3>2. Vaja: Simulink komunikacija, enkoderji in pogon motorja</h3>
 
-                <div>
-                    <div style="margin-bottom:20px;">
-                        <strong>1. Cilji vaje</strong><br />
-                        <ul>
-                            <li><strong>Komunikacija Simulink-model:</strong> Vzpostaviti zanesljivo realnočasovno povezavo med Simulink bloki in FlexDrive maketo</li>
-                            <li><strong>Obdelava signalov enkoderjev:</strong> Iz obeh enkoderjev pravilno izračunati zasuk in kotno hitrost.</li>
-                            <li><strong>Aktuacija motorja:</strong> Krmiliti motor s predznačenim PWM ukazom (+/-) in ovrednotiti odziv v obeh smereh vrtenja.</li>
-                            <li><strong>Eksperimentalna analiza:</strong> Izvesti statične in dinamične meritve (hitrost glede na PWM, prehodni odziv zasuka in hitrosti)</li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-bottom:20px;">
-                        <strong>2. Opis vaje</strong><br />
-                        <p>Študenti v Simulinku postavijo komunikacijske bloke za branje števcev obeh enkoderjev in pošiljanje predznačenega PWM ukaza motorju, nato pa iz realnih meritev izvedejo osnovno signalno obdelavo in kratko dinamično analizo sistema.</p>
-                        <p>V prvem delu se validira stabilna komunikacija in pravilnost meritev (smer vrtenja, skala zasuka, kumulativni zasuk). V drugem delu se iz signalov izračuna kotna hitrost obeh enkoderjev in določi statična karakteristika pogona (stacionarna hitrost glede na PWM). V zaključku se izvedeta dinamična preizkusa s stopničnim vhodom: najprej za zasuk, nato za hitrost, ter izmerijo značilni parametri odziva (prevzpon, čas ustalitve, časovna konstanta).</p>
-                    </div>
-
-                    <div style="margin-bottom:20px;">
-                        <strong>3. Povzetek nalog in pričakovanih rezultatov</strong><br />
-                        <p>Za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.</p>
-
-                        <table style="border-collapse:collapse;margin-bottom:8px;">
-                            <tbody>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
-                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
-                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Vzpostavitev Simulink povezave za branje zasuka in hitrosti.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">
-                                        <ul style="margin:0;padding-left:18px;">
-                                            <li>Prikažite stabilno realnočasovno povezavo brez prekinitev.</li>
-                                            <li>Potrdite pravilen predznak in spremembo enkoderskih signalov pri ročnem vrtenju v obe smeri.</li>
-                                            <li>Prikažite pravilen izračun zasuka (stopinje) in hitrosti (rpm) za oba enkoderja.</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Predznačeno krmiljenje motorja (+/- PWM) in določitev mrtve cone.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">
-                                        <ul style="margin:0;padding-left:18px;">
-                                            <li>Prikažite sposobnost krmiljenje pwm preko simulink blokov</li>
-                                            <li>Določite najmanjšo absolutno PWM vrednost za zagon motorja v + in - smeri.</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Določitev statične karakteristike sistema: stacionarna hitrost v odvisnosti od PWM.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">
-                                        <ul style="margin:0;padding-left:18px;">
-                                            <li>Izrišite statično zvezo med PWM in stacionarno hitrostjo (10 točk na smer).</li>
-                                            <li>Podajte območje približno linearnega delovanja ter odstopanja pri nizkih PWM.</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Stopnični odziv zasuka in določitev metrik iz prehodnega odziva.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">
-                                        <ul style="margin:0;padding-left:18px;">
-                                            <li>Pripravite časovna grafa PWM(t) in zasuk(t) za odziv na stopnico.</li>
-                                            <li>Iz prehodnega odziva določite prevzpon, čas ustalitve in približno časovno konstanto za zasuk.</li>                                    
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Stopnični odziv hitrosti in določitev metrik iz prehodnega odziva.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">
-                                        <ul style="margin:0;padding-left:18px;">
-                                            <li>Pripravite časovna grafa PWM(t) in hitrost(t).</li>
-                                            <li>Iz prehodnega odziva določite prevzpon, čas ustalitve in časovno konstanto hitrosti ter primerjajte z odzivom zasuka.</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div style="margin-bottom:20px;">
-                        <strong><br />4. Podrobnejši opis nalog</strong><br />
-                        <div>
-                            <strong>4.1 Ocena 6</strong>
-                            <div>
-                                V Simulinku pripravite osnovni blokovni tok za branje števcev obeh enkoderjev in ustrezno povežite z prikaznimi bloki. Potrdite, da komunikacija deluje neprekinjeno in da se pri ročnem vrtenju pravilno spreminjata oba odčitka. Nato iz surovih meritev izračunajte zasuk (stopinje) in hitrost (rpm) za oba enkoderja.
-                            </div>
-
-                            <strong>4.2 Ocena 7</strong>
-                            <div>
-                                Uporabite predznačeno krmiljenje  in validirajte delovanje motorja v obeh smereh. Določite mrtvo cono posebej za pozitivno in negativno smer ter podajte prag zagona za obe smeri vrtenja.
-                            </div>
-
-                            <strong>4.3 Ocena 8</strong>
-                            <div>
-                                Izmerite statično karakteristiko sistema: stacionarna hitrost v odvisnosti od PWM za pozitivno in negativno smer. Uporabite 10 merilnih točk na smer, pripravite graf in označite približno linearni del ter odstopanja zaradi mrtve cone in saturacije.
-                            </div>
-
-                            <strong>4.4 Ocena 9</strong>
-                            <div>
-                                Izvedite dinamični eksperiment s stopničnim vhodom za zasuk in pripravite analizo prehodnega odziva. Iz meritev določite prevzpon, čas ustalitve in približno časovno konstanto. Rezultate podajte tabelarično in grafično.
-                            </div>
-
-                            <strong>4.5 Ocena 10</strong>
-                            <div>
-                                Izvedite dinamični eksperiment s stopničnim vhodom za hitrost in pripravite analizo prehodnega odziva hitrosti. Določite prevzpon, čas ustalitve in časovno konstanto, nato pa rezultate primerjajte z metrikami odziva zasuka iz ocene 9.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom:20px;">
-                        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
-                        <ul>
-                            <li>Osnove dela v MATLAB/Simulink okolju in sestavljanja enostavnih blokovnih shem.</li>
-                            <li>Ponovitev pretvorbe impulznih meritev enkoderja v zasuk in hitrost ter osnov filtiranja signalov.</li>
-                            <li>Razumevanje, da je firmware fiksiran: na voljo sta le surova odčitka enkoderjev in surov predznačen PWM ukaz.</li>
-                            <li>Poznavanje osnovnih metrik prehodnega odziva: prevzpon, čas ustalitve in časovna konstanta.</li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-bottom:20px;">
-                        <strong>6. Seznam potrebne opreme</strong><br />
-                        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
-                            <tbody>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
-                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
-                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;">MK-01</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Mikrokrmilnik LilyGO ESP32 TTGO</td>
-                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">Dokumentacija</a></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;">MM-01</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Maketa FlexDrive</td>
-                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">Dokumentacija</a></td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;">SW-01</td>
-                                    <td style="border:1px solid #000000;padding:10px;">MATLAB/Simulink okolje z Communication in Signal Processing bloki</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Namestitev na laboratorijskem računalniku</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;">SN-01</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Magnetni in optični enkoder makete</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Dokumentacija makete</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #000000;padding:10px;">IO-01</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Serijski terminal za nadzor komunikacije</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Laboratorijska navodila</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div style="margin-bottom:20px;">
-                        <strong>7. Pogoste pasti</strong><br />
-                        <ul>
-                            <li>Napačna nastavitev Simulink okolja (variable-step namesto fixed-step), zaradi česar zajem ni enakomeren.</li>
-                            <li>Neusklajen sample time med bloki za branje, zapis in obdelavo signalov, kar povzroči navidezna nihanja.</li>
-                            <li>Nepravilna uporaba Scope blokov (autoscale, prekratek časovni prikaz, neustrezne meje osi), zato je interpretacija odziva napačna.</li>
-                            <li>Prehitro sklepanje o dinamiki brez stacionarnega dela meritve in brez primerjave več zaporednih preizkusov.</li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-bottom:12px;">
-                        <strong>8. Dodatna gradiva</strong><br />
-                        <ul>
-                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
-                            <li>MATLAB/Simulink dokumentacija za serijsko komunikacijo in osnovno obdelavo signalov</li>
-                            <li>Zapisi predavanj: osnove identifikacije sistema in priprava podatkov za modeliranje</li>
-                        </ul>
-                    </div>
-                </div>
-                <hr>
+            <div style="margin-bottom:20px;">
+                <strong>1. Cilji vaje</strong><br>
+                <ul>
+                    <li><strong>Komunikacija Simulink-model:</strong> Vzpostaviti zanesljivo realnočasovno povezavo med Simulink modelom in FlexDrive maketo.</li>
+                    <li><strong>Obdelava signalov enkoderjev:</strong> Pravilno interpretirati signale zasuka in kotne hitrosti iz obeh enkoderjev.</li>
+                    <li><strong>Aktuacija motorja:</strong> Krmiliti motor s predznačenim PWM ukazom (+/-) in ovrednotiti odziv v obeh smereh vrtenja.</li>
+                    <li><strong>Eksperimentalna analiza:</strong> Izvesti statične in dinamične meritve (hitrost glede na PWM, prehodni odziv zasuka in hitrosti).</li>
+                </ul>
             </div>
-        </main>
-    </div>
-</body>
-</html>
+
+            <div style="margin-bottom:20px;">
+                <strong>2. Opis vaje in nastavitev sistema</strong><br>
+                <p>V tem delu pripravite Simulink okolje, vzpostavite komunikacijo in preverite delovanje blokov. Brez pravilne nastavitve okolja (Pacing, Solver) meritve ne bodo fizikalno smiselne.</p>
+
+                <strong>2.1 Pomen in povezava Simulink blokov</strong><br>
+                <p><img src="https://e-ucilnica.fs.uni-lj.si/draftfile.php/9046/user/draft/910933633/gera.png" alt="nhndsfz" width="1385" height="339" class="img-fluid atto_image_button_text-bottom"><br></p>
+                <ul style="margin:0 0 16px 18px;">
+                    <li><strong>Blok <code>serialRead</code></strong>
+                        <ul style="margin-top:4px;">
+                            <li><strong>Izhod:</strong> Vektor signalov: <code>φ<sub>1</sub></code>, <code>φ<sub>2</sub></code> (zasuk v <strong>°</strong>) ter <code>ω<sub>1</sub></code>, <code>ω<sub>2</sub></code> (hitrost v <strong>rpm</strong>).</li>
+                            <li><strong>Povezava:</strong> Signal razdelite z blokom <em>Demux</em> na 4 kanale.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Blok <code>serialWrite</code></strong>
+                        <ul style="margin-top:4px;">
+                            <li><strong>Vhod:</strong> PWM signal (<strong>-4095 do +4095</strong>).</li>
+                            <li><strong>Povezava:</strong> Vhod zavarujte s <em>Saturation</em> blokom.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <strong>2.2 Nastavitev simulacijskega okolja (Simulation Pacing)</strong><br>
+                <p>Da bo 1 s simulacije ustrezala 1 s v laboratoriju, nujno nastavite:</p>
+                <ol>
+                    <li>V zavihku <strong>Simulation</strong> kliknite puščico pod gumbom <strong>Run</strong>.</li>
+                    <li>Izberite <strong>Simulation Pacing...</strong>.</li>
+                    <li>Vklopite <strong>Enable pacing to slow down simulation</strong>.</li>
+                    <li>Nastavite <strong>Simulation pacing rate = 1.0</strong>.</li>
+                </ol>
+                <p><img src="https://e-ucilnica.fs.uni-lj.si/draftfile.php/9046/user/draft/910933633/Screenshot_17.png" alt="gtegte" width="250" class="img-fluid atto_image_button_text-bottom">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img src="https://e-ucilnica.fs.uni-lj.si/draftfile.php/9046/user/draft/910933633/Screenshot_18.png" alt="vaervre" width="300" class="img-fluid atto_image_button_text-bottom"><br></p>
+                <p><strong>Pomembne nastavitve Solverja:</strong></p>
+                <ul>
+                    <li><strong>Solver:</strong> Nastavite <strong>Fixed-step</strong> in velikost koraka <strong>0.01</strong>.</li>
+                    <li><strong>Status:</strong> Med tekom mora biti spodaj v oknu napis <strong>Paced</strong>.</li>
+                </ul>
+
+                <strong>2.3 Zagon modela (korak za korakom)</strong><br>
+                <ol style="margin:8px 0 0 20px;">
+                    <li>Na Arduino naložite firmware <strong>arduino/matlab_serial_bridge/matlab_serial_bridge.ino</strong>.</li>
+                    <li>V MATLAB-u nastavite <em>Current Folder</em> na mapo, kjer sta <strong>serialRead.m</strong> in <strong>serialWrite.m</strong>.</li>
+                    <li>Odprite model <strong>openLoop</strong>.</li>
+                    <li>V blokih <strong>serialRead</strong> in <strong>serialWrite</strong> nastavite pravilen COM port.</li>
+                    <li>Pritisnite <strong>Run</strong> in preverite, če sistem odčitava podatke.</li>
+                </ol>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <strong>3. Povzetek nalog in ocenjevanje</strong><br>
+                <table style="border-collapse:collapse;margin-bottom:8px;">
+                    <tbody>
+                        <tr>
+                            <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                            <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                            <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                            <td style="border:1px solid #000000;padding:10px;">Branje zasuka in hitrosti.</td>
+                            <td style="border:1px solid #000000;padding:10px;">Stabilna povezava, potrditev smeri in skale (90° ročni zasuk).</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                            <td style="border:1px solid #000000;padding:10px;">Določitev mrtve cone (+/-).</td>
+                            <td style="border:1px solid #000000;padding:10px;">Tabelaričen in grafičen prikaz praga zagona.</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                            <td style="border:1px solid #000000;padding:10px;">Linearnost aktuacije.</td>
+                            <td style="border:1px solid #000000;padding:10px;">Statična karakteristika in ojačenje (K) v linearnem delu.</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                            <td style="border:1px solid #000000;padding:10px;">Stopnični odziv hitrosti.</td>
+                            <td style="border:1px solid #000000;padding:10px;">Določitev τ in ts iz prehodnega pojava hitrosti.</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                            <td style="border:1px solid #000000;padding:10px;">Pulzni odziv zasuka.</td>
+                            <td style="border:1px solid #000000;padding:10px;">Analiza integrirajočega sistema (td, dφ/dt, vztrajnostni prelet).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <strong>4. Podrobnejša navodila za izvedbo</strong><br>
+                
+                <strong>4.1 Ocena 6</strong><br>
+                <p>Ročno zavrtite ročico za 90° ali 180° in potrdite ujemanje z merilnikom. Preverite odziv hitrosti.</p>
+
+                <strong>4.2 Ocena 7</strong><br>
+                <p>Izvedite po 10 meritev v vsako smer okoli praga zagona. Določite PWM vrednost, pri kateri se motor začne vrteti.</p>
+
+                <strong>4.3 Ocena 8</strong><br>
+                <p>Posnemite stacionarno hitrost pri različnih PWM vrednostih. Označite linearno območje in izračunajte ojačenje.</p>
+
+                <strong>4.4 Ocena 9 (Dinamika hitrosti)</strong><br>
+                <p>Izvedite stopnični vhod. Določite časovno konstanto τ (63.2 %) in čas ustalitve ts (±2 %).</p>
+                <p><em>Primer odziva:</em><br><img src="https://e-ucilnica.fs.uni-lj.si/draftfile.php/9046/user/draft/910933633/Screenshot_16.png" alt="gheth" width="1000" class="img-fluid"></p>
+
+                <strong>4.5 Ocena 10 (Dinamika zasuka)</strong><br>
+                <p>Uporabite pulz: PWM = 2000 za 1 s, nato 0. Določite mrtvi čas (td), naklon rampe in vztrajnostni prelet (Δφafter) po izklopu.</p>
+                <p><em>Primer odziva:</em><br><img src="https://e-ucilnica.fs.uni-lj.si/draftfile.php/9046/user/draft/910933633/Screenshot_19.png" alt="hreh" width="1000" class="img-fluid"></p>
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <strong>5. Priprava, oprema in gradiva</strong><br>
+                <ul>
+                    <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
+                    <li><a href="https://e-ucilnica.fs.uni-lj.si/draftfile.php/9046/user/draft/910933633/software.zip">Programska oprema (.zip)</a></li>
+                </ul>
+                <strong>Oprema:</strong> ESP32 TTGO, FlexDrive maketa, MATLAB/Simulink.
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <strong>6. Pogoste pasti</strong><br>
+                <ul>
+                    <li>Napačen Solver (Variable-step namesto Fixed-step).</li>
+                    <li>Neusklajen Sample Time (0.01 s).</li>
+                    <li>Interpretacija točk (Samples) namesto dejanskih sekund na x-osi.</li>
+                </ul>
+            </div>
+            <hr>
+        </div>
+    </main>
+</div>
