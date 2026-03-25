@@ -40,49 +40,50 @@
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Merjenje kota z random signalom z uporabo podanega bloka in priprava nabora 5 meritev.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Merjenje kota v shemi signalAcquisition.mdl z že pripravljenim generatorjem in izvedba ene dolge meritve.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Izvedenih 5 meritev kota: 3 za optimizacijo, 1 za test in 1 za validacijo.</li>
-                                            <li>Uporabljena pretvorba PWM -> navor z laboratorijsko lookup tabelo.</li>
-                                            <li>Jasna označitev meritev po vlogi (optimizacija, test, validacija).</li>
+                                            <li>Izvedena ena neprekinjena meritev trajanja vsaj 3 minute.</li>
+                                            <li>Meritev je shranjena v MATLAB delovni prostor in izrisana z ukazom plot.</li>
+                                            <li>V merjenju je pokrit celoten PWM interval od -4000 do 4000.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Model navor -> kot kot diskretni sistem 1. reda in ročno iskanje parametrov.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Določitev povezave PWM -> napetost in napetost -> navor na podlagi datasheet podatkov gonilnika in motorja ter realizacija v Simulinku.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Model 1. reda realiziran z z bloki.</li>
-                                            <li>Parametri dobljeni z manual search postopkom.</li>
-                                            <li>Validacijska napaka integral abs(e - e') ne presega 5%.</li>
+                                            <li>Podana je izpeljana ali tabelirana zveza PWM -> napetost.</li>
+                                            <li>Podana je izpeljana ali tabelirana zveza napetost -> navor.</li>
+                                            <li>V Simulinku je realiziran celoten blok PWM -> napetost -> navor in preverjen z izrisom odziva.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Merjenje hitrosti z random signalom z uporabo podanega bloka in priprava nabora meritev.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vpeljava diskretnega sistema 1. reda za modeliranje kota in nastavitev parametrov za čim boljše ujemanje signalov.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Zajet nabor meritev hitrosti z enakim razrezom na optimizacijo/test/validacijo.</li>
-                                            <li>Upoštevana lookup tabela PWM -> navor kot vhod modela.</li>
+                                            <li>V Simulinku je realiziran diskretni model 1. reda za zvezo navor -> kot.</li>
+                                            <li>Parametri modela so nastavljeni tako, da se merjeni in simulirani signal kota dobro ujemata.</li>
+                                            <li>Prikazan je primerjalni graf obeh signalov (meritev in model).</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Model navor -> hitrost kot diskretni sistem 1. reda.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Dodatni model za hitrost: zveza navor -> hitrost kot diskretni sistem 1. reda.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Realiziran 1. red z z bloki in določenimi parametri.</li>
+                                            <li>Realiziran je dodatni 1. red z z bloki za signal hitrosti.</li>
                                             <li>Primerjava meritev hitrosti in odziva modela na validacijskem signalu.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Model navor -> hitrost kot diskretni sistem 2. reda in primerjava z modelom 1. reda.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Model navor -> kot (zasuk) kot diskretni sistem 2. reda in primerjava z modelom 1. reda.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
                                             <li>Realiziran model 2. reda in ocenjeni parametri.</li>
@@ -100,43 +101,42 @@
                         <div>
                             <strong>4.1 Ocena 6</strong>
                             <div>
-                                Izvedite merjenje kota z random signalom z uporabo podanega laboratorijskega bloka za vzbujanje.
+                                Uporabite model <strong>signalAcquisition.mdl</strong>, kjer je generator signala že pripravljen, in izvedite eno dolgo meritev kota.
                                 <ul>
-                                    <li>Pripravite natanko 5 meritev.</li>
-                                    <li>Od teh naj bodo 3 meritve namenjene optimizaciji parametrov modela.</li>
-                                    <li>1 meritev uporabite kot testno meritev med razvojem modela.</li>
-                                    <li>1 meritev rezervirajte izključno za končno validacijo.</li>
-                                    <li>Ukaz PWM pretvorite v navor z dano lookup tabelo (vhod modela je navor).</li>
-                                    <li>Izhod v tej fazi je kot.</li>
+                                    <li>Trajanje meritve mora biti najmanj 3 minute (180 s).</li>
+                                    <li>Vhodni signal med meritvijo naj pokrije celoten PWM interval od -4000 do 4000.</li>
+                                    <li>Shranjene morajo biti vsaj časovna os, vhodni PWM signal in izhodni signal kota.</li>
+                                    <li>Meritev izrišite v MATLAB-u z ukazom plot (vsaj signal PWM in kot).</li>
                                 </ul>
-                                Ustvarite grafe vseh petih meritev in jasno označite, katere pripadajo optimizaciji, testu in validaciji.
+                                Cilj ocene 6 je priprava kakovostnega enotnega nabora podatkov za nadaljnje modeliranje v naslednji oceni.
                             </div>
 
                             <strong>4.2 Ocena 7</strong>
                             <div>
-                                Iz meritev izdelajte enostaven diskretni model 1. reda z uporabo z blokov za zvezo navor -> kot.
+                                Na osnovi datasheet podatkov gonilnika in motorja določite dvo-koračno pretvorbo od ukaza PWM do navora.
                                 <ul>
-                                    <li>Parametre določite z manual search postopkom na 3 optimizacijskih meritvah.</li>
-                                    <li>Vmesno preverite model na testni meritvi.</li>
-                                    <li>Končno oceno izvedite na validacijski meritvi.</li>
-                                    <li>Kriterij uspešnosti: mismatch napaka po kriteriju integral abs(e - e') ne sme preseči 5%.</li>
+                                    <li>Iz datasheeta gonilnika določite zvezo PWM -> napetost (enačba ali lookup tabela).</li>
+                                    <li>Iz datasheeta motorja določite zvezo napetost -> navor (enačba ali lookup tabela).</li>
+                                    <li>V Simulinku realizirajte oba dela pretvorbe zaporedno: PWM -> napetost -> navor.</li>
+                                    <li>Preverite pravilnost delovanja z izrisom signala navora za izbran testni vhod.</li>
                                 </ul>
-                                Rezultat naj vsebuje parametre modela, graf primerjave (meritev in model) ter izračun validacijske napake.
+                                Rezultat naj vsebuje uporabljene podatke iz datasheeta, parametre/lookup tabele ter Simulink shemo z delujočim blokom pretvorbe.
                             </div>
 
                             <strong>4.3 Ocena 8</strong>
                             <div>
-                                Izvedite merjenje hitrosti z random signalom z uporabo podanega laboratorijskega bloka.
+                                Vpeljite diskretni sistem 1. reda za modeliranje signala kota.
                                 <ul>
-                                    <li>Pripravite nabor meritev hitrosti (3 optimizacija, 1 test, 1 validacija).</li>
-                                    <li>Za vhod modela uporabite navor iz lookup tabele PWM -> navor.</li>
-                                    <li>Prikažite grafe meritev in razdelitev po vlogi.</li>
+                                    <li>Vhod modela naj bo navor (iz verige PWM -> napetost -> navor iz ocene 7), izhod pa kot.</li>
+                                    <li>Model 1. reda realizirajte v diskretni obliki v Simulinku.</li>
+                                    <li>S parametri modela poskusite doseči čim boljše ujemanje med merjenim in simuliranim signalom kota.</li>
+                                    <li>Prikažite primerjalni graf in zapišite uporabljene parametre modela.</li>
                                 </ul>
                             </div>
 
                             <strong>4.4 Ocena 9</strong>
                             <div>
-                                Na meritvah hitrosti postavite diskretni model 1. reda za zvezo navor -> hitrost.
+                                Poleg modela za kot dodajte še model za hitrost. Na meritvah hitrosti postavite diskretni model 1. reda za zvezo navor -> hitrost.
                                 <ul>
                                     <li>Model realizirajte z z bloki.</li>
                                     <li>Določite parametre modela in jih preverite na validacijski meritvi.</li>
@@ -146,7 +146,7 @@
 
                             <strong>4.5 Ocena 10</strong>
                             <div>
-                                Nadgradite model hitrosti na diskretni model 2. reda za zvezo navor -> hitrost.
+                                Nadgradite model kota (zasuka) na diskretni model 2. reda za zvezo navor -> kot.
                                 <ul>
                                     <li>Model 2. reda realizirajte z z bloki in določite parametre.</li>
                                     <li>Na isti validacijski meritvi primerjajte model 1. reda in 2. reda.</li>
