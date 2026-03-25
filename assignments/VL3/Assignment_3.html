@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+                <h3>3. Vaja: Modeliranje in identifikacija sistema</h3>
+
+                <div>
+                    <div style="margin-bottom:20px;">
+                        <strong>1. Cilji vaje</strong><br />
+                        <ul>
+                            <li><strong>Zajem signalov:</strong> izvesti merjenje kota in hitrosti pri random vzbujevalnem signalu z vnaprej pripravljenim merilnim blokom.</li>
+                            <li><strong>Modeliranje 1. reda:</strong> najprej modelirati zvezo navor -> kot, nato navor -> hitrost v diskretni obliki.</li>
+                            <li><strong>Ročno iskanje parametrov:</strong> parametre 1. reda določiti z manual search postopkom in preveriti napako modela.</li>
+                            <li><strong>Nadgradnja modela:</strong> za hitrost pripraviti tudi model 2. reda in primerjati izboljšavo glede na model 1. reda.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>2. Opis vaje</strong><br />
+                        <p>Vaja je zasnovana kot hiter tok od meritev do modela. Najprej študenti merijo kot pri random vhodu, nato iz istih načel preidejo še na merjenje hitrosti. V obeh primerih je vhod modela navor, izhod pa merjena veličina (kot ali hitrost).</p>
+                        <p>Za pretvorbo ukaza uporabite podano lookup tabelo med PWM in navorom, zato model vedno gradite v obliki navor -> kot oziroma navor -> hitrost. Pri zajemu meritev uporabite pripravljen laboratorijski blok za random signal.</p>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>3. Povzetek nalog in pričakovanih rezultatov</strong><br />
+                        <p>Za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.</p>
+
+                        <table style="border-collapse:collapse;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Merjenje kota z random signalom z uporabo podanega bloka in priprava nabora 5 meritev.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Izvedenih 5 meritev kota: 3 za optimizacijo, 1 za test in 1 za validacijo.</li>
+                                            <li>Uporabljena pretvorba PWM -> navor z laboratorijsko lookup tabelo.</li>
+                                            <li>Jasna označitev meritev po vlogi (optimizacija, test, validacija).</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Model navor -> kot kot diskretni sistem 1. reda in ročno iskanje parametrov.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Model 1. reda realiziran z z bloki.</li>
+                                            <li>Parametri dobljeni z manual search postopkom.</li>
+                                            <li>Validacijska napaka integral abs(e - e') ne presega 5%.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Merjenje hitrosti z random signalom z uporabo podanega bloka in priprava nabora meritev.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Zajet nabor meritev hitrosti z enakim razrezom na optimizacijo/test/validacijo.</li>
+                                            <li>Upoštevana lookup tabela PWM -> navor kot vhod modela.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Model navor -> hitrost kot diskretni sistem 1. reda.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Realiziran 1. red z z bloki in določenimi parametri.</li>
+                                            <li>Primerjava meritev hitrosti in odziva modela na validacijskem signalu.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Model navor -> hitrost kot diskretni sistem 2. reda in primerjava z modelom 1. reda.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Realiziran model 2. reda in ocenjeni parametri.</li>
+                                            <li>Primerjava napake modela 1. reda in 2. reda na istem validacijskem signalu.</li>
+                                            <li>Kratek sklep, kdaj je 2. red utemeljen in kdaj je dovolj 1. red.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />4. Podrobnejši opis nalog</strong><br />
+                        <div>
+                            <strong>4.1 Ocena 6</strong>
+                            <div>
+                                Izvedite merjenje kota z random signalom z uporabo podanega laboratorijskega bloka za vzbujanje.
+                                <ul>
+                                    <li>Pripravite natanko 5 meritev.</li>
+                                    <li>Od teh naj bodo 3 meritve namenjene optimizaciji parametrov modela.</li>
+                                    <li>1 meritev uporabite kot testno meritev med razvojem modela.</li>
+                                    <li>1 meritev rezervirajte izključno za končno validacijo.</li>
+                                    <li>Ukaz PWM pretvorite v navor z dano lookup tabelo (vhod modela je navor).</li>
+                                    <li>Izhod v tej fazi je kot.</li>
+                                </ul>
+                                Ustvarite grafe vseh petih meritev in jasno označite, katere pripadajo optimizaciji, testu in validaciji.
+                            </div>
+
+                            <strong>4.2 Ocena 7</strong>
+                            <div>
+                                Iz meritev izdelajte enostaven diskretni model 1. reda z uporabo z blokov za zvezo navor -> kot.
+                                <ul>
+                                    <li>Parametre določite z manual search postopkom na 3 optimizacijskih meritvah.</li>
+                                    <li>Vmesno preverite model na testni meritvi.</li>
+                                    <li>Končno oceno izvedite na validacijski meritvi.</li>
+                                    <li>Kriterij uspešnosti: mismatch napaka po kriteriju integral abs(e - e') ne sme preseči 5%.</li>
+                                </ul>
+                                Rezultat naj vsebuje parametre modela, graf primerjave (meritev in model) ter izračun validacijske napake.
+                            </div>
+
+                            <strong>4.3 Ocena 8</strong>
+                            <div>
+                                Izvedite merjenje hitrosti z random signalom z uporabo podanega laboratorijskega bloka.
+                                <ul>
+                                    <li>Pripravite nabor meritev hitrosti (3 optimizacija, 1 test, 1 validacija).</li>
+                                    <li>Za vhod modela uporabite navor iz lookup tabele PWM -> navor.</li>
+                                    <li>Prikažite grafe meritev in razdelitev po vlogi.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.4 Ocena 9</strong>
+                            <div>
+                                Na meritvah hitrosti postavite diskretni model 1. reda za zvezo navor -> hitrost.
+                                <ul>
+                                    <li>Model realizirajte z z bloki.</li>
+                                    <li>Določite parametre modela in jih preverite na validacijski meritvi.</li>
+                                    <li>Podajte napako modela na validaciji.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.5 Ocena 10</strong>
+                            <div>
+                                Nadgradite model hitrosti na diskretni model 2. reda za zvezo navor -> hitrost.
+                                <ul>
+                                    <li>Model 2. reda realizirajte z z bloki in določite parametre.</li>
+                                    <li>Na isti validacijski meritvi primerjajte model 1. reda in 2. reda.</li>
+                                    <li>Podajte primerjavo napak in kratek sklep o smiselnosti uporabe 2. reda.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
+                        <ul>
+                            <li>Osnove diskretnega modeliranja v z-domeni (z bloki).</li>
+                            <li>Osnove orodij Matlab/Simulink za zajem signalov in simulacijo modela.</li>
+                            <li>Razumevanje kriterija napake integral abs(e - e').</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>6. Seznam potrebne opreme</strong><br />
+                        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MK-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Mikrokrmilnik LilyGO ESP32 TTGO</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MM-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Maketa FlexDrive</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">MATLAB + Simulink</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://www.mathworks.com/help/matlab/getting-started-with-matlab.html">MATLAB osnove</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-02</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Podan blok za random vzbujanje in merjenje signalov</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Datoteke v repozitoriju</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">ME-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Lookup tabela PWM -> navor</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Lastne meritve skupine</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>7. Pogoste pasti</strong><br />
+                        <ul>
+                            <li>Identifikacija na neustreznem odseku meritev (npr. med saturacijo ali šumom brez filtriranja).</li>
+                            <li>Mešanje enot (stopinje/radiani, rpm/rad/s) in posledično napačni parametri modela.</li>
+                            <li>Primerjava modelov brez enakega vhodnega signala in začetnih pogojev.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <strong>8. Dodatna gradiva</strong><br />
+                        <ul>
+                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
+                            <li><a href="https://www.mathworks.com/help/ident/">MathWorks System Identification Toolbox</a></li>
+                            <li>Predavanja DKS: modeliranje, identifikacija in prenosne funkcije.</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
