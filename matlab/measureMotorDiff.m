@@ -3,19 +3,13 @@ pwm_values = zeros(1,n);
 gains = zeros(1,n);
 
 for k = 1:n
-    pwm = -k * 125;
+    pwm = k * 125;
 
     fprintf('Iteration: %d\n', k);
     fprintf('PWM: %g\n', pwm);
 
     simOut = sim("model.slx", "StopTime", "20");
 
-    simdata = simOut.velocities;
-
-    v1_average = mean(simdata(1000:end,1))
-    v2_average = mean(simdata(1000:end,2))
-
-    gains(k) = v1_average / v2_average;
-
-    fprintf('Gain: %g\n', gains(k));
+    
+    pause
 end
