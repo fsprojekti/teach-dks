@@ -14,7 +14,7 @@
                     <div style="margin-bottom:20px;">
                         <strong>1. Cilji vaje</strong><br />
                         <ul>
-                            <li><strong>PID v simulaciji:</strong> Na osnovi modela iz VL3 sistematicno uglasevati parametre regulatorja P, PI in PID ter ovrednotiti vpliv parametrov na prehodni odziv.</li>
+                            <li><strong>Regulator v simulaciji:</strong> Na osnovi modela iz VL3 sistematicno uglasevati parametre (najprej PI, nato PID) ter ovrednotiti vpliv na prehodni odziv.</li>
                             <li><strong>Prenos na realni sistem:</strong> Preveriti, kako se enaki parametri regulatorja obnasajo na maketi FlexDrive in analizirati odstopanje glede na simulacijo.</li>
                             <li><strong>Kriteriji kakovosti:</strong> Kvantitativno primerjati odzive z uporabo casa narasta, prenihaja, casa ustalitve in stacionarne napake.</li>
                             <li><strong>Kriticna interpretacija:</strong> Razloziti razliko med idealnim modelom in realnim sistemom (saturacija, trenje, zakasnitev, sum meritev).</li>
@@ -23,8 +23,8 @@
 
                     <div style="margin-bottom:20px;">
                         <strong>2. Opis vaje</strong><br />
-                        <p>Vaja je nadaljevanje modeliranja iz VL3. Izhodisce je prenosna funkcija oziroma Simulink model, ki predstavlja dinamiko makete FlexDrive. Najprej v simulaciji izvedete uglasevanje regulatorja: za isti referencni signal postopoma preidete od P do PI in nato do PID regulatorja ter primerjate kakovost odziva.</p>
-                        <p>Ko izberete kandidatne PID parametre, jih prenesete na realni sistem preko obstojece serijske povezave in primerjate merjen odziv s simulacijo. Cilj ni doseci popolnega ujemanja, temvec razumeti, zakaj se realni sistem obnasa drugace in kako parametre smiselno prilagoditi.</p>
+                        <p><strong>Sirsi cilj vaje:</strong> v simulaciji najprej poiscete uporabne PID parametre na modelu (varno in hitro testiranje), nato iste parametre prenesete na realno maketo FlexDrive, kjer preverite delovanje zaprte zanke in jih po potrebi minimalno prilagodite. Koncni rezultat vaje je delujoc regulator na realnem sistemu, ne samo dober odziv v simulaciji.</p>
+                        <p>Vaja je nadaljevanje modeliranja iz VL3. Izhodisce je prenosna funkcija oziroma Simulink model, ki predstavlja dinamiko makete FlexDrive. Priporocen potek dela je: (1) v simulaciji uglasite PI in pripravite stabilen odziv, (2) po potrebi razsirite na PID, (3) izbrane parametre prenesite na realni sistem in primerjajte meritev s simulacijo.</p>
                         <p><strong>Pomembno:</strong> PID regulator morate izdelati sami iz osnovnih Simulink blokov (vsota, ojacanje, integrator, odvodni del in saturacija). Uporaba gotovega PID bloka ni dovoljena.</p>
                         <p>Kontinuirna oblika regulatorja:
                             \[u(t)=K_p e(t)+K_i \int_0^t e(\tau)d\tau+K_d\frac{de(t)}{dt}\]
@@ -40,7 +40,7 @@
                             \[e(t)=r(t)-y(t)\]
                             \[e_{ss}=\lim_{t\to\infty} e(t)\]
                             \[M_p[\%]=\frac{y_{max}-y_{ss}}{y_{ss}}\cdot 100\]
-                            \[RMSE=\sqrt{\frac{1}{N}\sum_{k=1}^{N}(y_{meritev}[k]-y_{model}[k])^2}\]
+                            \[e_{rel}=\frac{100}{T_{sim}}\int_0^{T_{sim}}\frac{|\varphi_{meritev}(t)-\varphi_{model}(t)|}{|\varphi_{meritev}(t)|+\varepsilon}\,dt\]
                         </p>
 
                         <table style="border-collapse:collapse;margin-bottom:8px;">
@@ -63,45 +63,45 @@
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Razsiritev na PI regulator in odprava stacionarne napake.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Implementacija in primerjava regulatorjev P, PI in PID v simulaciji.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Vrednosti Kp in Ki.</li>
-                                            <li>Primerjalni graf odprtazanka vs. PI.</li>
-                                            <li>Tabela: e_ss, ts.</li>
+                                            <li>Vrednosti parametrov za P, PI in PID.</li>
+                                            <li>Primerjalni graf odzivov P vs. PI vs. PID.</li>
+                                            <li>Kratek komentar vpliva I in D clena na e_ss, Mp in ts.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Vgradnja preprecitve integralnega pobega za PI regulator in preverjanje delovanja pri saturaciji.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Prenos izbranih PID parametrov na maketo FlexDrive in zagon zaprtozancnega vodenja.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Delujoca preprecitev integralnega pobega.</li>
-                                            <li>Primerjalni graf brez in s preprecitvijo.</li>
-                                            <li>Tabela: cas vrnitve, Mp.</li>
+                                            <li>Delujoca zaprta zanka na realnem sistemu.</li>
+                                            <li>Graf merjenega zasuka in krmilnega signala.</li>
+                                            <li>Kratka primerjava simulacija vs. meritev.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Iznicitev mrtve cone aktuatorja in prenos PID parametrov iz simulacije na realno maketo.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Dolocitev mrtve cone na realni maketi FlexDrive, nato iznicitev in preverjanje vpliva kompenzacije na odziv.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Dokumentirani d+ in d- iz VL2.</li>
-                                            <li>Graf zasuka makete s PID regulatorjem.</li>
-                                            <li>Stabilen odziv brez trajnih oscilacij.</li>
+                                            <li>Dokumentirani d+ in d- iz meritev na realni maketi (lahko uporabite tudi rezultate VL2).</li>
+                                            <li>Primerjalni graf brez in z iznicitvijo mrtve cone.</li>
+                                            <li>Kratek komentar vpliva na e_ss in cas odziva.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Primerjava simulacija-meritev, fina korekcija PID parametrov in analiza odstopanj.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vgradnja anti-windup in analiza delovanja regulatorja pri saturaciji aktuatorja.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Graf simulacija vs. meritev zasuka na enem prikazu.</li>
-                                            <li>Tabela kazalnikov pred in po korekciji.</li>
-                                            <li>Kratek sklep o virih odstopanj.</li>
+                                            <li>Delujoca anti-windup implementacija.</li>
+                                            <li>Primerjalni graf brez in z anti-windup.</li>
+                                            <li>Primerjava: cas vrnitve iz saturacije in Mp.</li>
                                         </ul>
                                     </td>
                                 </tr>
@@ -117,39 +117,40 @@
                                 Na osnovi rezultatov VL3 pripravite in uglasite model sistema 2. reda, tako da bo simuliran odziv cim bolje sledil meritvi zasuka.
                                 <ul>
                                     <li>Dolocite strukturo modela 2. reda (izhod: zasuk &phi;<sub>2</sub>, vhod: navor M) in nastavite zacetne parametre.</li>
-                                    <li>Model validirajte na stopnicnem in PWM vhodnem signalu.</li>
+                                    <li>Model validirajte na stopnicnem in naključnem vhodnem signalu.</li>
                                     <li>Izrisajte primerjalni graf simuliranega in merjenega zasuka na isti casovni osi.</li>
-                                    <li>Izracunajte RMSE med modelom in meritvijo; cilj je RMSE &lt; 15 % amplitude signala.</li>
-                                    <li>Zabelezite tr, Mp in ts v tabeli.</li>
+                                    <li>Izracunajte relativno napako med modelom in meritvijo po kriteriju: \[e_{rel}=\frac{100}{T_{sim}}\int_0^{T_{sim}}\frac{|\varphi_{meritev}(t)-\varphi_{model}(t)|}{|\varphi_{meritev}(t)|+\varepsilon}\,dt\], kjer je \(\varepsilon\) majhna konstanta za deljenje z nic. Cilj je \(e_{rel} &lt; 15\%\).</li>
                                 </ul>
                             </div>
 
                             <strong>4.2 Ocena 7</strong>
                             <div>
-                                Na uglasenem modelu 2. reda implementirajte PI regulator za regulacijo zasuka. Cilj je odstraniti stacionarno napako pri stopnicni referenci, ne da bi sistem postal oscilatoren.
+                                Na uglasenem modelu 2. reda izvedite tri variante regulatorja: P, PI in PID, ter jih med seboj primerjajte.
                                 <ul>
-                                    <li>Zgradite regulacijsko zanko: referenca zasuka &phi;<sub>ref</sub> &rarr; napaka &rarr; PI regulator &rarr; model procesa &rarr; povratna vezava.</li>
-                                    <li>Izberite Kp in Ki tako, da je odziv stabilen in brez trajne napake.</li>
-                                    <li>Izrisajte primerjalni graf zasuka: sistem brez regulatorja vs. sistem s PI regulatorjem.</li>
-                                    <li>Podajte numericno primerjavo: e_ss in ts; ciljna vrednost e_ss &le; 2 % reference in ts vsaj 20 % krajsi kot brez regulatorja.</li>
+                                    <li>Zgradite tri regulacijske zanke: P, PI in PID (referenca zasuka &phi;<sub>ref</sub> &rarr; napaka &rarr; regulator &rarr; model procesa &rarr; povratna vezava).</li>
+                                    <li>Izberite parametre tako, da so vsi trije odzivi stabilni in primerljivi na istem referencnem signalu.</li>
+                                    <li>Izrisajte primerjalni graf odzivov P, PI in PID na isti casovni osi.</li>
+                                    <li>Podajte numericno primerjavo: e_ss, Mp in ts ter na kratko utemeljite izbiro regulatorja za nadaljnje korake.</li>
                                 </ul>
                             </div>
 
                             <strong>4.3 Ocena 8</strong>
                             <div>
-                                Dodajte preprecitev integralnega pobega in preverite delovanje PI regulatorja pri saturaciji krmilnega signala (PWM meja &plusmn;4095).
+                                Prenesite izbrane PID parametre na maketo FlexDrive in vzpostavite zaprtozancno vodenje zasuka na realnem sistemu.
                                 <ul>
-                                    <li>Implementirajte preprecitev integralnega pobega z Simulink blokom <a href="https://www.mathworks.com/help/simulink/slref/integratorlimited.html">Integrator Limited</a> (nastavi zgornje/spodnje meje integratorja na meje saturacije) ali z lastno back-calculation vezavo.</li>
-                                    <li>Dokumentirajte izbrano resitev z blokovnim diagramom ali opisom parametrov.</li>
-                                    <li>Izvedite simulacijo z veliko stopnico referenc (da pride do saturacije): enkrat brez zascite in enkrat s preprecitvijo.</li>
-                                    <li>Izrisajte primerjalni graf zasuka in krmilnega signala za oba primera.</li>
-                                    <li>Izmerite in primerjajte: cas vrnitve iz prenasicenja in amplitudo prenihaja; cilj je cas vrnitve vsaj 30 % krajsi in manjsi Mp.</li>
+                                    <li>Pripravite Simulink model za Hardware-in-the-Loop/External mode in preverite mapiranje signalov (referenca, zasuk, PWM).</li>
+                                    <li>Prenesite izbrane PID parametre iz simulacije na realni sistem in zazenite zaprto zanko.</li>
+                                    <li>Izvedite test z enakim referencnim signalom kot v simulaciji (stopnica ali profil).</li>
+                                    <li>Prikazite merjeni odziv zasuka in krmilni signal ter preverite, da sistem ostane stabilen in varen.</li>
+                                    <li>Primerjajte simulacijo in meritev ter navedite glavni vir razlike.</li>
                                 </ul>
                             </div>
 
                             <strong>4.4 Ocena 9</strong>
                             <div>
-                                Pred prenosom PID parametrov na realni sistem najprej iznicite mrtvo cono aktuatorja, nato zazenite regulator na maketi.
+                                Obravnavajte mrtvo cono aktuatorja in pripravite kompenzacijo, da bo regulator zanesljivo deloval tudi pri majhnih ukazih.
+                                <br /><br />
+                                Mrtvo cono dolocite na realni maketi FlexDrive (iz meritve praga premika), nato pa kompenzacijo implementirate v regulacijsko shemo.
                                 <br /><br />
                                 <strong>Iznicitev mrtve cone:</strong> Iz meritev VL2 poznate PWM prag d<sub>+</sub> (pozitivna smer) in d<sub>-</sub> (negativna smer).
                                 Iznicitev dodate kot korekturni clen za izhodom regulatorja:
@@ -158,24 +159,25 @@
                                 <br />oziroma v zvezni obliki:
                                 \[u_{izh} = u_{PID} + \mathrm{sign}(u_{PID}) \cdot d\]
                                 kjer je d vrednost mrtve cone (povprecje d<sub>+</sub> in |d<sub>-</sub>|) in velja samo za u &ne; 0.
+                                <br />Za implementacijo lahko uporabite tudi Simulink blok <a href="https://www.mathworks.com/help/simulink/slref/deadzone.html">Dead Zone</a>.
                                 <ul>
-                                    <li>Izmerite oz. odcitajte d<sub>+</sub> in d<sub>-</sub> iz rezultatov VL2 in ju zapisite v porocilo.</li>
-                                    <li>V Simulink shemo dodajte blok za iznicitev mrtve cone med izhod PID regulatorja in blok serialWrite.</li>
+                                    <li>Na realni maketi dolocite prag premika v pozitivni in negativni smeri (d<sub>+</sub>, d<sub>-</sub>).</li>
+                                    <li>V Simulink shemo dodajte blok za iznicitev mrtve cone med izhod regulatorja in blok serialWrite.</li>
                                     <li>Preverite delovanje: brez iznicitve in z iznicitvijo pri enakem referencnem signalu.</li>
-                                    <li>Zazenite PID z iznicitvijo mrtve cone na maketi in prikazite merjeni odziv.</li>
                                 </ul>
                             </div>
 
                             <strong>4.5 Ocena 10</strong>
                             <div>
-                                Primerjajte simuliran in merjeni odziv zasuka, ugotovite vir odstopanj in izvedite fino korekcijo PID parametrov.
+                                <strong>Integralni pobeg (integral windup):</strong> Ko izhod regulatorja udari ob mejo saturacije aktuatorja (npr. PWM = &plusmn;4095), krmilni signal ne more vec slediti zahtevi regulatorja. Integrator se pri tem se naprej polni in lahko povzroci velik prenihaj ter dolgo umirjanje po izhodu iz saturacije. Anti-windup omeji ta pojav in izboljsa okrevanje sistema.
+                                <br /><br />
+                                Dodajte preprecitev integralnega pobega in preverite delovanje PI/PID regulatorja pri saturaciji krmilnega signala.
                                 <ul>
-                                    <li>V istem grafu prikazite simuliran zasuk (model) in merjeni zasuk (maketa) za isti referencni signal.</li>
-                                    <li>Izracunajte RMSE med simulacijo in meritvijo pred korekcijo.</li>
-                                    <li>Prilagodite vsaj en PID parameter (Kp, Ki ali Kd) glede na opazeno odstopanje in zazenite nov test na maketi.</li>
-                                    <li>Primerjajte kazalnike tr, Mp, ts in e_ss pred in po korekciji v tabeli; cilj je RMSE po korekciji vsaj 15 % manjsi.</li>
-                                    <li>Preverite odziv na motnjo ali spremembo reference.</li>
-                                    <li>V kratkem sklepu navedite, ali je glavni vir odstopanja regulator, model ali merilni del, in predlagajte izboljsave.</li>
+                                    <li>Implementirajte anti-windup z blokom <a href="https://www.mathworks.com/help/simulink/slref/integratorlimited.html">Integrator Limited</a> ali z back-calculation pristopom.</li>
+                                    <li>Dokumentirajte izbrano resitev (blokovni diagram ali kljucni parametri).</li>
+                                    <li>Izvedite primerjavo pri veliki stopnici: brez anti-windup in z anti-windup.</li>
+                                    <li>Izrisajte primerjalni graf zasuka in krmilnega signala za oba primera.</li>
+                                    <li>Izmerite in primerjajte cas vrnitve iz saturacije ter amplitudo prenihaja; cilj je krajse okrevanje in manjsi Mp.</li>
                                 </ul>
                             </div>
                         </div>
