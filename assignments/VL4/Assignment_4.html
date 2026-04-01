@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+                <h3>4. Vaja: PID uglasevanje v simulaciji in prenos na realni sistem</h3>
+
+                <div>
+                    <div style="margin-bottom:20px;">
+                        <strong>1. Cilji vaje</strong><br />
+                        <ul>
+                            <li><strong>PID v simulaciji:</strong> Na osnovi modela iz VL3 sistematicno uglasevati parametre regulatorja P, PI in PID ter ovrednotiti vpliv parametrov na prehodni odziv.</li>
+                            <li><strong>Prenos na realni sistem:</strong> Preveriti, kako se enaki parametri regulatorja obnasajo na maketi FlexDrive in analizirati odstopanje glede na simulacijo.</li>
+                            <li><strong>Kriteriji kakovosti:</strong> Kvantitativno primerjati odzive z uporabo casa narasta, prenihaja, casa ustalitve in stacionarne napake.</li>
+                            <li><strong>Kriticna interpretacija:</strong> Razloziti razliko med idealnim modelom in realnim sistemom (saturacija, trenje, zakasnitev, sum meritev).</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>2. Opis vaje</strong><br />
+                        <p>Vaja je nadaljevanje modeliranja iz VL3. Izhodisce je prenosna funkcija oziroma Simulink model, ki predstavlja dinamiko makete FlexDrive. Najprej v simulaciji izvedete uglasevanje regulatorja: za isti referencni signal postopoma preidete od P do PI in nato do PID regulatorja ter primerjate kakovost odziva.</p>
+                        <p>Ko izberete kandidatne PID parametre, jih prenesete na realni sistem preko obstojece serijske povezave in primerjate merjen odziv s simulacijo. Cilj ni doseci popolnega ujemanja, temvec razumeti, zakaj se realni sistem obnasa drugace in kako parametre smiselno prilagoditi.</p>
+                        <p><strong>Pomembno:</strong> PID regulator morate izdelati sami iz osnovnih Simulink blokov (vsota, ojacanje, integrator, odvodni del in saturacija). Uporaba gotovega PID bloka ni dovoljena.</p>
+                        <p>Kontinuirna oblika regulatorja:
+                            \[u(t)=K_p e(t)+K_i \int_0^t e(\tau)d\tau+K_d\frac{de(t)}{dt}\]
+                            Diskretna oblika (za vzorcni cas \(T_s\)):
+                            \[u[k]=K_p e[k]+K_i T_s \sum_{i=0}^{k} e[i]+K_d\frac{e[k]-e[k-1]}{T_s}\]
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>3. Povzetek nalog in pricakovanih rezultatov</strong><br />
+                        <p>Za doseganje visje ocene je treba izvesti tudi vse predhodne naloge.</p>
+                        <p><strong>Pomocne enacbe za ocenjevanje (kratko):</strong><br />
+                            \[e(t)=r(t)-y(t)\]
+                            \[e_{ss}=\lim_{t\to\infty} e(t)\]
+                            \[M_p[\%]=\frac{y_{max}-y_{ss}}{y_{ss}}\cdot 100\]
+                            \[RMSE=\sqrt{\frac{1}{N}\sum_{k=1}^{N}(y_{meritev}[k]-y_{model}[k])^2}\]
+                        </p>
+
+                        <table style="border-collapse:collapse;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pricakovani rezultati</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Uglasevanje modela sistema 2. reda na osnovi meritev in validacija odziva v simulaciji.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Model 2. reda v Simulinku z navedenimi parametri.</li>
+                                            <li>Primerjalni graf simulacija vs. meritev.</li>
+                                            <li>Tabela: tr, Mp, ts.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Razsiritev na PI regulator in odprava stacionarne napake.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Vrednosti Kp in Ki.</li>
+                                            <li>Primerjalni graf odprtazanka vs. PI.</li>
+                                            <li>Tabela: e_ss, ts.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vgradnja preprecitve integralnega pobega za PI regulator in preverjanje delovanja pri saturaciji.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Delujoca preprecitev integralnega pobega.</li>
+                                            <li>Primerjalni graf brez in s preprecitvijo.</li>
+                                            <li>Tabela: cas vrnitve, Mp.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Iznicitev mrtve cone aktuatorja in prenos PID parametrov iz simulacije na realno maketo.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Dokumentirani d+ in d- iz VL2.</li>
+                                            <li>Graf zasuka makete s PID regulatorjem.</li>
+                                            <li>Stabilen odziv brez trajnih oscilacij.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Primerjava simulacija-meritev, fina korekcija PID parametrov in analiza odstopanj.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Graf simulacija vs. meritev zasuka na enem prikazu.</li>
+                                            <li>Tabela kazalnikov pred in po korekciji.</li>
+                                            <li>Kratek sklep o virih odstopanj.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />4. Podrobnejsi opis nalog</strong><br />
+                        <div>
+                            <strong>4.1 Ocena 6</strong>
+                            <div>
+                                Na osnovi rezultatov VL3 pripravite in uglasite model sistema 2. reda, tako da bo simuliran odziv cim bolje sledil meritvi zasuka.
+                                <ul>
+                                    <li>Dolocite strukturo modela 2. reda (izhod: zasuk &phi;<sub>2</sub>, vhod: navor M) in nastavite zacetne parametre.</li>
+                                    <li>Model validirajte na stopnicnem in PWM vhodnem signalu.</li>
+                                    <li>Izrisajte primerjalni graf simuliranega in merjenega zasuka na isti casovni osi.</li>
+                                    <li>Izracunajte RMSE med modelom in meritvijo; cilj je RMSE &lt; 15 % amplitude signala.</li>
+                                    <li>Zabelezite tr, Mp in ts v tabeli.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.2 Ocena 7</strong>
+                            <div>
+                                Na uglasenem modelu 2. reda implementirajte PI regulator za regulacijo zasuka. Cilj je odstraniti stacionarno napako pri stopnicni referenci, ne da bi sistem postal oscilatoren.
+                                <ul>
+                                    <li>Zgradite regulacijsko zanko: referenca zasuka &phi;<sub>ref</sub> &rarr; napaka &rarr; PI regulator &rarr; model procesa &rarr; povratna vezava.</li>
+                                    <li>Izberite Kp in Ki tako, da je odziv stabilen in brez trajne napake.</li>
+                                    <li>Izrisajte primerjalni graf zasuka: sistem brez regulatorja vs. sistem s PI regulatorjem.</li>
+                                    <li>Podajte numericno primerjavo: e_ss in ts; ciljna vrednost e_ss &le; 2 % reference in ts vsaj 20 % krajsi kot brez regulatorja.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.3 Ocena 8</strong>
+                            <div>
+                                Dodajte preprecitev integralnega pobega in preverite delovanje PI regulatorja pri saturaciji krmilnega signala (PWM meja &plusmn;4095).
+                                <ul>
+                                    <li>Implementirajte preprecitev integralnega pobega z Simulink blokom <a href="https://www.mathworks.com/help/simulink/slref/integratorlimited.html">Integrator Limited</a> (nastavi zgornje/spodnje meje integratorja na meje saturacije) ali z lastno back-calculation vezavo.</li>
+                                    <li>Dokumentirajte izbrano resitev z blokovnim diagramom ali opisom parametrov.</li>
+                                    <li>Izvedite simulacijo z veliko stopnico referenc (da pride do saturacije): enkrat brez zascite in enkrat s preprecitvijo.</li>
+                                    <li>Izrisajte primerjalni graf zasuka in krmilnega signala za oba primera.</li>
+                                    <li>Izmerite in primerjajte: cas vrnitve iz prenasicenja in amplitudo prenihaja; cilj je cas vrnitve vsaj 30 % krajsi in manjsi Mp.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.4 Ocena 9</strong>
+                            <div>
+                                Pred prenosom PID parametrov na realni sistem najprej iznicite mrtvo cono aktuatorja, nato zazenite regulator na maketi.
+                                <br /><br />
+                                <strong>Iznicitev mrtve cone:</strong> Iz meritev VL2 poznate PWM prag d<sub>+</sub> (pozitivna smer) in d<sub>-</sub> (negativna smer).
+                                Iznicitev dodate kot korekturni clen za izhodom regulatorja:
+                                <br />
+                                <code>u_izh = u + sign(u) &middot; d</code>
+                                <br />oziroma v zvezni obliki:
+                                \[u_{izh} = u_{PID} + \mathrm{sign}(u_{PID}) \cdot d\]
+                                kjer je d vrednost mrtve cone (povprecje d<sub>+</sub> in |d<sub>-</sub>|) in velja samo za u &ne; 0.
+                                <ul>
+                                    <li>Izmerite oz. odcitajte d<sub>+</sub> in d<sub>-</sub> iz rezultatov VL2 in ju zapisite v porocilo.</li>
+                                    <li>V Simulink shemo dodajte blok za iznicitev mrtve cone med izhod PID regulatorja in blok serialWrite.</li>
+                                    <li>Preverite delovanje: brez iznicitve in z iznicitvijo pri enakem referencnem signalu.</li>
+                                    <li>Zazenite PID z iznicitvijo mrtve cone na maketi in prikazite merjeni odziv.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.5 Ocena 10</strong>
+                            <div>
+                                Primerjajte simuliran in merjeni odziv zasuka, ugotovite vir odstopanj in izvedite fino korekcijo PID parametrov.
+                                <ul>
+                                    <li>V istem grafu prikazite simuliran zasuk (model) in merjeni zasuk (maketa) za isti referencni signal.</li>
+                                    <li>Izracunajte RMSE med simulacijo in meritvijo pred korekcijo.</li>
+                                    <li>Prilagodite vsaj en PID parameter (Kp, Ki ali Kd) glede na opazeno odstopanje in zazenite nov test na maketi.</li>
+                                    <li>Primerjajte kazalnike tr, Mp, ts in e_ss pred in po korekciji v tabeli; cilj je RMSE po korekciji vsaj 15 % manjsi.</li>
+                                    <li>Preverite odziv na motnjo ali spremembo reference.</li>
+                                    <li>V kratkem sklepu navedite, ali je glavni vir odstopanja regulator, model ali merilni del, in predlagajte izboljsave.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
+                        <ul>
+                            <li>Ponovitev osnov regulacije: vpliv P, I in D clena na prehodni odziv.</li>
+                            <li>Delujoc model iz VL3 in osnovna uporaba Simulink blokov za zaprto zanko.</li>
+                            <li>Osnove serijske komunikacije in varnega zagona regulatorja na realni maketi.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>6. Seznam potrebne opreme</strong><br />
+                        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MK-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Mikrokrmilnik LilyGO ESP32 TTGO</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MM-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Maketa FlexDrive</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">MATLAB + Simulink</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://www.mathworks.com/help/simulink/getting-started-with-simulink.html">Simulink osnove</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-02</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Skripte za serijski zajem in posiljanje ukaza (serialRead/serialWrite)</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Datoteke v repozitoriju</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">ME-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Model procesa iz VL3 (prenosna funkcija ali Simulink model)</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Rezultati prejsnje vaje</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>7. Pogoste pasti</strong><br />
+                        <ul>
+                            <li>Prehitro povecevanje Ki brez preprecitve integralnega pobega povzroci nasicenje in dolgotrajno nihanje.</li>
+                            <li>Odvodni clen brez filtriranja lahko mocno ojaca merilni sum in poslabsa stabilnost.</li>
+                            <li>Neposreden prenos parametrov iz simulacije brez preverjanja omejitev aktuatorja pogosto vodi v slabsi realni odziv.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <strong>8. Dodatna gradiva</strong><br />
+                        <ul>
+                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
+                            <li><a href="https://www.mathworks.com/help/control/ug/pid-controller-tuning.html">MathWorks: PID Controller Tuning</a></li>
+                            <li>Predavanja DKS: regulatorji P/PI/PID in kriteriji kakovosti prehodnega odziva.</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
