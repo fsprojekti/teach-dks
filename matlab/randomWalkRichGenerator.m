@@ -1,8 +1,7 @@
-function randomWalkGenerator(block)
+function randomWalkRichGenerator(block)
     setup(block);
 end
 
-%% Setup: Configure ports, sample time, and register methods.
 function setup(block)
     block.NumDialogPrms = 0;
     block.NumInputPorts = 0;
@@ -20,7 +19,6 @@ function setup(block)
     block.RegBlockMethod('Outputs', @Outputs);
 end
 
-%% Define Dwork vectors for generator state.
 function DoPostPropSetup(block)
     block.NumDworks = 8;
 
@@ -101,16 +99,18 @@ function Outputs(block)
     end
 
     switch mode
-        case 1  % Hold
-            % Keep constant command.
+        case 1
+            % Hold segment.
 
-        case 2  % Ramp / cooldown
+        case 2
+            % Ramp / cooldown segment.
             value = value + rampStep;
             if (rampStep >= 0 && value >= targetValue) || (rampStep < 0 && value <= targetValue)
                 value = targetValue;
             end
 
-        case 3  % Stair sequence
+        case 3
+            % Stair segment.
             if stairCounter <= 0
                 value = value + stairStep;
                 stairCounter = stairHold;
@@ -119,12 +119,11 @@ function Outputs(block)
             end
     end
 
-    % Rare impulsive jump to excite fast dynamics.
+    % Rare impulsive jump for fast-dynamics excitation.
     if rand < cfg.impulseProb
         value = value + signedUniform(cfg.impulseMin, cfg.impulseMax);
     end
 
-    % Saturate to full PWM envelope.
     value = max(cfg.minValue, min(cfg.maxValue, value));
     samplesLeft = samplesLeft - 1;
 
@@ -156,7 +155,6 @@ function cfg = getConfig()
     cfg.impulseMin = 300;
     cfg.impulseMax = 1400;
 
-    % Segment selection probabilities.
     cfg.pHold = 0.20;
     cfg.pRamp = 0.35;
     cfg.pStair = 0.35;
@@ -203,7 +201,6 @@ function [mode, samplesLeft, targetValue, rampStep, stairStep, stairHold, stairC
         return;
     end
 
-    % Cooldown: controlled ramp toward zero.
     mode = 2;
     targetValue = 0;
     mag = randi([cfg.rampMinAbs, max(cfg.rampMinAbs, round(cfg.rampMaxAbs * 0.6))], 1, 1);
@@ -213,7 +210,6 @@ end
 function target = pickTarget(currentValue, cfg)
     amp = max(abs(cfg.minValue), abs(cfg.maxValue));
 
-    % Frequent wide targets plus occasional full-envelope forcing.
     if rand < 0.35
         target = signedUniform(round(0.80 * amp), amp);
     elseif rand < 0.70

@@ -40,23 +40,24 @@
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Merjenje kota v shemi signalAcquisition.mdl z že pripravljenim generatorjem in izvedba ene dolge meritve.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Merjenje kota in hitrosti v odziv na naključni vhodni signal.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
                                             <li>Izvedena ena neprekinjena meritev trajanja vsaj 3 minute.</li>
-                                            <li>Meritev je shranjena v MATLAB delovni prostor in izrisana z ukazom plot.</li>
+                                            <li>Meritev kota in hitrosti je shranjena v MATLAB delovni prostor in izrisana z ukazom plot.</li>
                                             <li>V merjenju je pokrit celoten PWM interval od -4000 do 4000.</li>
+                                            <li>Podatki meritve (čas, PWM, kot, hitrost) so izvoženi tudi v CSV datoteko.</li>
                                         </ul>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Določitev povezave PWM -> napetost in napetost -> navor na podlagi datasheet podatkov gonilnika in motorja ter realizacija v Simulinku.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Določitev povezave PWM -> tok (I) in tok (I) -> navor (M) na podlagi datasheet podatkov gonilnika in motorja ter realizacija v Simulinku.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Podana je izpeljana ali tabelirana zveza PWM -> napetost.</li>
-                                            <li>Podana je izpeljana ali tabelirana zveza napetost -> navor.</li>
-                                            <li>V Simulinku je realiziran celoten blok PWM -> napetost -> navor in preverjen z izrisom odziva.</li>
+                                            <li>Podana je izpeljana ali tabelirana zveza PWM -> tok (I).</li>
+                                            <li>Podana je izpeljana ali tabelirana zveza tok (I) -> navor (M).</li>
+                                            <li>V Simulinku je realiziran celoten blok PWM -> tok (I) -> navor (M) in preverjen z izrisom odziva.</li>
                                         </ul>
                                     </td>
                                 </tr>
@@ -101,12 +102,13 @@
                         <div>
                             <strong>4.1 Ocena 6</strong>
                             <div>
-                                Uporabite model <strong>signalAcquisition.mdl</strong>, kjer je generator signala že pripravljen, in izvedite eno dolgo meritev kota.
+                                Za izvedbo uporabite model <strong>signalAcquisition.mdl</strong>. Pri random vzbujanju si lahko pomagate s pripravljenim generator blokom, lahko pa random generator izdelate tudi sami. V tej oceni merite oba izhoda: kot in hitrost.
                                 <ul>
                                     <li>Trajanje meritve mora biti najmanj 3 minute (180 s).</li>
                                     <li>Vhodni signal med meritvijo naj pokrije celoten PWM interval od -4000 do 4000.</li>
-                                    <li>Shranjene morajo biti vsaj časovna os, vhodni PWM signal in izhodni signal kota.</li>
-                                    <li>Meritev izrišite v MATLAB-u z ukazom plot (vsaj signal PWM in kot).</li>
+                                    <li>Shranjene morajo biti vsaj časovna os, vhodni PWM signal ter izhodna signala kota in hitrosti.</li>
+                                    <li>Meritev izrišite v MATLAB-u z ukazom plot (vsaj signal PWM, kot in hitrost).</li>
+                                    <li>Iz shranjenih signalov pripravite CSV datoteko (npr. stolpci: čas, PWM, kot, hitrost) za nadaljnjo obdelavo.</li>
                                 </ul>
                                 Cilj ocene 6 je priprava kakovostnega enotnega nabora podatkov za nadaljnje modeliranje v naslednji oceni.
                             </div>
@@ -115,9 +117,9 @@
                             <div>
                                 Na osnovi datasheet podatkov gonilnika in motorja določite dvo-koračno pretvorbo od ukaza PWM do navora.
                                 <ul>
-                                    <li>Iz datasheeta gonilnika določite zvezo PWM -> napetost (enačba ali lookup tabela).</li>
-                                    <li>Iz datasheeta motorja določite zvezo napetost -> navor (enačba ali lookup tabela).</li>
-                                    <li>V Simulinku realizirajte oba dela pretvorbe zaporedno: PWM -> napetost -> navor.</li>
+                                    <li>Iz datasheeta gonilnika določite zvezo PWM -> tok (I) (enačba ali lookup tabela).</li>
+                                    <li>Iz datasheeta motorja določite zvezo tok (I) -> navor (M) (enačba ali lookup tabela).</li>
+                                    <li>V Simulinku realizirajte oba dela pretvorbe zaporedno: PWM -> tok (I) -> navor (M).</li>
                                     <li>Preverite pravilnost delovanja z izrisom signala navora za izbran testni vhod.</li>
                                 </ul>
                                 Rezultat naj vsebuje uporabljene podatke iz datasheeta, parametre/lookup tabele ter Simulink shemo z delujočim blokom pretvorbe.
@@ -127,8 +129,9 @@
                             <div>
                                 Vpeljite diskretni sistem 1. reda za modeliranje signala kota.
                                 <ul>
-                                    <li>Vhod modela naj bo navor (iz verige PWM -> napetost -> navor iz ocene 7), izhod pa kot.</li>
-                                    <li>Model 1. reda realizirajte v diskretni obliki v Simulinku.</li>
+                                    <li>Vhod modela naj bo navor (iz verige PWM -> tok (I) -> navor (M) iz ocene 7), izhod pa kot.</li>
+                                    <li>Model 1. reda realizirajte v diskretni obliki v Simulinku s prenosom oblike H(z) = z/(z - x).</li>
+                                    <li>Določite parameter x (|x| &lt; 1) z ročnim iskanjem tako, da je napaka med merjenim in simuliranim signalom čim manjša.</li>
                                     <li>S parametri modela poskusite doseči čim boljše ujemanje med merjenim in simuliranim signalom kota.</li>
                                     <li>Prikažite primerjalni graf in zapišite uporabljene parametre modela.</li>
                                 </ul>
