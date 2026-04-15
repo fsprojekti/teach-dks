@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+                <h3>5. Vaja: Ziegler-Nichols uglaševanje PID regulatorja (metoda prehodnega odziva)</h3>
+
+                <div>
+                    <div style="margin-bottom:20px;">
+                        <strong>1. Cilji vaje</strong><br />
+                        <ul>
+                            <li><strong>Identifikacija procesa:</strong> Iz prehodnega odziva odprtega sistema določiti karakteristične parametre (T<sub>z</sub>, T<sub>u</sub>, K) po Ziegler-Nichols metodi koračnega odziva.</li>
+                            <li><strong>Izračun ZN parametrov:</strong> Na podlagi ZN tabele izračunati začetne nastavitve P, PI in PID regulatorja in razumeti, da metoda ne zahteva simulacije.</li>
+                            <li><strong>Vzporedna implementacija:</strong> Iste ZN parametre hkrati preizkusiti v simulaciji (model iz VL3) in na realnem sistemu ter primerjati odziva.</li>
+                            <li><strong>Ovrednotenje prenosa:</strong> Kvantificirati razliko med simuliranim in merjenim odzivom in razložiti, zakaj ZN metoda tipično zahteva ročno dodelave.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>2. Opis vaje</strong><br />
+                        <p><strong>Širši cilj vaje:</strong> sistematično določiti parametre PID regulatorja z Ziegler-Nichols metodo prehodnega (koračnega) odziva. Metoda temelji na odprtozančnem odzivu realnega sistema – tangenti v infleksijski točki – in <em>ne zahteva podrobnega parametričnega modela</em>. To je njena temeljna privlačnost: iz meritve direktno do regulatorja, brez simulacije.</p>
+                        <p>Vaja gradi na znanju iz VL3 in VL4. Ker je regulirana veličina <strong>kotna hitrost ω<sub>2</sub></strong>, je prehodni odziv odprtega sistema S-oblike, kar je predpogoj za ZN metodo koračnega odziva.</p>
+                        <p><strong>Vzporedni pristop (simulacija + realni sistem):</strong> čeprav ZN metoda simulacije ne potrebuje, jo v tej vaji vzporedno izvajate na obeh: (1) ZN parametre aplicirate direktno na maketo (originalni ZN workflow), (2) iste parametre preizkusite v simulaciji z modelom iz VL3. Primerjava ju bo pokazala, kaj model dobro zajame in kje se realni sistem razlikuje – to je izobraževalna vrednost vzporednega dela.</p>
+                        <p><strong>Identifikacija ZN parametrov iz prehodnega odziva:</strong><br />
+                        Na grafu odziva ω<sub>2</sub>(t) na stopnico narišete tangento v točki z največjim naklonom. Tangenta določa:
+                        <ul>
+                            <li>t<sub>1</sub>: čas, kjer tangenta seka začetno ustaljeno vrednost</li>
+                            <li>t<sub>2</sub>: čas, kjer tangenta seka končno ustaljeno vrednost</li>
+                            <li>T<sub>z</sub> = t<sub>1</sub> − t<sub>0</sub> &nbsp; (mrtvi čas; t<sub>0</sub> je čas stopnice)</li>
+                            <li>T<sub>u</sub> = t<sub>2</sub> − t<sub>1</sub> &nbsp; (nadomestna časovna konstanta)</li>
+                            <li>K = Δω<sub>2</sub> / ΔPWM &nbsp; (statično ojačanje procesa)</li>
+                        </ul>
+                        </p>
+                        <p><strong>Tabela ZN nastavitev (metoda prehodnega odziva):</strong></p>
+                        <table style="border-collapse:collapse;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;text-align:center;"><strong>Tip regulatorja</strong></td>
+                                    <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;text-align:center;"><strong>K<sub>p</sub></strong></td>
+                                    <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;text-align:center;"><strong>T<sub>i</sub></strong></td>
+                                    <td style="border:1px solid #000000;padding:8px;background-color:#67ceec;text-align:center;"><strong>T<sub>d</sub></strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">P</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">\(\dfrac{T_u}{K \cdot T_z}\)</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">—</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">—</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">PI</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">\(0{,}9\,\dfrac{T_u}{K \cdot T_z}\)</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">\(3{,}3\,T_z\)</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">—</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">PID</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">\(1{,}2\,\dfrac{T_u}{K \cdot T_z}\)</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">\(2\,T_z\)</td>
+                                    <td style="border:1px solid #000000;padding:8px;text-align:center;">\(0{,}5\,T_z\)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Standardna oblika PID regulatorja:
+                            \[u(t)=K_p\!\left(e(t)+\frac{1}{T_i}\int_0^t e(\tau)\,d\tau+T_d\frac{de(t)}{dt}\right)\]
+                            Diskretna oblika (vzorčni čas T<sub>s</sub>):
+                            \[u[k]=K_p\!\left(e[k]+\frac{T_s}{T_i}\sum_{i=0}^{k}e[i]+\frac{T_d}{T_s}(e[k]-e[k-1])\right)\]
+                        </p>
+                        <p><strong>Pomembno:</strong> PID regulator morate implementirati sami iz osnovnih Simulink blokov (vsota, ojačanje, integrator, odvodni clen in saturacija). Uporaba gotovega PID bloka ni dovoljena.</p>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>3. Povzetek nalog in pričakovanih rezultatov</strong><br />
+                        <p>Za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.</p>
+                        <p><strong>Pomožne enačbe za ocenjevanje:</strong><br />
+                            \[e_{ss}=\lim_{t\to\infty}e(t),\qquad M_p[\%]=\frac{\omega_{max}-\omega_{ref}}{\omega_{ref}}\cdot 100,\qquad ISE=\int_0^{T_{sim}}e^2(t)\,dt\]
+                        </p>
+
+                        <table style="border-collapse:collapse;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Izvedba meritve prehodnega odziva odprtega sistema in grafična določitev ZN parametrov.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Graf ω<sub>2</sub>(t) na stopnico PWM 0→4000 (30 s).</li>
+                                            <li>Narisana tangenta z vrednostmi t<sub>0</sub>, t<sub>1</sub>, t<sub>2</sub>.</li>
+                                            <li>Izračunane vrednosti T<sub>z</sub>, T<sub>u</sub>, K.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Izračun ZN parametrov in vzporedna implementacija P regulatorja: direktno na maketi <em>in</em> v simulaciji.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Tabela ZN parametrov za P, PI in PID.</li>
+                                            <li>Delujoč P regulator direktno na maketi FlexDrive (ZN → maketa, brez simulacije).</li>
+                                            <li>Isti P regulator v simulaciji (model iz VL3).</li>
+                                            <li>Primerjalni graf: simulacija vs. meritev (ω<sub>2</sub>), vrednosti e<sub>ss</sub>, M<sub>p</sub>.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vzporedna implementacija PI regulatorja na maketi in v simulaciji; primerjava P vs. PI.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Delujoč PI regulator na maketi in v simulaciji (ZN parametri).</li>
+                                            <li>Primerjalni graf P vs. PI: simulacija in meritev na isti osi.</li>
+                                            <li>Numerična primerjava: e<sub>ss</sub>, M<sub>p</sub>, t<sub>s</sub> – med P in PI ter med sim in meritvijo.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Vzporedna implementacija PID regulatorja; polna primerjalna tabela P/PI/PID × simulacija/meritev.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Delujoč PID regulator na maketi in v simulaciji (ZN parametri).</li>
+                                            <li>Polna primerjalna tabela: P/PI/PID × sim/meritev z vrednostmi e<sub>ss</sub>, M<sub>p</sub>, t<sub>s</sub>, ISE.</li>
+                                            <li>Kratek komentar: ali simulacija dobro napoveduje obnašanje makete?</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Ročna dodelava ZN parametrov na maketi, dodajanje anti-windup zaščite in interpretacija razlik.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Primerjalni graf: ZN izhodišče vs. ročno prilagojeni PID (na maketi).</li>
+                                            <li>Delujoča anti-windup implementacija (Integrator Limited ali back-calculation).</li>
+                                            <li>Primerjalni graf brez/z anti-windup pri veliki stopnici; numerična primerjava M<sub>p</sub> in časa okrevanja.</li>
+                                            <li>Razlaga vira razlik med ZN nastavitvijo in realnim odzivom.</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />4. Podrobnejši opis nalog</strong><br />
+                        <div>
+                            <strong>4.1 Ocena 6</strong>
+                            <div>
+                                Izvedite meritev prehodnega odziva makete FlexDrive v odprtozančnem načinu in iz dobljene krivulje grafično določite ZN parametre.
+                                <ul>
+                                    <li>V Simulinku (External mode) ali z MATLAB skriptami pošljite stopnico PWM 0→4000 in zajemate ω<sub>2</sub> vsaj 30 sekund.</li>
+                                    <li>Shranite podatke v datoteko (.mat ali .csv).</li>
+                                    <li>Na grafu ω<sub>2</sub>(t) narišite tangento v točki z največjim naklonom krivulje.</li>
+                                    <li>Ablite vrednosti t<sub>0</sub> (čas stopnice), t<sub>1</sub> (presečišče tangente z ω(t<sub>0</sub>)) in t<sub>2</sub> (presečišče tangente s ω<sub>∞</sub>).</li>
+                                    <li>Izračunajte: T<sub>z</sub> = t<sub>1</sub> − t<sub>0</sub>, T<sub>u</sub> = t<sub>2</sub> − t<sub>1</sub>, K = Δω<sub>2</sub> / ΔPWM.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.2 Ocena 7</strong>
+                            <div>
+                                Izračunajte ZN parametre in implementirajte P regulator vzporedno na maketi in v simulaciji.
+                                <br /><br />
+                                <strong>Korak A – direktno na maketi (originalni ZN workflow):</strong>
+                                <ul>
+                                    <li>Iz T<sub>z</sub>, T<sub>u</sub>, K izpolnite tabelo ZN nastavitev za P, PI in PID.</li>
+                                    <li>Nastavite izračunani K<sub>p</sub> direktno v Simulink External mode model in zaženite zaprtozančno vodenje ω<sub>2</sub> na maketi.</li>
+                                    <li>Preverite stabilnost in varnost (saturacija PWM ± 4095).</li>
+                                </ul>
+                                <strong>Korak B – v simulaciji (vzporedno):</strong>
+                                <ul>
+                                    <li>V Simulinku zgradite regulacijsko zanko: referenca → napaka → P → model procesa iz VL3 → povratna vezava.</li>
+                                    <li>Regulator sestavite iz blokov Gain, Sum, Saturation (brez vgrajenega PID bloka).</li>
+                                    <li>Odziv preverite na stopnici ω<sub>ref</sub> = 100 rad/s.</li>
+                                </ul>
+                                <strong>Primerjava:</strong>
+                                <ul>
+                                    <li>Izrisajte primerjalni graf ω<sub>2</sub>(t): simulacija vs. meritev na maketi.</li>
+                                    <li>Zabeležite e<sub>ss</sub> in M<sub>p</sub> za oba primera.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.3 Ocena 8</strong>
+                            <div>
+                                Razširite vzporedno implementacijo na PI regulator in primerjajte P vs. PI.
+                                <br /><br />
+                                <strong>Korak A – direktno na maketi:</strong>
+                                <ul>
+                                    <li>Nastavite ZN parametre za PI (K<sub>p</sub> in T<sub>i</sub>) in zaženite zaprto zanko na maketi.</li>
+                                    <li>Preverite, ali integralni člen odpravi stacionarno napako (e<sub>ss</sub> → 0).</li>
+                                </ul>
+                                <strong>Korak B – v simulaciji (vzporedno):</strong>
+                                <ul>
+                                    <li>Implementirajte PI regulator v Simulinku (K<sub>p</sub>, integrator z ojačanjem K<sub>p</sub>/T<sub>i</sub>).</li>
+                                    <li>Odziv preverite na isti referenci kot pri P.</li>
+                                </ul>
+                                <strong>Primerjava:</strong>
+                                <ul>
+                                    <li>Primerjalni graf: P vs. PI, za vsak regulator simulacija in meritev skupaj.</li>
+                                    <li>Numerična primerjava e<sub>ss</sub>, M<sub>p</sub>, t<sub>s</sub>: med P in PI ter med sim in meritvijo.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.4 Ocena 9</strong>
+                            <div>
+                                Razširite vzporedno implementacijo na PID regulator in sestavite polno primerjalno tabelo.
+                                <br /><br />
+                                <strong>Korak A – direktno na maketi:</strong>
+                                <ul>
+                                    <li>Nastavite ZN parametre za PID (K<sub>p</sub>, T<sub>i</sub>, T<sub>d</sub>) in zaženite zaprto zanko na maketi.</li>
+                                    <li>Odvodni člen filtrirajte (LP filter, T<sub>f</sub> = T<sub>d</sub>/10) za zmanjšanje šuma.</li>
+                                </ul>
+                                <strong>Korak B – v simulaciji (vzporedno):</strong>
+                                <ul>
+                                    <li>Implementirajte PID v Simulinku z odvodnim filtrom.</li>
+                                    <li>Odziv preverite na isti referenci.</li>
+                                </ul>
+                                <strong>Primerjava:</strong>
+                                <ul>
+                                    <li>Izpolnite polno primerjalno tabelo: P/PI/PID × simulacija/meritev z vrednostmi e<sub>ss</sub>, M<sub>p</sub>, t<sub>s</sub>, ISE.</li>
+                                    <li>Komentirajte: kje je simulacija dobro napovedala maketo in kje se je razlikovala?</li>
+                                    <li>Poudarite: ZN metoda je delovala direktno iz meritve, simulacija je bila dodaten vpogled – ne predpogoj.</li>
+                                </ul>
+                            </div>
+
+                            <strong>4.5 Ocena 10</strong>
+                            <div>
+                                Ročno prilagodite ZN parametre na realnem sistemu, dodajte anti-windup zaščito in interpretirajte vir razlik.
+                                <br /><br />
+                                <strong>Ročna dodelava parametrov:</strong>
+                                <ul>
+                                    <li>Na podlagi opaženega odziva na maketi (prenihaj, nihanje, počasnost) sistematično prilagodite K<sub>p</sub>, T<sub>i</sub> ali T<sub>d</sub> – korak za korakom.</li>
+                                    <li>Dokumentirajte vsako spremembo in njen učinek (tabela iteracij).</li>
+                                    <li>Izrisajte primerjalni graf: ZN izhodiščni PID vs. ročno prilagojeni PID (samo meritev na maketi).</li>
+                                    <li>Numerično primerjajte M<sub>p</sub>, t<sub>s</sub> in ISE pri obeh nastavitvah.</li>
+                                </ul>
+                                <strong>Anti-windup zaščita:</strong>
+                                <br />
+                                Ko izhod regulatorja udari ob mejo saturacije aktuatorja (PWM = ±4095), se integrator še naprej polni in povzroči velik prenihaj ter dolgo umirjanje po izhodu iz saturacije. Dodajte preprečitev integralnega pobega in preverite delovanje pri veliki stopnici.
+                                <ul>
+                                    <li>Implementirajte anti-windup z blokom <a href="https://www.mathworks.com/help/simulink/slref/integratorlimited.html">Integrator Limited</a> ali z back-calculation pristopom.</li>
+                                    <li>Izvedite primerjavo pri veliki stopnici (npr. ω<sub>ref</sub> = 300 rad/s): brez anti-windup in z anti-windup.</li>
+                                    <li>Izrisajte primerjalni graf ω<sub>2</sub> in krmilnega signala za oba primera.</li>
+                                    <li>Numerično primerjajte čas vrnitve iz saturacije in amplitudo prenihaja; cilj je krajše okrevanje in manjši M<sub>p</sub>.</li>
+                                </ul>
+                                <strong>Interpretacija:</strong>
+                                <ul>
+                                    <li>Razložite, kateri pojav (trenje, zakasnitev, šum, nelinearnost) je pri vaši maketi zahteval dodelitev ZN parametrov.</li>
+                                    <li>Ali je bila napaka v ZN identifikaciji (napačno odčitani T<sub>z</sub>, T<sub>u</sub>, K) ali v predpostavkah metode (linearnost, stacionarnost)?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
+                        <ul>
+                            <li>Postopek ZN identifikacije iz prehodnega odziva (tangenta, T<sub>z</sub>, T<sub>u</sub>, K).</li>
+                            <li>Vpliv P, I in D člena na prehodni odziv (iz VL4).</li>
+                            <li>Delujoc Simulink model za serijski zajem podatkov in External mode (iz VL2 in VL3).</li>
+                            <li>Osnove varnega zagona regulatorja na realni maketi (saturacija, rampa reference).</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>6. Seznam potrebne opreme</strong><br />
+                        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MK-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Mikrokrmilnik LilyGO ESP32 TTGO</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MM-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Maketa FlexDrive</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">MATLAB + Simulink</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://www.mathworks.com/help/simulink/getting-started-with-simulink.html">Simulink osnove</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-02</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Skripte za serijski zajem in pošiljanje ukaza (serialRead/serialWrite)</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Datoteke v repozitoriju</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">ME-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Model procesa iz VL3 (prenosna funkcija ali Simulink model)</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Rezultati prejšnje vaje</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>7. Pogoste pasti</strong><br />
+                        <ul>
+                            <li>Napačno odčitane vrednosti t<sub>1</sub> in t<sub>2</sub> vodijo do napačnih T<sub>z</sub> in T<sub>u</sub> – tangenta mora biti v točki z <em>največjim naklonom</em>, ne na začetku ali koncu odziva.</li>
+                            <li>ZN metoda predpostavlja, da je T<sub>z</sub>/T<sub>u</sub> ≈ 0,1–0.5; pri razmerjih izven tega območja so ZN nastavitve manj zanesljive.</li>
+                            <li>Odvodni člen brez filtriranja ojača merilni šum – pri implementaciji D člena dodajte LP filter (npr. s časovno konstanto T<sub>f</sub> = T<sub>d</sub>/10).</li>
+                            <li>ZN metoda tipično da prevelik prenihaj (~25 %) – pri prenosu na realni sistem pričakujte, da bo potrebna dodelava.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <strong>8. Dodatna gradiva</strong><br />
+                        <ul>
+                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
+                            <li><a href="https://www.mathworks.com/help/control/ug/pid-controller-tuning.html">MathWorks: PID Controller Tuning</a></li>
+                            <li>Predavanja DKS: Ziegler-Nichols metodi uglaševanja PID regulatorja.</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
