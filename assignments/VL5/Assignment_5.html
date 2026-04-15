@@ -70,6 +70,12 @@
                             Diskretna oblika (vzorčni čas T<sub>s</sub>):
                             \[u[k]=K_p\!\left(e[k]+\frac{T_s}{T_i}\sum_{i=0}^{k}e[i]+\frac{T_d}{T_s}(e[k]-e[k-1])\right)\]
                         </p>
+                        <p><strong>Pretvorba v ojačanja K<sub>i</sub> in K<sub>d</sub> (za implementacijo):</strong><br />
+                            Za vzporedno obliko \(u(t)=K_p e(t)+K_i\!\int e(t)dt+K_d\,\frac{de(t)}{dt}\) velja:
+                            \[K_i=\frac{K_p}{T_i},\qquad K_d=K_p\,T_d\]
+                            V diskretni implementaciji iz zgornje enačbe uporabite koeficienta:
+                            \[K_{i,disc}=K_p\frac{T_s}{T_i},\qquad K_{d,disc}=K_p\frac{T_d}{T_s}\]
+                        </p>
                         <p><strong>Pomembno:</strong> PID regulator morate implementirati sami iz osnovnih Simulink blokov (vsota, ojačanje, integrator, odvodni clen in saturacija). Uporaba gotovega PID bloka ni dovoljena.</p>
                     </div>
 
@@ -134,12 +140,13 @@
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Ročna dodelava ZN parametrov na maketi, dodajanje anti-windup zaščite in interpretacija razlik.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Ročna dodelava ZN parametrov na maketi, anti-windup, odprava mrtve cone in interpretacija razlik.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
                                             <li>Primerjalni graf: ZN izhodišče vs. ročno prilagojeni PID (na maketi).</li>
                                             <li>Delujoča anti-windup implementacija (Integrator Limited ali back-calculation).</li>
                                             <li>Primerjalni graf brez/z anti-windup pri veliki stopnici; numerična primerjava M<sub>p</sub> in časa okrevanja.</li>
+                                            <li>Izmerjena in kompenzirana mrtva cona ter poseben eksperiment pri 1 rpm (≈ 0,105 rad/s): primerjava brez/z kompenzacijo.</li>
                                             <li>Razlaga vira razlik med ZN nastavitvijo in realnim odzivom.</li>
                                         </ul>
                                     </td>
@@ -231,7 +238,7 @@
 
                             <strong>4.5 Ocena 10</strong>
                             <div>
-                                Ročno prilagodite ZN parametre na realnem sistemu, dodajte anti-windup zaščito in interpretirajte vir razlik.
+                                Ročno prilagodite ZN parametre na realnem sistemu, dodajte anti-windup zaščito, izvedite odpravo mrtve cone in interpretirajte vir razlik.
                                 <br /><br />
                                 <strong>Ročna dodelava parametrov:</strong>
                                 <ul>
@@ -248,6 +255,15 @@
                                     <li>Izvedite primerjavo pri veliki stopnici (npr. ω<sub>ref</sub> = 300 rad/s): brez anti-windup in z anti-windup.</li>
                                     <li>Izrisajte primerjalni graf ω<sub>2</sub> in krmilnega signala za oba primera.</li>
                                     <li>Numerično primerjajte čas vrnitve iz saturacije in amplitudo prenihaja; cilj je krajše okrevanje in manjši M<sub>p</sub>.</li>
+                                </ul>
+                                <strong>Odprava mrtve cone pri nizkih hitrostih:</strong>
+                                <br />
+                                Pri zelo nizkih hitrostih je vpliv statičnega trenja izrazit, zato izvedite kompenzacijo mrtve cone in primerjajte odziv.
+                                <ul>
+                                    <li>Izmerite prag mrtve cone u<sub>dz</sub>: postopoma povečujte PWM od 0 navzgor, dokler motor ne začne vrteti.</li>
+                                    <li>Implementirajte kompenzacijo: \(u_{comp}[k]=u[k]+\mathrm{sign}(u[k])\cdot u_{dz}\), za \(u[k]\neq 0\).</li>
+                                    <li>Izvedite poseben eksperiment pri referenci 1 rpm (≈ 0,105 rad/s): brez kompenzacije in z njo.</li>
+                                    <li>Izrišite primerjalni graf ω<sub>2</sub>(t) in krmilnega signala ter komentirajte vpliv na e<sub>ss</sub> in čas ustalitve.</li>
                                 </ul>
                                 <strong>Interpretacija:</strong>
                                 <ul>
