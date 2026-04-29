@@ -69,6 +69,12 @@
                             Diskretna oblika (vzorčni čas T<sub>s</sub>):
                             \[u[k]=K_p\!\left(e[k]+\frac{T_s}{T_i}\sum_{i=0}^{k}e[i]+\frac{T_d}{T_s}(e[k]-e[k-1])\right)\]
                         </p>
+                        <p><strong>Pretvorba v ojačanja K<sub>i</sub> in K<sub>d</sub> (za implementacijo):</strong><br />
+                            Za vzporedno obliko \(u(t)=K_p e(t)+K_i\!\int e(t)dt+K_d\,\frac{de(t)}{dt}\) velja:
+                            \[K_i=\frac{K_p}{T_i},\qquad K_d=K_p\,T_d\]
+                            V diskretni implementaciji iz zgornje enačbe uporabite koeficienta:
+                            \[K_{i,disc}=K_p\frac{T_s}{T_i},\qquad K_{d,disc}=K_p\frac{T_d}{T_s}\]
+                        </p>
                         <p><strong>Pomembno:</strong> PID regulator morate implementirati sami iz osnovnih Simulink blokov (vsota, ojačanje, integrator, odvodni člen in saturacija). Uporaba gotovega PID bloka ni dovoljena.</p>
                     </div>
 
@@ -132,12 +138,13 @@
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Poglobljena primerjava obeh ZN metod (VL5 vs. VL6), kompenzacija mrtve cone in razlaga virov razlik.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Poglobljena primerjava obeh ZN metod (VL5 vs. VL6), obvezna odprava mrtve cone in razlaga virov razlik.</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
                                             <li>Primerjalni graf: PID iz VL5 (metoda prehodnega odziva) vs. PID iz VL6 (oscilacijska metoda) – na maketi in v simulaciji.</li>
                                             <li>Numerična primerjava M<sub>p</sub>, t<sub>s</sub>, ISE za obe metodi.</li>
                                             <li>Izmerjena in kompenzirana mrtva cona: primerjalni graf ω<sub>2</sub>(t) brez/z kompenzacijo pri majhnih referencah.</li>
+                                            <li>Poseben eksperiment pri zelo nizki hitrosti 1 rpm (≈ 0,105 rad/s): primerjava brez/z odpravo mrtve cone in komentar opaženih učinkov.</li>
                                             <li>Obrazložitev: katera metoda daje boljše izhodišče za realni sistem in zakaj.</li>
                                             <li>Razlaga, kateri pojavi (zakasnitev, nelinearnost, šum, mrtva cona) vplivajo na točnost vsake metode.</li>
                                         </ul>
@@ -244,7 +251,7 @@
 
                             <strong>4.5 Ocena 10</strong>
                             <div>
-                                Poglobljeno primerjajte obe ZN metodi na realnem sistemu, dodajte kompenzacijo mrtve cone in razložite vire razlik.
+                                Poglobljeno primerjajte obe ZN metodi na realnem sistemu, izvedite odpravo mrtve cone in razložite vire razlik.
                                 <br /><br />
                                 <strong>Primerjava PID regulatorjev iz VL5 in VL6 na maketi:</strong>
                                 <ul>
@@ -261,11 +268,12 @@
                                 <br />
                                 Motor FlexDrive ima mrtvo cono (angl. <em>dead zone</em>): pri majhnih vrednostih krmilnega signala PWM statično trenje preseže gonilno silo in motor se ne zavrti. Mrtva cona vpliva na obe ZN metodi drugače: pri metodi prehodnega odziva je bila stopnica PWM 0→4000 dovolj velika, da mrtva cona ni bila opazna – pri majhnih referencah pa se pokaže kot počasen odziv ali stacionarna napaka. Pri metodi kritičnega ojačanja mrtva cona navidezno zniža K<sub>kr</sub>, ker sistem pri majhnih amplitudah nihanj odreagira kasneje kot pri linearnem modelu.
                                 <ul>
-                                    <li>Izmersite prag mrtve cone u<sub>dz</sub>: postopoma povečujte PWM od 0 navzgor, dokler motor ne začne vrteti. Ta vrednost je u<sub>dz</sub>.</li>
+                                    <li>Izmerite prag mrtve cone u<sub>dz</sub>: postopoma povečujte PWM od 0 navzgor, dokler motor ne začne vrteti. Ta vrednost je u<sub>dz</sub>.</li>
                                     <li>Implementirajte kompenzacijo mrtve cone z dodajanjem feed-forward člena v Simulinku:
                                         \[u_{comp}[k] = u[k] + \mathrm{sign}(u[k])\cdot u_{dz}, \quad \text{če } u[k] \neq 0\]
                                         Za implementacijo uporabite bloke Sign in Gain ter seštevanje pred saturacijo.</li>
-                                    <li>Izvedite primerjavo pri majhni stopnici (npr. ω<sub>ref</sub> = 20 rad/s): brez kompenzacije in z njo.</li>
+                                    <li>Izvedite primerjavo pri zelo nizki referenci 1 rpm (≈ 0,105 rad/s): brez kompenzacije in z njo.</li>
+                                    <li>Dodatno izvedite primerjavo pri majhni stopnici (npr. ω<sub>ref</sub> = 20 rad/s): brez kompenzacije in z njo.</li>
                                     <li>Izrisajte primerjalni graf ω<sub>2</sub>(t) in krmilnega signala za oba primera.</li>
                                     <li>Numerično primerjajte e<sub>ss</sub> in čas ustalitve t<sub>s</sub>; cilj je manjša stacionarna napaka in hitrejši odziv pri majhnih referencah.</li>
                                 </ul>
