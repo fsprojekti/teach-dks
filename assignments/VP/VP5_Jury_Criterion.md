@@ -117,42 +117,33 @@ $$\boxed{\text{Sistem je STABILEN}}$$
 
 Karakteristični polinom:
 
-$$P(z) = z^2 - 0{,}5z + 0{,}8$$
+$$P(z) = z^2 - 0{,}5z + 1{,}2$$
 
-Koeficienti: $a_0 = 1,\ a_1 = -0{,}5,\ a_2 = 0{,}8$
+Koeficienti: $a_0 = 1,\ a_1 = -0{,}5,\ a_2 = 1{,}2$
 
 ### Korak 1 — Nujni pogoji
 
-$$P(1) = 1 - 0{,}5 + 0{,}8 = 1{,}3 > 0 \checkmark$$
+$$P(1) = 1 - 0{,}5 + 1{,}2 = 1{,}7 > 0 \checkmark$$
 
-$$(-1)^2 P(-1) = 1 + 0{,}5 + 0{,}8 = 2{,}3 > 0 \checkmark$$
+$$(-1)^2 P(-1) = 1 + 0{,}5 + 1{,}2 = 2{,}7 > 0 \checkmark$$
 
-$$|a_2| = 0{,}8 < a_0 = 1 \checkmark$$
+$$|a_2| = 1{,}2 < a_0 = 1 \quad \text{NE velja} \; \times$$
 
-Vsi nujni pogoji so izpolnjeni — nadaljujemo s tabelo.
+Ker tretji nujni pogoj ni izpolnjen, je sistem po Juryjevem kriteriju **nestabilen** (tabele ni treba graditi).
 
-### Korak 2 — Juryjeva tabela
+### Korak 2 — Zaključek
 
-| Vrstica | $z^0$   | $z^1$    | $z^2$ |
-|---------|---------|----------|-------|
-| 1       | $0{,}8$ | $-0{,}5$ | $1$   |
-| 2       | $1$     | $-0{,}5$ | $0{,}8$ |
-| 3       | $b_1$   | $b_0$    |       |
-
-$$b_0 = \begin{vmatrix} a_2 & a_1 \\ a_0 & a_1 \end{vmatrix} = a_2 \cdot a_1 - a_0 \cdot a_1 = (0{,}8)(-0{,}5) - (1)(-0{,}5) = -0{,}4 + 0{,}5 = 0{,}1$$
-
-$$b_1 = \begin{vmatrix} a_2 & a_0 \\ a_0 & a_2 \end{vmatrix} = a_2^2 - a_0^2 = 0{,}64 - 1 = -0{,}36$$
+Polinom ima produkt polov enak $z_1 z_2 = a_2/a_0 = 1{,}2 > 1$, zato vsaj en pol leži izven enotske krožnice.
 
 ### Korak 3 — Stabilnostni pogoj
 
 | Pogoj | Vrednost | Izpolnjen? |
 |-------|----------|------------|
-| $\|a_2\| < a_0$ | $0{,}8 < 1$ | ✓ |
-| $\|b_1\| > \|b_0\|$ | $0{,}36 > 0{,}1$ | ✓ |
+| $\|a_2\| < a_0$ | $1{,}2 < 1$ | ✗ |
 
-$$\boxed{\text{Sistem je STABILEN}}$$
+$$\boxed{\text{Sistem je NESTABILEN}}$$
 
-> **Preverimo z MATLAB:** poli tega polinoma so $z = 0{,}25 \pm j\,0{,}866$, $|z| = \sqrt{0{,}25^2 + 0{,}866^2} = \sqrt{0{,}812} \approx 0{,}9$ — znotraj enotske krožnice ✓
+> **Preverimo z MATLAB:** poli tega polinoma so približno $z_{1,2} = 0{,}25 \pm j\,1{,}067$, zato je $|z| = \sqrt{1{,}2} \approx 1{,}095 > 1$ — izven enotske krožnice ✗
 
 ---
 
@@ -165,7 +156,7 @@ disp('Poli primera 1:'); roots(p1)
 disp('|poli| < 1?'); abs(roots(p1)) < 1
 
 % Primer 2
-p2 = [1, -0.5, 0.8];
+p2 = [1, -0.5, 1.2];
 disp('Poli primera 2:'); roots(p2)
 disp('|poli| < 1?'); abs(roots(p2)) < 1
 ```

@@ -29,6 +29,9 @@ Diskretni krmilni sistemi - laboratorijske vaje (VL), semester 2026.
     VL6 uporablja oscilacijski nacin Ziegler-Nichols metode: studenti povecujejo ojacanje do meje stabilnosti, izmerijo kriticno ojacanje in periodo oscilacij ter iz teh vrednosti dolocijo PID parametre in primerjajo odziv z VL5.
 
 7. VL7: Frekvenčna analiza sistema
+
+    VL7 uvaja frekvenčno domeno: studenti vzbudijo sistem s sinusnimi signali razlicnih frekvenc, izmerijo amplitudni odziv in fazni zamik ter sestavijo eksperimentalni Bodejev diagram. Ta primerjajo s teoreticnim diagramom iz modela (VL3) in iz njega dolocijo pasovno sirino, fazno rezervo (PM) in amplitudno rezervo (GM). Najboljsi studenti dodajo se nizkopasovni filter ter analizirajo kompromis med zmanjsanjem suma in izgubo odzivnosti.
+
 8. VL8: Model prostora stanj
 9. VL9: Regulator stanj
 

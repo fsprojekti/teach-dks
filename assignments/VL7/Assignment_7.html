@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <main style="margin-top:16px;margin-bottom:24px;padding:0 16px;flex-grow:1;flex-shrink:1;">
+            <div style="padding-top:8px;padding-bottom:8px;line-height:1.6;max-width:1200px;">
+                <h3>7. Vaja: Frekvenčna analiza sistema</h3>
+
+                <div>
+                    <div style="margin-bottom:20px;">
+                        <strong>1. Cilji vaje</strong><br />
+                        <ul>
+                            <li><strong>Eksperimentalni Bodejev diagram:</strong> Z vzbujanjem sistema s sinusnimi signali različnih frekvenc izmeriti amplitudni odziv in fazni zamik <strong>kota θ₁ (vpeta os)</strong> ter sestaviti eksperimentalni Bodejev diagram prenosne funkcije med vhodnim PWM signalom in izhodnim kotom θ₁.</li>
+                            <li><strong>Primerjava z modelom:</strong> Primerjati eksperimentalni Bodejev diagram s teoretičnim diagramom, dobljenim iz modela sistema (identificiranega v VL3), in komentirati ujemanje ter odstopanja.</li>
+                            <li><strong>Analiza stabilnosti:</strong> Iz Bodejevega diagrama določiti pasovno širino sistema, fazno rezervo (phase margin) in amplitudno rezervo (gain margin).</li>
+                            <li><strong>Nizkopasovni filter:</strong> Uvesti nizkopasovni filter na izhodni signal, izmeriti njegov vpliv na šum in odzivnost sistema ter ovrednotiti kompromis.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>2. Opis vaje</strong><br />
+                        <p><strong>Širši cilj vaje:</strong> sistematično določiti frekvenčne lastnosti sistema (maketa FlexDrive) z eksperimentalnimi meritvami in jih primerjati s teoretičnim modelom. Frekvenčna analiza je temeljna metoda za razumevanje dinamike sistema: pove nam, kako sistem ojači ali oslabi signale pri različnih frekvencah in koliko jih zakasnuje.</p>
+
+                        <p>Vaja gradi neposredno na modelu procesa iz VL3 ter na izkušnjah z zajemom signalov iz VL2. Pristop je eksperimentalen: na sistem pošiljamo sinusni vhodni signal pri nizu izbranih frekvenc in merimo izhodni signal (kot θ₁ na <strong>vpeti osi</strong> — ne na gnani motorni osi θ₂, ki ima enkoder z nižjo ločljivostjo). Za vsako frekvenco odčitamo amplitudo izhodnega signala in fazni zamik glede na vhod, kar skupaj tvori točke Bodejevega diagrama.</p>
+
+                        <p><strong>Principi frekvenčnega odziva:</strong><br />
+                        V tej vaji merimo frekvenčni odziv sistema med vhodnim PWM signalom \(u(t)\) in izhodnim <strong>kotom vpete osi θ₁(t)</strong> (ne kotno hitrostjo, ne kotom gnane motorske osi θ₂). Ker je kot integral kotne hitrosti, sistem z integratorjem ojači nizke frekvence in strmo pada pri višjih — kar bo jasno vidno na Bodejevem diagramu.<br /><br />
+                        Za linearni sistem z vhodno sinuso \(u(t) = A\sin(\omega t)\) bo izhodni kot v ustaljenem stanju prav tako sinusen:
+                        \[\theta_1(t) = B\sin(\omega t + \phi)\]
+                        kjer je:
+                        <ul>
+                            <li>\(|G(j\omega)| = B/A\) — ojačenje sistema pri frekvenci \(\omega\): koliko stopinj kota dobimo na enoto PWM pri tej frekvenci</li>
+                            <li>\(\phi = \angle G(j\omega)\) — fazni zamik kota glede na vhodni signal pri frekvenci \(\omega\)</li>
+                        </ul>
+                        Na Bodejevem diagramu amplitudni odziv izražamo v decibelih:
+                        \[|G(j\omega)|_{dB} = 20\log_{10}\!\left(\frac{B}{A}\right)\]
+                        in frekvence na logaritmični osi v rad/s ali Hz.
+                        </p>
+
+                        <p><strong>Stabilnostni robovi:</strong><br />
+                        <ul>
+                            <li><strong>Pasovna širina ω<sub>BW</sub>:</strong> frekvenca, pri kateri amplitudni odziv pade za 3 dB pod vrednost pri ω→0 (ali na −3 dB v absolutnem smislu).</li>
+                            <li><strong>Fazna rezerva (PM):</strong> koliko faze manjka do −180° pri frekvenci, kjer je |G(jω)| = 0 dB (ojačenje = 1). Pozitivna PM pomeni stabilen sistem.</li>
+                            <li><strong>Amplitudna rezerva (GM):</strong> faktor, za katerega bi morali povečati ojačenje, da bi sistem postal mejno stabilen — odčitamo pri frekvenci, kjer je faza = −180°.</li>
+                        </ul>
+                        </p>
+
+                        <p><strong>Postopek zajema podatkov:</strong><br />
+                        Za vsako frekvenco \(f\):
+                        <ol>
+                            <li>Nastavite referenco kota na \(\theta_{ref}(t) = A\sin(2\pi f\,t)\) (odprtozančno ali zaprtozančno).</li>
+                            <li>Počakajte, da se prehodna pojava umiri (vsaj 3–5 period sinuse).</li>
+                            <li>Zabeležite izhodni signal \(\theta_1(t)\) v ustaljenem stanju.</li>
+                            <li>Izračunajte amplitudo \(B\) in fazni zamik \(\phi\) (grafično ali z FFT).</li>
+                        </ol>
+                        </p>
+
+                        <p><strong>Obseg frekvenc:</strong> Priporočen razpon je od 0,5 Hz do 20 Hz (oz. 3 rad/s do 125 rad/s), z logaritmično razporejenimi točkami. Upoštevajte, da je vzorčni čas sistema omejen — pri visokih frekvencah bo natančnost meritve padla.</p>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>3. Povzetek nalog in pričakovanih rezultatov</strong><br />
+                        <p>Za doseganje višje ocene je treba izvesti tudi vse predhodne naloge.</p>
+
+                        <table style="border-collapse:collapse;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Ocena</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kratek opis nalog</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Pričakovani rezultati</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Izvedite meritev odziva sistema na sinusni signal pri vsaj 3 različnih frekvencah</li>
+                                            <li>Za vsako frekvenco izračunajte amplitudo izhodnega signala in fazni zamik</li>
+                                        </ul>
+                                    </td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Preglednica z izmerjeno amplitudo, ojačenjem (dB) in faznim zamikom za vsako frekvenco</li>
+                                            <li>Graf izhodnega signala za vsaj eno frekvenco (vhod in izhod na istem grafu)</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">7</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Razširite meritve na vsaj 8 logaritmično razporejenih frekvenc</li>
+                                            <li>Izrišite eksperimentalni Bodejev diagram (amplituda in faza)</li>
+                                        </ul>
+                                    </td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Bodejev diagram z amplitudo [dB] in fazo [°] na logaritmični frekvenčni osi</li>
+                                            <li>Razširjena preglednica vseh meritev</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Iz Bodejevega diagrama določite pasovno širino, fazno rezervo (PM) in amplitudno rezervo (GM)</li>
+                                            <li>Komentirajte stabilnost in odzivnost sistema</li>
+                                        </ul>
+                                    </td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Numerične vrednosti ω<sub>BW</sub>, PM in GM</li>
+                                            <li>Oznake kritičnih točk na Bodejevem diagramu</li>
+                                            <li>Kratka razlaga stabilnosti in odzivnosti</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">9</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Vzbudite sistem z naključnim (širokopasovnim) vhodnim signalom</li>
+                                            <li>Iz zajetih signalov izračunajte frekvenčni odziv z metodo FFT (H = Y/U) in ga primerjajte z Bodejevim diagramom iz točkastih meritev (ocena 7)</li>
+                                        </ul>
+                                    </td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Graf vhodnega naključnega signala in izhodnega odziva</li>
+                                            <li>FFT-ocenjen Bodejev diagram (amplituda in faza) skupaj s točkami iz ocene 7</li>
+                                            <li>Komentar ujemanja in razlik med metodama</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;text-align:center;">10</td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Dodajte nizkopasovni filter prvega reda na izhodni signal</li>
+                                            <li>Izvedite primerjave z in brez filtra ter ovrednotite kompromis med zmanjšanjem šuma in izgubo odzivnosti</li>
+                                        </ul>
+                                    </td>
+                                    <td style="border:1px solid #000000;padding:10px;">
+                                        <ul style="margin:0;padding-left:18px;">
+                                            <li>Opis filtra (Red, časovna konstanta τ, mejna frekvenca)</li>
+                                            <li>Bodejev diagram sistema z in brez filtra</li>
+                                            <li>Primerjalni grafi šuma in odziva</li>
+                                            <li>Komentar vpliva filtra na PM, GM in pasovno širino</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />4. Podrobnejši opis nalog</strong><br />
+                        <div>
+                            <strong>4.1 Ocena 6 — Osnovna meritev frekvenčnega odziva</strong>
+                            <div>
+                                Vzbudite sistem s sinusnim signalom pri vsaj 3 frekvencah in za vsako izračunajte ojačenje in fazni zamik.
+                                <br /><br />
+                                <strong>Korak A – priprava Simulink modela:</strong>
+                                <ul>
+                                    <li>Odprite Simulink model iz VL2 (zajem podatkov prek serijske komunikacije z maketo).</li>
+                                    <li>Vhodni signal spremenite v sinusni generator: blok <em>Sine Wave</em> z nastavljivo amplitudo \(A\) in frekvenco \(f\).</li>
+                                    <li>Amplitudo nastavite na vrednost, pri kateri sistem ostane v linearnem območju (npr. \(A = 0{,}5\) rad kot referenca kota). Pazite, da PWM signal ne saturira.</li>
+                                    <li>Vhodni signal (referenco) in izhodni signal (\(\theta_1\)) zajemajte hkrati in shranjujte v delovni prostor MATLAB-a.</li>
+                                </ul>
+                                <strong>Korak B – meritev pri 3 frekvencah:</strong>
+                                <ul>
+                                    <li>Izberite 3 frekvence, npr. 0,5 Hz, 2 Hz in 8 Hz.</li>
+                                    <li>Za vsako frekvenco zaženite sistem v External mode in počakajte vsaj 5 polnih period sinuse, preden začnete zajemati podatke.</li>
+                                    <li>Iz posnetega signala v ustaljenem stanju grafično odčitajte amplitudo izhodnega signala \(B\) in fazni zamik \(\phi\) glede na vhod.</li>
+                                    <li>Amplitudni zamik v dB: \(|G|_{dB} = 20\log_{10}(B/A)\).</li>
+                                    <li>Fazni zamik: odčitajte časovno razliko \(\Delta t\) med vrhovoma vhoda in izhoda, nato \(\phi = -360°\cdot f\cdot\Delta t\).</li>
+                                </ul>
+                                <strong>Rezultat:</strong>
+                                <ul>
+                                    <li>Preglednica (f [Hz], ω [rad/s], A [rad], B [rad], |G| [dB], φ [°]) za vsaj 3 meritve.</li>
+                                    <li>Graf vhodnega in izhodnega sinusnega signala za eno od izmerjenih frekvenc – z označenim \(\Delta t\) in amplitudama.</li>
+                                </ul>
+                            </div>
+
+                            <br /><strong>4.2 Ocena 7 — Eksperimentalni Bodejev diagram</strong>
+                            <div>
+                                Razširite meritve na vsaj 8 frekvenc in iz rezultatov izrišite eksperimentalni Bodejev diagram.
+                                <br /><br />
+                                <strong>Korak A – razširitev meritev:</strong>
+                                <ul>
+                                    <li>Izberite vsaj 8 frekvenc, logaritmično razporejenih v razponu 0,5–15 Hz (npr. s funkcijo <code>logspace</code> v MATLAB-u).</li>
+                                    <li>Za vsako frekvenco ponovite postopek iz 4.1 (počakajte na ustaljeno stanje, odčitajte \(B\) in \(\phi\)).</li>
+                                    <li>Pozorni bodite, da pri višjih frekvencah izhodni signal postane manjši in bolj zakasnjen — to je pričakovan pojav.</li>
+                                </ul>
+                                <strong>Korak B – izris Bodejevega diagrama:</strong>
+                                <ul>
+                                    <li>V MATLAB-u izrišite Bodejev diagram z dvema podgrafoma:
+                                        <ul>
+                                            <li>Zgornji: amplituda [dB] v odvisnosti od frekvence [rad/s] (logaritmična os)</li>
+                                            <li>Spodnji: fazni zamik [°] v odvisnosti od frekvence [rad/s]</li>
+                                        </ul>
+                                    </li>
+                                    <li>Uporabite <code>semilogx</code> ali pa podatke uredite v obliko za <code>bodeplot</code>.</li>
+                                </ul>
+                                <strong>Rezultat:</strong>
+                                <ul>
+                                    <li>Polna preglednica vseh meritev.</li>
+                                    <li>Eksperimentalni Bodejev diagram z vsemi meritvami kot točkami.</li>
+                                </ul>
+                            </div>
+
+                            <br /><strong>4.3 Ocena 8 — Stabilnostni robovi in pasovna širina</strong>
+                            <div>
+                                Iz Bodejevega diagrama določite pasovno širino, fazno rezervo in amplitudno rezervo sistema.
+                                <br /><br />
+                                <strong>Korak A – pasovna širina:</strong>
+                                <ul>
+                                    <li>Poiščite frekvenco ω<sub>BW</sub>, pri kateri amplituda pade za 3 dB glede na nizkofrekvenčno vrednost.</li>
+                                    <li>V MATLAB-u to določite z ukazom <code>bandwidth(G)</code> ali grafično iz Bodejevega diagrama.</li>
+                                </ul>
+                                <strong>Korak B – fazna rezerva (PM):</strong>
+                                <ul>
+                                    <li>Poiščite frekvenco prehoda ojačenja (gain crossover frequency ω<sub>gc</sub>), kjer |G(jω)| = 0 dB.</li>
+                                    <li>Fazna rezerva: \(\text{PM} = 180° + \angle G(j\omega_{gc})\).</li>
+                                    <li>Za stabilen sistem mora biti PM &gt; 0°. Priporočena vrednost je PM ≥ 45° za zadovoljivo robustnost.</li>
+                                </ul>
+                                <strong>Korak C – amplitudna rezerva (GM):</strong>
+                                <ul>
+                                    <li>Poiščite frekvenco prehoda faze (phase crossover frequency ω<sub>pc</sub>), kjer ∠G = −180°.</li>
+                                    <li>Amplitudna rezerva: \(\text{GM} = -|G(j\omega_{pc})|_{dB}\).</li>
+                                    <li>V MATLAB-u: <code>[Gm, Pm, Wcg, Wcp] = margin(G)</code>.</li>
+                                </ul>
+                                <strong>Korak D – oznake na diagramu:</strong>
+                                <ul>
+                                    <li>Na Bodejevem diagramu označite vse kritične točke: ω<sub>BW</sub>, ω<sub>gc</sub>, ω<sub>pc</sub>, PM in GM.</li>
+                                    <li>Razložite, kaj PM in GM povesta o robustnosti vašega sistema – kako daleč od meje nestabilnosti je sistem?</li>
+                                </ul>
+                                <strong>Rezultat:</strong>
+                                <ul>
+                                    <li>Numerične vrednosti: ω<sub>BW</sub> [rad/s], PM [°], GM [dB].</li>
+                                    <li>Anotiran Bodejev diagram z označenimi kritičnimi točkami.</li>
+                                    <li>Komentar stabilnostnih robov (2–4 stavki).</li>
+                                </ul>
+                            </div>
+
+                            <br /><strong>4.4 Ocena 9 — FFT-ocena frekvenčnega odziva z naključnim vhodom</strong>
+                            <div>
+                                Vzbudite sistem z naključnim širokopasovnim signalom in iz zajetih podatkov z metodo FFT neposredno ocenite frekvenčni odziv. Primerjajte rezultat z Bodejevim diagramom iz točkastih meritev (ocena 7).
+                                <br /><br />
+                                <strong>Ozadje metode:</strong>
+                                <p>Če na vhod sistema privedemo širokopasovni signal \(u(t)\) in izmerimo izhod \(y(t)\), lahko frekvenčni odziv ocenimo direktno iz FFT zajetih signalov:
+                                \[\hat{G}(j\omega) = \frac{Y(j\omega)}{U(j\omega)}\]
+                                Amplituda: \(|\hat{G}|_{dB} = 20\log_{10}|Y/U|\), faza: \(\angle\hat{G} = \angle Y - \angle U\).<br />
+                                Prednost metode je, da v enem samem posnetku pokrije cel frekvenčni razpon hkrati — brez ponavljanja meritev za vsako frekvenco posebej.</p>
+                                <strong>Korak A – generacija naključnega vhodnega signala:</strong>
+                                <ul>
+                                    <li>V Simulinku zamenjajte sinusni generator z blokom <em>Band-Limited White Noise</em> (ali generatorjem PRBS).</li>
+                                    <li>Nastavite amplitudo šuma na vrednost, pri kateri sistem ostane v linearnem območju (PWM ne sme saturirati).</li>
+                                    <li>Čas vzorčenja naj bo enak vzorčnemu času komunikacije z maketo; dolžina zajema naj bo vsaj 10–20 sekund za dobro frekvenčno ločljivost.</li>
+                                    <li>Hkrati zajemajte vhodni signal \(u(t)\) (PWM referenca) in izhodni signal \(\theta_1(t)\) ter ju shranite v delovni prostor MATLAB-a.</li>
+                                </ul>
+                                <strong>Korak B – izračun FFT in ocena frekvenčnega odziva:</strong>
+                                <ul>
+                                    <li>V MATLAB-u izračunajte FFT obeh signalov:
+                                        <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">N     = length(u);
+U_fft = fft(u);
+Y_fft = fft(y);
+f     = (0:N-1) * fs / N;   % frekvenčna os [Hz]
+G_est = Y_fft ./ U_fft;     % ocena frekvenčnega odziva</pre>
+                                    </li>
+                                    <li>Prikažite samo pozitivno polovico spektra (indeksi 1 do N/2).</li>
+                                    <li>Za glajenje rezultata (zmanjšanje statističnega šuma) uporabite Welchovo metodo: <code>tfestimate(u, y, [], [], [], fs)</code>.</li>
+                                </ul>
+                                <strong>Korak C – primerjava z meritvami iz ocene 7:</strong>
+                                <ul>
+                                    <li>Na isti graf izrišite FFT-ocenjen Bodejev diagram (zvezna krivulja) in točkaste meritve iz ocene 7 (simboli).</li>
+                                    <li>Na kateri frekvenci se metodi dobro ujemata? Kje so večja odstopanja?</li>
+                                    <li>Razložite, zakaj FFT metoda pri visokih frekvencah daje bolj šumne rezultate (nizko razmerje signal/šum).</li>
+                                </ul>
+                                <strong>Rezultat:</strong>
+                                <ul>
+                                    <li>Graf vhodnega naključnega signala \(u(t)\) in izhodnega odziva \(\theta_1(t)\) v časovni domeni.</li>
+                                    <li>FFT-ocenjen Bodejev diagram (amplituda in faza) skupaj s točkami iz ocene 7 na istem grafu.</li>
+                                    <li>Kratka primerjava obeh metod (3–5 stavkov): katera je hitrejša, katera natančnejša in zakaj.</li>
+                                </ul>
+                            </div>
+
+                            <br /><strong>4.5 Ocena 10 — Nizkopasovni filter in analiza vpliva</strong>
+                            <div>
+                                Dodajte nizkopasovni filter na izhodni signal, izvedite primerjave in ovrednotite kompromis med zmanjšanjem šuma in izgubo odzivnosti.
+                                <br /><br />
+                                <strong>Korak A – zasnova filtra:</strong>
+                                <ul>
+                                    <li>Izberite nizkopasovni filter prvega reda z mejno frekvenco ω<sub>f</sub> (npr. ω<sub>f</sub> = ω<sub>BW</sub>/3 ali ω<sub>f</sub> = ω<sub>BW</sub>/10).</li>
+                                    <li>Prenosna funkcija: \(F(s) = \dfrac{\omega_f}{s + \omega_f}\) ali ekvivalentno \(F(s) = \dfrac{1}{\tau s + 1}\), kjer \(\tau = 1/\omega_f\).</li>
+                                    <li>V Simulinku implementirajte filter z blokom <em>Transfer Fcn</em> ali s prvim redom diskretnega filtra z ustreznim vzorčnim časom.</li>
+                                    <li>Postavite filter za blokom zajema kota θ₁ (na meritvi).</li>
+                                </ul>
+                                <strong>Korak B – primerjava signalov:</strong>
+                                <ul>
+                                    <li>Zaženite sistem brez filtra in z filtrom pri isti sinusni referenci (npr. f = 2 Hz).</li>
+                                    <li>Izrišite primerjalni graf filtriranega in nefiltriranega izhodnega signala θ₁(t).</li>
+                                    <li>Primerjajte vidno raven šuma (visokofrekvenčnih nihanj) v obeh signalih.</li>
+                                </ul>
+                                <strong>Korak C – vpliv na frekvenčni odziv:</strong>
+                                <ul>
+                                    <li>Izrišite Bodejev diagram skupnega sistema G·F (sistem + filter).</li>
+                                    <li>Primerjajte PM, GM in ω<sub>BW</sub> sistema brez in z filtrom.</li>
+                                    <li>Ker filter doda fazo, bo PM sistema z filtrom nižja — zakaj? Razložite.</li>
+                                </ul>
+                                <strong>Korak D – preizkus z dvema različnima mejnima frekvencama:</strong>
+                                <ul>
+                                    <li>Ponovite meritve z ω<sub>f</sub> = ω<sub>BW</sub>/3 in ω<sub>f</sub> = ω<sub>BW</sub>/10.</li>
+                                    <li>Sestavite primerjalno tabelo: PM, GM, ω<sub>BW</sub> in vidna raven šuma za:
+                                        <ol>
+                                            <li>Sistem brez filtra</li>
+                                            <li>Sistem z filtrom ω<sub>f</sub> = ω<sub>BW</sub>/3</li>
+                                            <li>Sistem z filtrom ω<sub>f</sub> = ω<sub>BW</sub>/10</li>
+                                        </ol>
+                                    </li>
+                                    <li>Razložite kompromis: zakaj ni mogoče hkrati popolnoma odpraviti šuma in ohraniti visoke odzivnosti sistema?</li>
+                                </ul>
+                                <strong>Rezultat:</strong>
+                                <ul>
+                                    <li>Opis filtra (red, τ ali ω<sub>f</sub>) za obe varianti.</li>
+                                    <li>Primerjalni grafi θ₁(t) z in brez filtra.</li>
+                                    <li>Primerjalni Bodejev diagram sistema z in brez filtra.</li>
+                                    <li>Tabela PM, GM, ω<sub>BW</sub> za vse tri konfiguracije.</li>
+                                    <li>Pisna razlaga kompromisa šum–odzivnost (4–6 stavkov).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong><br />5. Priprava na vajo in potrebno predznanje</strong><br />
+                        <ul>
+                            <li>Razumeti pojme: amplitudni odziv, fazni zamik, Bodejev diagram, pasovna širina, fazna rezerva (phase margin), amplitudna rezerva (gain margin).</li>
+                            <li>Delujoč Simulink model za serijski zajem podatkov in External mode (iz VL2 in VL3); identificiran model sistema (prenosna funkcija iz VL3).</li>
+                            <li>Osnove filtrov prvega reda: prenosna funkcija, mejna frekvenca, kompromis med zaviranjem šuma in zakasnitvijo signala.</li>
+                            <li>MATLAB ukazi: <code>tf</code>, <code>bode</code>, <code>bodeplot</code>, <code>margin</code>, <code>bandwidth</code>, <code>logspace</code>, <code>semilogx</code>.</li>
+                            <li>Na računalniku mora biti nameščen MATLAB z dodatkom Control System Toolbox.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>6. Seznam potrebne opreme</strong><br />
+                        <table style="border-collapse:collapse;margin-top:16px;margin-bottom:8px;">
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Oznaka</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Opis</strong></td>
+                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Podatkovni list</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MK-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Mikrokrmilnik LilyGO ESP32 TTGO</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/mikrokontrolerji/lilygo-esp32">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">MM-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Maketa FlexDrive</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">Dokumentacija</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">MATLAB + Simulink + Control System Toolbox</td>
+                                    <td style="border:1px solid #000000;padding:10px;"><a href="https://www.mathworks.com/help/control/ug/linear-analysis-using-bode-plots.html">MathWorks: Bode Analysis</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">SW-02</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Skripte za serijski zajem in pošiljanje ukaza (serialRead/serialWrite)</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Datoteke v repozitoriju</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000;padding:10px;">ME-01</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Model procesa iz VL3 (prenosna funkcija)</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Rezultati prejšnjih vaj</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom:20px;">
+                        <strong>7. Pogoste pasti</strong><br />
+                        <ul>
+                            <li>Ustaljeno stanje — meriti fazni zamik pred prehodnim pojavom privede do napačnih rezultatov. Vedno počakajte vsaj 3–5 polnih period sinuse.</li>
+                            <li>Saturacija aktuatorja — pri previsokih amplitudah se PWM zasiti, sistem postane nelinearen in meritev frekvenčnega odziva ni veljavna. Amplitudo prilagodite glede na frekvenco.</li>
+                            <li>Prenizka vzorčna frekvenca — pri visokih frekvencah vzorčenja (npr. &gt; 10 Hz) lahko pride do aliasinga. Preverite, da je vzorčni čas sistema vsaj 5× krajši od periode vzbujalnega signala.</li>
+                            <li>Merjenje faznega zamika — metoda z odčitavanjem \(\Delta t\) med vrhovi je občutljiva na šum. Za natančnejši rezultat uporabite FFT ali kros-korelacijo (<code>xcorr</code> v MATLAB-u).</li>
+                            <li>FFT pri kratkih posnetkih — krajši zajem pomeni slabšo frekvenčno ločljivost (\(\Delta f = f_s/N\)). Za dobro oceno pri nizkih frekvencah (npr. 0,5 Hz) potrebujete vsaj 20–30 sekund podatkov.</li>
+                            <li>Šum v FFT oceni — pri visokih frekvencah je razmerje signal/šum nizko, kar povzroči raztresene točke v ocenjenem Bodejevem diagramu. Uporabite Welchovo metodo (<code>tfestimate</code>) za glajenje.</li>
+                            <li>Mejna frekvenca filtra — filter z ω<sub>f</sub> blizu ω<sub>BW</sub> bistveno zmanjša fazno rezervo in lahko destabilizira zaprtozančni sistem. Vedno preverite PM po dodajanju filtra.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <strong>8. Dodatna gradiva</strong><br />
+                        <ul>
+                            <li><a href="https://lampa-fs.gitbook.io/knowledge-base/laboratorijska-oprema/makete/flexdrive">FlexDrive Knowledge Base</a></li>
+                            <li><a href="https://www.mathworks.com/help/control/ug/linear-analysis-using-bode-plots.html">MathWorks: Linear Analysis Using Bode Plots</a></li>
+                            <li><a href="https://www.mathworks.com/help/control/ref/lti.margin.html">MathWorks: <code>margin</code> — Gain and phase margins</a></li>
+                            <li>Predavanja DKS: Frekvenčna analiza in stabilnostni robovi (Bodejev diagram, Nyquistov kriterij).</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
