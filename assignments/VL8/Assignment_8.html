@@ -15,21 +15,22 @@
                 <div style="margin-bottom:20px;padding:12px 16px;background:#eef8fb;border-left:5px solid #67ceec;">
                     <strong>Bistvo vaje:</strong><br />
                     Sestavite diskretni model makete FlexDrive in ga priključite vzporedno k realni maketi.
-                    Oba sistema prejmeta isti vhod \(u\), nato pa postopno nastavite parametre modela, da se izhodi
-                    čim bolj ujemajo z meritvami: najprej ojačitev \(K\), nato hitrost, nato dušenje \(b/J\),
-                    za najvišji oceni pa še filtra za hitrost in pospešek.
+                    Oba sistema prejmeta isti vhod \(u\). Model postopno nadgrajujete: začnete z 2D modelom
+                    (kot in hitrost) in nastavite ojačitev \(K\), nato preverite hitrost, nato razširite na
+                    3D model (dodate pospešek kot stanje) in dodajte dušenje \(b/J\) ter vzmet \(k/J\), za najvišji oceni pa
+                    še filtra za hitrost in pospešek.
                 </div>
 
                 <div>
                     <div style="margin-bottom:20px;">
                         <strong>1. Cilji vaje</strong><br />
                         <ul>
-                            <li>zapisati preprost diskretni model vrtilnega sistema v prostoru stanj,</li>
+                            <li>zapisati 2D diskretni model vrtilnega sistema v prostoru stanj (\(\varphi\) in \(\omega\) kot stanji),</li>
                             <li>v Simulinku sestaviti vzporedno simulacijo, kjer model in maketa prejmeta isti vhodni signal \(u\),</li>
-                            <li>iz odziva makete približno določiti parameter \(K\),</li>
-                            <li>primerjati izmerjeni kot \(\varphi_1\) s simuliranim kotom \(\hat{\varphi}_1\),</li>
-                            <li>iz kota numerično izračunati hitrost in pospešek ter ju uporabiti za primerjavo z modelom,</li>
-                            <li>ročno nastaviti dušenje \(b/J\), da se model bolj približa realnemu odzivu makete.</li>
+                            <li>iz odziva makete določiti parameter \(K\) in ga preveriti z ujemanjem kota,</li>
+                            <li>primerjati izmerjeno hitrost \(\omega_1^{num}\) s hitrostjo modela \(\hat{\omega}_1\),</li>
+                            <li>razširiti model na 3D (dodati pospešek \(\alpha\) kot tretje stanje),</li>
+                            <li>ročno nastaviti \(b/J\) in \(k/J\), da se model bolj približa realnemu odzivu.</li>
                         </ul>
                     </div>
 
@@ -65,61 +66,51 @@
                         <p>Ključna ideja: <strong>če model dobro opisuje maketo, se morajo njegovi izhodi ujemati z meritvami.</strong>
                         Zato ne krmilimo modela posebej, ampak mu damo popolnoma isti vhod, kot ga dobi realna maketa.</p>
 
-                        <p><strong>Model, ki ga uporabimo v vaji:</strong><br />
-                        Stanje modela je vektor tipa položaj–hitrost–pospešek:
+                        <p><strong>Modela, ki ju uporabimo v vaji:</strong></p>
+
+                        <p><em>2D model (oceni 6 in 7) — brez dušenja (\(b = 0\)):</em><br />
+                        Stanje modela je vektor \(x[k] = \begin{bmatrix}\varphi[k] \\ \omega[k]\end{bmatrix}\).
                         \[
-                            x[k] =
-                            \begin{bmatrix} \varphi[k] \\ \omega[k] \\ \alpha[k] \end{bmatrix}.
+                            A =
+                            \begin{bmatrix}
+                                1 & T \\
+                                0 & 1
+                            \end{bmatrix},
+                            \qquad
+                            B = K \begin{bmatrix} T^2/2 \\ T \end{bmatrix},
+                            \qquad
+                            C = \begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix},
+                            \qquad
+                            D = \mathbf{0}.
                         \]
-                        Uporabimo diskretni zapis prostora stanj:
-                        \[
-                            x[k+1] = A\,x[k] + B\,u[k], \qquad y[k] = C\,x[k].
-                        \]
-                        V osnovnem modelu začnemo brez vzmeti in brez dušenja (\(k = 0,\ b = 0\)).
-                        Takrat dobimo integrijsko verigo (pospešek neposredno določen z vhodom):
+                        Tu je \(K\) ojačitev od PWM signala do kotnega pospeška [\(\mathrm{rad/s^2/PWM}\)].</p>
+
+                        <p><em>3D model (ocene 8, 9, 10) — z dušenjem \(b/J\) in vzmetjo \(k/J\):</em><br />
+                        Stanje modela je \(x[k] = \begin{bmatrix}\varphi[k] \\ \omega[k] \\ \alpha[k]\end{bmatrix}\).
                         \[
                             A =
                             \begin{bmatrix}
                                 1 & T & T^2/2 \\
                                 0 & 1 & T \\
-                                0 & 0 & 0
+                                -kJ & -(bJ + kJ\,T) & -(bJ\,T + kJ\,T^2/2)
                             \end{bmatrix},
                             \qquad
                             B =
                             \begin{bmatrix} 0 \\ 0 \\ K \end{bmatrix},
                             \qquad
-                            C = I_3.
+                            C = \begin{bmatrix}1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1\end{bmatrix},
                         \]
-                        Pri tem je \(T = 0{,}01\,\mathrm{s}\) vzorčni čas in \(K = K_m/J\) ojačitev od PWM signala
-                        do kotnega pospeška [\(\mathrm{rad/s^2/PWM}\)].
-                        Ko pri oceni 8 dodamo dušenje, se tretja vrstica matrike \(A\) posodobi:
-                        \[
-                            A =
-                            \begin{bmatrix}
-                                1 & T & T^2/2 \\
-                                0 & 1 & T \\
-                                0 & -bJ & -bJ\,T
-                            \end{bmatrix},
-                            \qquad bJ = \frac{b}{J}.
-                        \]
-                        </p>
-
-                        <div style="padding:10px 12px;background:#fff7e6;border-left:5px solid #f0b44c;margin-bottom:12px;">
-                            <strong>Pomembno:</strong> v tej vaji ne iščemo popolnega fizikalnega modela. Cilj je, da
-                            razumete postopek: najprej preprost model, nato primerjava z maketo, nato postopno izboljševanje.
-                        </div>
+                        kjer \(bJ = b/J\), \(kJ = k/J\).</p>
 
                         <p><strong>Signali za primerjavo:</strong><br />
                         Iz makete neposredno dobimo kot \(\varphi_1[k]\). Hitrost in pospešek dobimo z numeričnim odvajanjem:
                         \[
-                            \omega_1^{num}[k] = \frac{\varphi_1[k] - \varphi_1[k-1]}{T}
+                            \omega_1^{num}[k] = \frac{\varphi_1[k] - \varphi_1[k-1]}{T},
+                            \qquad
+                            \alpha_1^{num}[k] = \frac{\omega_1^{num}[k] - \omega_1^{num}[k-1]}{T}.
                         \]
-                        \[
-                            \alpha_1^{num}[k] = \frac{\omega_1^{num}[k] - \omega_1^{num}[k-1]}{T}
-                            = \frac{\varphi_1[k] - 2\varphi_1[k-1] + \varphi_1[k-2]}{T^2}.
-                        \]
-                        Ta dva signala sta samo referenca za primerjavo. Ker nastaneta z odvajanjem, sta bolj šumna
-                        kot \(\varphi_1\) — zato pri nastavljanju vedno preverite tudi kot.</p>
+                        Ti signali so samo referenca za primerjavo. Ker nastanejo z odvajanjem, so bolj šumni
+                        kot \(\varphi_1\).</p>
 
                         <p><strong>Priporočeni potek dela:</strong></p>
                         <table style="border-collapse:collapse;margin-top:4px;margin-bottom:12px;">
@@ -127,37 +118,30 @@
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Korak</strong></td>
                                     <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Kaj naredite?</strong></td>
-                                    <td style="border:1px solid #000000;padding:10px;background-color:#67ceec;"><strong>Zakaj?</strong></td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">1</td>
                                     <td style="border:1px solid #000000;padding:10px;">Pripravite obstoječi Simulink model z <code>serialRead</code> in <code>serialWrite</code>.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Da hkrati krmilite maketo in berete kot \(\varphi_1\).</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">2</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Dodate blok <em>Discrete State-Space</em>.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">To je vzporedni diskretni model makete.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Dodate blok <em>Discrete State-Space</em> z 2D modelom.</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">3</td>
                                     <td style="border:1px solid #000000;padding:10px;">Na model pripeljete isti vhod \(u\) kot na maketo.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Le tako je primerjava modela in makete smiselna.</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">4</td>
                                     <td style="border:1px solid #000000;padding:10px;">Nastavite \(K\), da se ujameta \(\hat{\varphi}_1\) in \(\varphi_1\).</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Kot je najzanesljivejši izmerjeni signal.</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">5</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Numerično izračunate \(\omega_1^{num}\) in \(\alpha_1^{num}\) iz kota.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Hitrost in pospešek potrebujete za preverjanje višjih ocen.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Numerično izračunate \(\omega_1^{num}\) in primerjate z \(\hat{\omega}_1\).</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Dodate \(b/J\), če želite boljše ujemanje pospeška.</td>
-                                    <td style="border:1px solid #000000;padding:10px;">Realni sistem ima dušenje, osnovni model pa ne.</td>
+                                    <td style="border:1px solid #000000;padding:10px;">Razširite na 3D model in dodajte \(b/J\).</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -178,8 +162,8 @@
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">6</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Nastavite MATLAB spremenljivke (T, K, A z \(b=0\), B, C, D)</li>
-                                            <li>Sestavite vzporedni model v Simulinku (Discrete State-Space)</li>
+                                            <li>Nastavite MATLAB spremenljivke (T, K, 2D matrike A, B, C, D)</li>
+                                            <li>Sestavite vzporedni 2D model v Simulinku (Discrete State-Space)</li>
                                             <li>Nastavite \(K\), da se ujameta \(\hat{\varphi}_1\) in \(\varphi_1\)</li>
                                         </ul>
                                     </td>
@@ -210,14 +194,14 @@
                                     <td style="border:1px solid #000000;padding:10px;text-align:center;">8</td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
+                                            <li>Razširite model na 3D (dodajte pospešek \(\alpha\) kot stanje)</li>
                                             <li>Iz hitrosti izračunajte \(\alpha_1^{num}\) z drugim Discrete Derivative</li>
-                                            <li>Dodajte \(b/J\) v matriko \(A\) in ga ročno nastavljajte</li>
-                                            <li>Opazujte ujemanje \(\hat{\alpha}_1\) z \(\alpha_1^{num}\)</li>
+                                            <li>Dodajte \(b/J\) in \(k/J\) v matriko \(A\) in ju ročno nastavljajte</li>
                                         </ul>
                                     </td>
                                     <td style="border:1px solid #000000;padding:10px;">
                                         <ul style="margin:0;padding-left:18px;">
-                                            <li>Vrednost \(b/J\)</li>
+                                            <li>Vrednosti \(b/J\) in \(k/J\)</li>
                                             <li>Graf \(\hat{\alpha}_1(t)\) skupaj z \(\alpha_1^{num}(t)\)</li>
                                         </ul>
                                     </td>
@@ -259,39 +243,37 @@
                     <div style="margin-bottom:20px;">
                         <strong><br />4. Podrobnejši opis nalog</strong><br />
                         <div>
-                            <strong>4.1 Ocena 6 &#8212; vzporedna simulacija in nastavitev \(K\)</strong>
+                            <strong>4.1 Ocena 6 &#8212; 2D vzporedni model in nastavitev \(K\)</strong>
                             <div>
-                                V tem delu sestavite model in nastavite \(K\), da model čim bolje sledi izmerjenemu kotu.
+                                V tem delu sestavite 2D model in nastavite \(K\), da model čim bolje sledi izmerjenemu kotu.
                                 <br /><br />
                                 <strong>Korak A: priprava MATLAB spremenljivk</strong>
-                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">T = 0.01;              % vzorčni čas
-K = 0.001;             % začetna vrednost — spremenite po merjenju
+                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">T = 0.01;              % vzorčni čas [s]
+K = 0.001;             % začetna vrednost [rad/s²/PWM] — spremenite po merjenju
 
-A = [1, T, T^2/2;
-     0, 1, T;
-     0, 0, 0];
+A = [1,  T;
+     0,  1];
 
-B = [0; 0; K];
-C = eye(3);
-D = zeros(3,1);</pre>
+B = K * [T^2/2; T];
+C = eye(2);
+D = zeros(2, 1);</pre>
                                 <strong>Korak B: nastavitev bloka Discrete State-Space</strong>
                                 <ul>
                                     <li>V Simulinku dodajte blok <em>Discrete State-Space</em>.</li>
-                                    <li>Nastavite: <strong>A:</strong> <code>A</code>, <strong>B:</strong> <code>B</code>, <strong>C:</strong> <code>C</code>, <strong>D:</strong> <code>D</code>, <strong>Sample time:</strong> <code>0.01</code>.</li>
-                                    <li><strong>Initial conditions:</strong> <code>[phi1_0; 0; 0]</code></li>
+                                    <li>Nastavite: <strong>A:</strong> <code>A</code>, <strong>B:</strong> <code>B</code>, <strong>C:</strong> <code>C</code>, <strong>D:</strong> <code>D</code>, <strong>Sample time:</strong> <code>T</code>.</li>
+                                    <li><strong>Initial conditions:</strong> <code>[phi1_0; 0]</code></li>
                                     <li>Vhod modela naj bo isti PWM signal \(u\), ki gre na <code>serialWrite</code>.</li>
-                                    <li>Izhod modela razdelite z blokom <em>Demux</em> na \(\hat{\varphi}_1\), \(\hat{\omega}_1\), \(\hat{\alpha}_1\).</li>
+                                    <li>Izhod modela razdelite z blokom <em>Demux</em> na \(\hat{\varphi}_1\) (prvi izhod) in \(\hat{\omega}_1\) (drugi izhod).</li>
                                     <li>Na <em>Scope</em> prikažite \(\hat{\varphi}_1\) in izmerjeni \(\varphi_1\).</li>
                                 </ul>
                                 <strong>Korak C: začetna ocena \(K\)</strong>
                                 <p>
                                     Na maketo pošljite stopnico, npr. \(u = 500\), in zajemajte vsaj 3 sekunde.
-                                    Iz začetnega naklona hitrosti ocenite:
+                                    Iz začetnega kvadratičnega naraščanja kota ocenite:
                                     \[
-                                        K \approx \frac{\Delta\omega_1}{\Delta t \cdot u}.
+                                        K \approx \frac{2\,\Delta\varphi_1}{\Delta t^2 \cdot u}.
                                     \]
-                                    Če hitrosti še nimate, povečujte \(K\) ročno, dokler se simulirani kot ne
-                                    približa izmerjenemu.
+                                    Nato povečujte ali zmanjšujte \(K\) ročno, dokler se simulirani kot ne ujame z izmerjenim.
                                 </p>
                                 <strong>Rezultat za oceno 6:</strong>
                                 <ul>
@@ -302,22 +284,26 @@ D = zeros(3,1);</pre>
 
                             <br /><strong>4.2 Ocena 7 &#8212; preverjanje hitrosti in izpopolnitev \(K\)</strong>
                             <div>
-                                Iz merjenega kota izračunate hitrost in preverite, ali tudi hitrost modela
+                                Iz merjenega kota izračunate hitrost in preverite, ali tudi hitrost 2D modela
                                 ustreza realnemu sistemu.
                                 <br /><br />
                                 <strong>Korak A: izračun numerične hitrosti</strong>
                                 <ul>
                                     <li>Signal \(\varphi_1\) priključite na blok <em>Discrete Derivative</em> (vzorčni čas \(T = 0{,}01\,\mathrm{s}\)).</li>
                                     <li>Izhod označite kot \(\omega_1^{num}\).</li>
-                                    <li>Na <em>Scope</em> prikažite \(\hat{\omega}_1\) in \(\omega_1^{num}\).</li>
+                                    <li>Na <em>Scope</em> prikažite \(\hat{\omega}_1\) (drugi izhod Demuxa) in \(\omega_1^{num}\).</li>
                                 </ul>
                                 <strong>Korak B: popravljanje \(K\)</strong>
                                 <ul>
                                     <li>Če \(\hat{\omega}_1\) narašča prehitro &rarr; zmanjšajte \(K\).</li>
                                     <li>Če \(\hat{\omega}_1\) narašča prepočasi &rarr; povečajte \(K\).</li>
-                                    <li>Preverite še odziv pri negativni stopnici (npr. \(u = -500\)).</li>
-                                    <li>Po vsaki spremembi preverite, ali se \(\hat{\varphi}_1\) še vedno ujema z \(\varphi_1\).</li>
+                                    <li>Preverite odziv pri negativni stopnici (npr. \(u = -500\)).</li>
+                                    <li>Po vsaki spremembi \(K\) preverite, ali se \(\hat{\varphi}_1\) še vedno ujema z \(\varphi_1\).</li>
                                 </ul>
+                                <div style="padding:10px 12px;background:#fff7e6;border-left:5px solid #f0b44c;margin-top:10px;">
+                                    <strong>Namig:</strong> Ker imata \(\hat{\varphi}_1\) in \(\hat{\omega}_1\) isti parameter \(K\),
+                                    bo ujemanje pri obeh signalih sočasno — ni treba iskati kompromisa.
+                                </div>
                                 <strong>Rezultat za oceno 7:</strong>
                                 <ul>
                                     <li>končna vrednost \(K\),</li>
@@ -325,38 +311,47 @@ D = zeros(3,1);</pre>
                                 </ul>
                             </div>
 
-                            <br /><strong>4.3 Ocena 8 &#8212; dodajanje dušenja \(b/J\)</strong>
+                            <br /><strong>4.3 Ocena 8 &#8212; razširitev na 3D model in dodajanje dušenja \(b/J\)</strong>
                             <div>
-                                Model brez dušenja predpostavi, da je pospešek neposredno določen z vhodom.
-                                Realni sistem pa ima dušenje, zato se pospešek in hitrost po stopnici obnašata drugače.
-                                <br /><br />
-                                <strong>Korak A: izračun numeričnega pospeška</strong>
+                                <br />
+                                <strong>Korak A: posodobitev MATLAB spremenljivk na 3D model</strong>
+                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">bJ = 0;                % začnite z 0, nato povečujte
+kJ = 0;                % začnite z 0, nato povečujte
+
+A = [1,    T,              T^2/2;
+     0,    1,              T;
+    -kJ, -(bJ+kJ*T),  -(bJ*T+kJ*T^2/2)];
+
+B = [0; 0; K];
+C = eye(3);
+D = zeros(3, 1);</pre>
+                                <strong>Korak B: posodobitev bloka Discrete State-Space</strong>
+                                <ul>
+                                    <li>V obstoječem bloku zamenjajte matrike \(A\), \(B\), \(C\), \(D\) z novimi (3D).</li>
+                                    <li><strong>Initial conditions:</strong> <code>[phi1_0; 0; 0]</code></li>
+                                    <li>Razširite <em>Demux</em> na 3 izhode: \(\hat{\varphi}_1\), \(\hat{\omega}_1\), \(\hat{\alpha}_1\).</li>
+                                </ul>
+                                <strong>Korak C: izračun numeričnega pospeška</strong>
                                 <ul>
                                     <li>Signal \(\omega_1^{num}\) priključite na drugi blok <em>Discrete Derivative</em>.</li>
                                     <li>Izhod označite kot \(\alpha_1^{num}\).</li>
                                     <li>Na <em>Scope</em> prikažite \(\hat{\alpha}_1\) in \(\alpha_1^{num}\).</li>
                                 </ul>
-                                <strong>Korak B: posodobitev modela</strong>
-                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">bJ = 0;                % začnite z 0, nato povečujte
-
-A = [1, T, T^2/2;
-     0, 1, T;
-     0, -bJ, -bJ*T];
-
-B = [0; 0; K];</pre>
-                                <strong>Korak C: ročna nastavitev \(b/J\)</strong>
+                                <strong>Korak D: ročna nastavitev \(b/J\) in \(k/J\)</strong>
                                 <ul>
-                                    <li>Začnite z \(bJ = 0\), nato preizkusite npr. <code>0.5</code>, <code>1</code>, <code>2</code>, <code>5</code>.</li>
-                                    <li>Opazujte obliko pospeška po stopnici.</li>
-                                    <li>Po vsaki spremembi preverite tudi kot in hitrost.</li>
+                                    <li>Začnite z \(bJ = 0\), \(kJ = 0\), nato povečujte enega po drugega.</li>
+                                    <li>\(bJ\) vpliva na obliko eksponentnega pada pospeška po stopnici.</li>
+                                    <li>\(kJ\) vpliva na odziv pospeška glede na kot (restitucijska sila).</li>
+                                    <li>Po vsaki spremembi preverite tudi kot in hitrost — vrednost \(K\) ostane enaka.</li>
                                 </ul>
                                 <div style="padding:10px 12px;background:#fff7e6;border-left:5px solid #f0b44c;margin-top:10px;">
-                                    <strong>Namig:</strong> \(b/J\) ne izbirajte samo po pospešku.
-                                    Dober model mora približno opisati vse tri signale: kot, hitrost in pospešek.
+                                    <strong>Namig:</strong> Ko nastavite \(bJ = 0\), se kot in hitrost ne spremenita
+                                    glede na 2D model. Šele ko povečate \(bJ\), se pospešek po stopnici ne ustali takoj,
+                                    ampak pada eksponentno.
                                 </div>
                                 <strong>Rezultat za oceno 8:</strong>
                                 <ul>
-                                    <li>vrednost \(b/J\),</li>
+                                    <li>vrednosti \(b/J\) in \(k/J\),</li>
                                     <li>graf \(\hat{\alpha}_1(t)\) in \(\alpha_1^{num}(t)\).</li>
                                 </ul>
                             </div>
@@ -364,15 +359,16 @@ B = [0; 0; K];</pre>
                             <br /><strong>4.4 Ocena 9 &#8212; filter pri primerjavi hitrosti</strong>
                             <div>
                                 Numerično izračunana hitrost je lahko šumna. Zato dodate nizkopasovni filter
-                                za boljšo primerjavo. Filter ni del fizikalnega modela, ampak orodje za primerjavo signalov.
+                                za boljšo primerjavo. Filter ni del fizikalnega modela, ampak orodje za vizualno
+                                primerjavo signalov.
                                 <br /><br />
                                 <strong>Diskretni nizkopasovni filter (Discrete Transfer Fcn):</strong>
                                 <ul>
                                     <li><strong>Numerator:</strong> <code>[alpha_w]</code></li>
                                     <li><strong>Denominator:</strong> <code>[1, -(1-alpha_w)]</code></li>
-                                    <li><strong>Sample time:</strong> <code>0.01</code></li>
+                                    <li><strong>Sample time:</strong> <code>T</code></li>
                                 </ul>
-                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">tau_w   = 0.05;             % začetna vrednost
+                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">tau_w   = 0.05;             % začetna vrednost [s]
 alpha_w = T / (T + tau_w);</pre>
                                 <p>
                                     Preizkusite npr. \(\tau_\omega = 0{,}02\), \(0{,}05\), \(0{,}1\), \(0{,}2\,\mathrm{s}\).
@@ -388,21 +384,22 @@ alpha_w = T / (T + tau_w);</pre>
 
                             <br /><strong>4.5 Ocena 10 &#8212; filter pri pospešku in končna uskladitev</strong>
                             <div>
-                                Pri pospešku je šum še izrazitejši, ker je drugi odvod kota. Zato dodajte
-                                še filter za primerjavo pospeška.
+                                Pri pospešku je šum še izrazitejši, ker nastane z dvakratnim odvajanjem kota. Dodajte
+                                filter za primerjavo pospeška in uskladite vse parametre.
                                 <br /><br />
-                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">tau_a   = 0.10;             % začetna vrednost
+                                <pre style="background:#f4f4f4;padding:8px;border-radius:4px;">tau_a   = 0.10;             % začetna vrednost [s]
 alpha_a = T / (T + tau_a);</pre>
                                 <p>Priporočeno zaporedje nastavitev:</p>
                                 <ol>
-                                    <li>Najprej nastavite \(K\), da se dobro ujema kot.</li>
-                                    <li>Nato nastavite \(b/J\), da se izboljša oblika hitrosti in pospeška.</li>
-                                    <li>Nato nastavite \(\tau_\omega\) za primerjavo hitrosti.</li>
-                                    <li>Na koncu nastavite \(\tau_\alpha\) za primerjavo pospeška.</li>
+                                    <li>Najprej nastavite \(K\), da se dobro ujema kot (ocena 6).</li>
+                                    <li>Preverite hitrost in po potrebi popravite \(K\) (ocena 7).</li>
+                                    <li>Nastavite \(b/J\) in \(k/J\) (ocena 8).</li>
+                                    <li>Nastavite \(\tau_\omega\) za primerjavo hitrosti (ocena 9).</li>
+                                    <li>Na koncu nastavite \(\tau_\alpha\) za primerjavo pospeška (ocena 10).</li>
                                 </ol>
                                 <strong>Rezultat za oceno 10:</strong>
                                 <ul>
-                                    <li>končne vrednosti \(K\), \(b/J\), \(\tau_\omega\), \(\tau_\alpha\),</li>
+                                    <li>končne vrednosti \(K\), \(b/J\), \(k/J\), \(\tau_\omega\), \(\tau_\alpha\),</li>
                                     <li>graf \(\hat{\varphi}_1(t)\) in \(\varphi_1(t)\),</li>
                                     <li>graf \(\hat{\omega}_1(t)\) in \(\omega_1^{num}(t)\),</li>
                                     <li>graf \(\hat{\alpha}_1(t)\) in \(\alpha_1^{num}(t)\).</li>
@@ -415,12 +412,13 @@ alpha_a = T / (T + tau_a);</pre>
                         <strong><br />5. Pogoste napake</strong><br />
                         <ul>
                             <li><strong>Model nima istega vhoda kot maketa.</strong> Vhod \(u\) mora biti isti PWM signal, ki gre na <code>serialWrite</code>.</li>
-                            <li><strong>Napačen začetni pogoj.</strong> Nastavite <code>[phi1_0; 0; 0]</code>, sicer se kot na začetku ne ujema.</li>
+                            <li><strong>Napačen začetni pogoj.</strong> Za 2D model: <code>[phi1_0; 0]</code>; za 3D model: <code>[phi1_0; 0; 0]</code>.</li>
+                            <li><strong>Pozabljeno posodabljanje matrik pri prehodu 2D &rarr; 3D.</strong> Ko zamenjate model, mora blok <em>Discrete State-Space</em> dobiti nove matrike in nov začetni pogoj.</li>
                             <li><strong>Napačen vzorčni čas.</strong> Uporabite \(T = 0{,}01\,\mathrm{s}\) v Simulinku in v MATLAB spremenljivkah.</li>
                             <li><strong>Prevelika stopnica.</strong> Pri prevelikem \(u\) pride do nelinearnosti; \(K\) ni več zanesljiv.</li>
                             <li><strong>Mrtva cona motorja.</strong> Pri majhnih PWM vrednostih se maketa morda ne premakne, model pa tega ne upošteva.</li>
                             <li><strong>Preveč zaupanja v pospešek.</strong> Pospešek je najbolj šumen signal — nastane z dvakratnim odvajanjem kota.</li>
-                            <li><strong>Spreminjanje vseh parametrov hkrati.</strong> Najprej nastavite \(K\), nato \(b/J\), šele nato filtre.</li>
+                            <li><strong>Spreminjanje vseh parametrov hkrati.</strong> Najprej nastavite \(K\), nato \(b/J\) in \(k/J\), šele nato filtre.</li>
                         </ul>
                     </div>
 
@@ -460,63 +458,57 @@ alpha_a = T / (T + tau_a);</pre>
                     </div>
 
                     <div style="margin-bottom:20px;">
-                        <strong><br />7. Dodatek: izpeljava splošnega modela</strong><br />
-                        <p>
-                            Splošna enačba vrtilnega sistema z vztrajnostjo \(J\), viskoznim dušenjem \(b\),
-                            vzmetjo \(k\) in motorno ojačitvijo \(K_m\):
-                            \[
-                                J\ddot{\varphi} + b\dot{\varphi} + k\varphi = K_m u
-                                \qquad\Leftrightarrow\qquad
-                                J\alpha = K_m u - b\omega - k\varphi.
-                            \]
+                        <strong><br />7. Dodatek: izpeljava modelov</strong><br />
+
+                        <p><strong>Izpeljava 2D modela:</strong><br />
+                        Brez dušenja in vzmetne konstante (\(b = 0\), \(k = 0\)) je pospešek v vsakem koraku
+                        neposredno določen z vhodom: \(\alpha[k] = K\,u[k]\). Kinematični diskretni korak:
+                        \[
+                            \varphi[k+1] = \varphi[k] + T\,\omega[k] + \tfrac{T^2}{2}\,K\,u[k],
+                            \qquad
+                            \omega[k+1] = \omega[k] + T\,K\,u[k].
+                        \]
+                        To da matriki:
+                        \[
+                            A = \begin{bmatrix}1 & T \\ 0 & 1\end{bmatrix},
+                            \qquad
+                            B = K\begin{bmatrix}T^2/2 \\ T\end{bmatrix}.
+                        \]
                         </p>
-                        <p>
-                            Diskretni kinematični približek:
-                            \[
-                                \varphi[k+1] = \varphi[k] + T\omega[k] + \tfrac{T^2}{2}\alpha[k],
-                                \qquad
-                                \omega[k+1] = \omega[k] + T\alpha[k].
-                            \]
+
+                        <p><strong>Izpeljava 3D modela:</strong><br />
+                        Splošna enačba z dušenjem \(b\) in vzmetjo \(k\):
+                        \[
+                            J\alpha = K_m\,u - b\,\omega - k\,\varphi.
+                        \]
+                        Pospešek v naslednjem diskretnem koraku (Newton v \(k+1\)):
+                        \[
+                            \alpha[k+1] = K\,u[k]
+                            - \tfrac{b}{J}\bigl(\omega[k] + T\,\alpha[k]\bigr)
+                            - \tfrac{k}{J}\bigl(\varphi[k] + T\,\omega[k] + \tfrac{T^2}{2}\,\alpha[k]\bigr).
+                        \]
+                        Po zbiranju členov po stanjih:
+                        \[
+                            A =
+                            \begin{bmatrix}
+                                1 & T & T^2/2 \\
+                                0 & 1 & T \\
+                                -kJ & -(bJ+kJ\,T) & -(bJ\,T+kJ\,T^2/2)
+                            \end{bmatrix},
+                            \qquad
+                            B =
+                            \begin{bmatrix} 0 \\ 0 \\ K \end{bmatrix},
+                            \qquad bJ = \frac{b}{J},\quad kJ = \frac{k}{J}.
+                        \]
                         </p>
-                        <p>
-                            Pospešek v naslednjem koraku (Newton v \(k+1\)):
-                            \[
-                                J\alpha[k+1] =
-                                K_m u[k]
-                                - b\bigl(\omega[k] + T\alpha[k]\bigr)
-                                - k\bigl(\varphi[k] + T\omega[k] + \tfrac{T^2}{2}\alpha[k]\bigr).
-                            \]
-                        </p>
-                        <p>
-                            Po delitvi z \(J\) in zbiranju členov:
-                            \[
-                                \alpha[k+1] =
-                                -\frac{k}{J}\varphi[k]
-                                -\frac{b+kT}{J}\omega[k]
-                                -\frac{bT+kT^2/2}{J}\alpha[k]
-                                + K u[k],
-                                \qquad K = \frac{K_m}{J}.
-                            \]
-                        </p>
-                        <p>
-                            Splošna matrika \(A\):
-                            \[
-                                A =
-                                \begin{bmatrix}
-                                    1 & T & T^2/2 \\
-                                    0 & 1 & T \\
-                                    -k/J & -(b+kT)/J & -(bT+kT^2/2)/J
-                                \end{bmatrix},
-                                \quad
-                                B =
-                                \begin{bmatrix} 0 \\ 0 \\ K \end{bmatrix},
-                                \quad
-                                C = I_3.
-                            \]
-                        </p>
-                        <p>
-                            V tej vaji uporabimo \(k = 0\). Za oceno 6 vzamemo tudi \(b = 0\),
-                            za oceno 8 pa dodamo \(b/J\).
+
+                        <p><strong>Splošna enačba vrtilnega sistema</strong> z vztrajnostjo \(J\), dušenjem \(b\),
+                        vzmetjo \(k\) in motorno ojačitvijo \(K_m\):
+                        \[
+                            J\ddot{\varphi} + b\dot{\varphi} + k\varphi = K_m\,u,
+                            \qquad K = \frac{K_m}{J}.
+                        \]
+                        V tej vaji vzamemo \(k = 0\) (brez vzmeti).
                         </p>
                     </div>
 
